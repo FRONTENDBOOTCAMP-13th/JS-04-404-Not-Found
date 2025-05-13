@@ -1,0 +1,23 @@
+body {
+  background-color: #000;
+}
+
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+}
+
+.inner-1240 {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1240px;
+  height: 100%;
+  background-color: #fff;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .inner-1240 {
+    max-width: none;
+  }
+}

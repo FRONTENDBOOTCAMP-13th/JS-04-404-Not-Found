@@ -1,0 +1,51 @@
+@import './styles/reset.css';
+@import './styles/font.css';
+
+:root {
+  /* 색상 변수 설정 */
+  --color-white: #ffffff;
+  --color-black: #1a1a1a;
+  --color-light-gray: #b2b2b2;
+  --color-medium-gray: #646464;
+  --color-text-red: #a90621;
+  --color-roulette-red: #c43620;
+  --color-text-blue: #3660ac;
+  --color-button-blue: #0066c5;
+  --color-roulette-blue: #3838a0;
+  --color-yellow: #ffff9b;
+}
+
+body {
+  font-family: 'Galmuri9';
+  background-color: #000;
+}
+
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+}
+
+.inner-1240 {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1240px;
+  height: 100%;
+}
+
+.inner-980 {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 980px;
+  height: 100%;
+}
+
+/* 반응형 */
+@media (max-width: 640px) {
+  .inner-1240 {
+    max-width: none;
+  }
+
+  .inner-980 {
+    max-width: none;
+  }
+}
