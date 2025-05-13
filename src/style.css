@@ -30,6 +30,7 @@ body {
   width: 100%;
   max-width: 1240px;
   height: 100%;
+  
 }
 
 .inner-980 {
@@ -37,6 +38,9 @@ body {
   width: 100%;
   max-width: 980px;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* 반응형 */
