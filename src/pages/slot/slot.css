@@ -1,0 +1,38 @@
+.slot {
+  background-color: #000;
+  .slot-wrapper {
+    position: relative;
+    background-color: var(--color-text-red);
+  }
+  .slot-btn {
+    position: absolute;
+    bottom: 9%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 23%;
+    z-index: 999;
+  }
+  .slot-btn-img {
+    width: 100%;
+  }
+  .slot-bg {
+    z-index: 99;
+    max-height: 100vh;
+  }
+
+  .slot-number {
+    position: absolute;
+    aspect-ratio: 1/1;
+    background-color: var(--color-white);
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 43%;
+    width: 50%;
+    height: 50%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+}

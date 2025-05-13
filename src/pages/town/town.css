@@ -1,0 +1,7 @@
+.town {
+  background: #000;
+
+  .town-img {
+    max-height: 100%;
+  }
+}
