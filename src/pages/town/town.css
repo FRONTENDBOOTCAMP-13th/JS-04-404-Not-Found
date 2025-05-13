@@ -1,7 +1,10 @@
+/* ST : 마을 페이지 */
 .town {
   background: #000;
-
+  /* ST : 마을이미지 */
   .town-img {
     max-height: 100%;
   }
+  /* ED : 마을이미지 */
 }
+/* ED : 마을 페이지 */
