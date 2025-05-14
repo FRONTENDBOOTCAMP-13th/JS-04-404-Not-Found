@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko-KR">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="" href="" />
@@ -12,11 +12,95 @@
     />
     <link rel="stylesheet" href="/src/style.css" />
     <link rel="stylesheet" href="/src/styles/main.css" />
+
+    <script type="module" src="/src/main.ts"></script>
+
     <title>404 Not Found</title>
   </head>
   <body>
     <div class="wrapper">
-      <div class="inner-1240"></div>
+      <!-- ST: Index -->
+
+      <div class="index inner-1240">
+        <!-- ST: Music-Noti -->
+        <dialog class="music-noti">
+          <div>
+            <img
+              src="./src/assets/index/music_noti.png"
+              alt="System message 해당 사이트는 음악이 자동으로 재생되오니 이용 시 유의해 주세요."
+            />
+            <button type="button" class="music-ok">
+              <span class="sr-only">OK</span>
+            </button>
+            <button type="button" class="music-cancle">
+              <span class="sr-only">Cancle</span>
+            </button>
+          </div>
+          <p>본 프로젝트는 상업적 목적 없이 진행된 작업입니다</p>
+        </dialog>
+        <!-- ED: Music-Noti -->
+
+        <h1 class="team-logo">
+          <img src="./src/assets/index/team-logo.jpg" alt="404 NOT FOUND TM" />
+          <p class="sub-pixel">JAVASCRIPT PROJECT</p>
+        </h1>
+        <div class="introduce intro-slide">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <img
+                src="./src/assets/index/growlithe.png"
+                alt="포켓몬스터 가디 캐릭터 이미지"
+              />
+              <h2 class="eng-pixel">
+                INHWAN <br />
+                <strong>DESIGN</strong>
+              </h2>
+            </div>
+            <div class="swiper-slide">
+              <img
+                src="./src/assets/index/growlithe.png"
+                alt="포켓몬스터 가디 캐릭터 이미지"
+              />
+              <h2 class="eng-pixel">
+                CHAEEUN <br />
+                <strong>IDEA STRATEGIST</strong>
+              </h2>
+            </div>
+            <div class="swiper-slide">
+              <img
+                src="./src/assets/index/growlithe.png"
+                alt="포켓몬스터 가디 캐릭터 이미지"
+              />
+              <h2 class="eng-pixel">
+                JUNHWAN <br />
+                <strong>PL</strong>
+              </h2>
+            </div>
+            <div class="swiper-slide">
+              <img
+                src="./src/assets/index/growlithe.png"
+                alt="포켓몬스터 가디 캐릭터 이미지"
+              />
+              <h2 class="eng-pixel">
+                HANGIL <br />
+                <strong>PM</strong>
+              </h2>
+            </div>
+          </div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+        <a
+          href="./src/pages/home/home.html"
+          class="eng-pixel start-btn"
+          target="_self"
+          >PROJECT START</a
+        >
+        <footer>
+          <small class="eng-pixel"> C 2025 LIKELION-BOOTCAMP </small>
+        </footer>
+      </div>
+      <!-- ED: Index -->
     </div>
   </body>
 </html>

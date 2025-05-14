@@ -21,5 +21,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "prettier.config.js"]
+  "include": ["src", "src/vite-env.d.ts", "prettier.config.js"]
 }
