@@ -1,6 +1,7 @@
 /* ST : 마을 페이지 */
 .town {
   position: relative;
+  background-color: red;
   /* ST : 마을이미지 */
   .town-img {
     max-height: 100%;
@@ -8,33 +9,83 @@
   }
   /* ED : 마을이미지 */
 
-  .dictionary-icon {
+  .town-icon {
     position: absolute;
+    transform: translate(-50%, -50%);
+    animation: bouncebottom 2.25s infinite ease-in-out;
+  }
+  .dictionary-icon {
     width: 8%;
-    transform: translate(-50% -50%);
-    right: 28%;
-    bottom: 43%;
+    right: 22%;
+    bottom: 40%;
   }
   .gacha-icon {
-    position: absolute;
     width: 8%;
-    transform: translate(-50% -50%);
-    top: 18%;
-    left: 27%;
+    top: 22%;
+    left: 30%;
   }
   .slot-icon {
-    position: absolute;
     width: 8%;
-    transform: translate(-50% -50%);
-    right: 28%;
-    top: 18%;
+    right: 22%;
+    top: 22%;
   }
   .info-icon {
-    position: absolute;
     width: 8%;
-    transform: translate(-50% -50%);
-    left: 27%;
-    bottom: 43%;
+    left: 30%;
+    bottom: 40%;
+  }
+
+  .user-info-modal {
+    position: absolute;
+    display: block;
+    top: 72%;
+    left: 13%;
+    width: 38%;
+    padding: 3% 4%;
+    aspect-ratio: 380/200;
+    z-index: 1;
+    background: url('../../assets/town/modalbg.png') no-repeat center/cover;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+  }
+  .user-info-text {
+    font-size: min(1.9vw, 1.9vh);
+    line-height: 1.5;
+  }
+  .modal-close-btn {
+    column-gap: 3px;
+    display: flex;
+    align-items: center;
+
+    font-weight: bold;
+    line-height: 1;
+    width: 60%;
+    margin-bottom: 3%;
+
+    img {
+      width: 20%;
+    }
+  }
+  .user-info-text {
+    flex-shrink: 1;
+  }
+  .batges {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    flex-shrink: 1;
+  }
+  .d-none {
+    display: none;
+  }
+}
+@keyframes bouncebottom {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateY(5%);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-5%);
   }
 }
 /* ED : 마을 페이지 */
