@@ -1,3 +1,125 @@
-h1 {
-  color: red;
+.index {
+  padding: 80px 0;
+  text-align: center;
+
+  /* music-noti */
+  .music-noti {
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+    height: 100%;
+    transition: 1s ease;
+    z-index: 11;
+  }
+  .music-noti > div {
+    position: relative;
+  }
+
+  .music-noti > div > .music-ok,
+  .music-noti > div > .music-cancle {
+    position: absolute;
+    bottom: 40px;
+    width: 155px;
+    height: 48px;
+  }
+
+  .music-noti > div > .music-ok {
+    left: 90px;
+  }
+  .music-noti > div > .music-cancle {
+    right: 95px;
+  }
+
+  .music-noti p {
+    font-size: 18px;
+    color: var(--color-medium-gray);
+  }
+
+  /* logo-area */
+  .team-logo img {
+    display: inline-block;
+  }
+  .team-logo p {
+    margin-top: 5px;
+    font-size: 34px;
+    color: #a90621;
+  }
+
+  /* intro-slide */
+  .introduce.intro-slide {
+    position: relative;
+    margin: 45px auto 0;
+    max-width: 800px;
+    overflow: hidden;
+  }
+  .intro-slide .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+  .intro-slide .swiper-slide h2 {
+    color: var(--color-text-red);
+    font-size: 30px;
+  }
+  .intro-slide .swiper-slide h2 strong {
+    display: block;
+    margin-top: -20px;
+    color: var(--color-medium-gray);
+  }
+
+  .intro-slide .swiper-button-prev {
+    left: 0;
+    width: 38px;
+    height: 38px;
+    background: url('/src/assets/index/prev_btn.png') no-repeat center;
+  }
+
+  .intro-slide .swiper-button-next {
+    right: 0;
+    width: 38px;
+    height: 38px;
+    background: url('/src/assets/index/next_btn.png') no-repeat center;
+  }
+
+  .intro-slide .swiper-button-prev:after,
+  .intro-slide .swiper-button-next:after {
+    content: none;
+  }
+
+  .start-btn {
+    margin-top: 45px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 25px 4px 60px;
+    border: 3px solid #000;
+    border-radius: 8px;
+    font-size: 20px;
+    color: #fff;
+    background: url('/src/assets/index/ico-start-btn.png') no-repeat left 18px
+      top 20px;
+    background-color: #0066c5;
+  }
+
+  /* footer */
+  footer {
+    margin-top: 34px;
+  }
+  footer small {
+    font-size: 9px;
+    color: #737373;
+  }
+}
+
+/* 반응형 */
+@media (max-width: 640px) {
+  .inner-1240 {
+    max-width: none;
+  }
 }
