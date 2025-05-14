@@ -1,3 +1,5 @@
+// 음악을 재생시키는 함수
+
 // 슬롯 버튼
 const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn');
 
@@ -33,12 +35,14 @@ function btnEvent(btn: HTMLButtonElement) {
     e.preventDefault();
     btnup(btn);
     /*여기 아래에 버튼 눌럿을때 슬롯 돌아가는 이벤트 및 모션 추가 */
-    ranNumRepeat(2000);
+    yourPokemon(2000); // 2초동안 슬롯이 돌아가고, 도감 번호를 뽑는 함수
   });
   btn.addEventListener('touchend', e => {
     //손꼬락 뗐을때
     e.preventDefault();
     btnup(btn);
+    /*여기 아래에 버튼 눌럿을때 슬롯 돌아가는 이벤트 및 모션 추가 */
+    yourPokemon(2000); // 2초동안 슬롯이 돌아가고, 도감 번호를 뽑는 함수
   });
 }
 
@@ -72,25 +76,97 @@ async function delay(time: number) {
   return new Promise(resolve => setTimeout(resolve, time));
 }
 
-// 0.05초에 한번씩 숫자를 뱉는 함수
+// 0.05초에 한번씩 숫자를 뱉고 해당 노드에 숫자 갈아치우는 함수
 async function ranNumAni(num: number) {
   await delay(num);
+  const arr = []; // 랜덤숫자를 저장하는 배열
   const randomNum1 = await randomNumMake(); // 랜덤숫자 1
   const randomNum2 = await randomNumMake(); // 랜덤숫자 2
   const randomNum3 = await randomNumMake(); // 랜덤숫자 3
 
+  // 배열에 랜덤 숫자 저장
+  arr.push(randomNum1);
+  arr.push(randomNum2);
+  arr.push(randomNum3);
+
+  changeNum(arr); // 슬롯 넘버를 변경하는 함수에 전달
+}
+
+// 슬롯 넘버를 변경하는 함수
+function changeNum(num: number[]) {
   const slotNum1 = document.querySelectorAll('.slot-num')[0]; // 숫자 첫번째칸
   const slotNum2 = document.querySelectorAll('.slot-num')[1]; // 숫자 두번째칸
   const slotNum3 = document.querySelectorAll('.slot-num')[2]; // 숫자 세번째칸
 
-  slotNum1.innerHTML = randomNum1.toString(); // 내용갈아 치우기
-  slotNum2.innerHTML = randomNum2.toString(); // 내용갈아 치우기
-  slotNum3.innerHTML = randomNum3.toString(); // 내용갈아 치우기
+  slotNum1.innerHTML = num[0].toString(); // 내용갈아 치우기
+  slotNum2.innerHTML = num[1].toString(); // 내용갈아 치우기
+  slotNum3.innerHTML = num[2].toString(); // 내용갈아 치우기
+}
+
+// 슬롯이 돌아갈때 효과음 나는 함수
+function playEffectSlot() {
+  const slotMusic = new Audio('../../assets/music/slot1.mp3');
+  slotMusic.play();
+}
+// 버튼 눌렀을때 효과음나는 함수
+async function playEffectBtn() {
+  const slotBtnMusic = new Audio('../../assets/music/btnbgm2.mp3');
+  return slotBtnMusic.play();
 }
 
 // 함수를 1초동안 계속 반복해주는 함수
-function ranNumRepeat(num1: number) {
+async function ranNumRepeat(num1: number) {
+  await playEffectBtn();
+  await delay(500);
+  playEffectSlot();
   for (let i = 5; i <= num1; i += 5) {
-    ranNumAni(i);
+    await ranNumAni(1);
   }
+}
+
+// 도감 번호를 배열로 만드는함수
+async function dogamNumMake() {
+  const dogamArr = [];
+  for (let i = 1; i <= 151; i++) {
+    dogamArr.push(i);
+  }
+
+  dogamArr.push(777); // 슬비쌤
+  dogamArr.push(888); // 용쌤
+
+  const dogamNum = dogamArr[Math.floor(Math.random() * dogamArr.length)];
+
+  return dogamNum;
+}
+// 도감번호 받았을때 나오는 함수
+async function playEffectDogam() {
+  const dogamgetMusic = new Audio('../../assets/music/dogamget.mp3');
+  return dogamgetMusic.play();
+}
+/*
+추출한 도감 번호를 화면에 집어 넣는함수
+혹시 추출한 도감번호가 1의자리 수이거나 10의 자리 수일떄는 앞에 0을 넣어줌
+ */
+async function yourPokemon(num: number) {
+  const dogamNum = await dogamNumMake();
+  await ranNumRepeat(num);
+
+  if (dogamNum < 10) {
+    const arr = [0, 0, dogamNum];
+    changeNum(arr);
+  } else if (dogamNum <= 99) {
+    const dogamNum3 = dogamNum % 10; // 1의자리
+    const dogamNum2 = (dogamNum - dogamNum3) / 10; // 10의자리
+    const arr = [0, dogamNum2, dogamNum3];
+    changeNum(arr);
+  } else {
+    const dogamNum3 = dogamNum % 10; // 1의자리
+    const dogamNum2 = ((dogamNum % 100) - dogamNum3) / 10; // 10의자리
+    const dogamNum1 = (dogamNum - dogamNum2 * 10 - dogamNum3) / 100; // 100의자리
+    const arr = [dogamNum1, dogamNum2, dogamNum3];
+    changeNum(arr);
+  }
+  console.log(dogamNum);
+  playEffectDogam();
+  return dogamNum;
 }
