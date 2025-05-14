@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko-kr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>도감</title>
+    <link rel="stylesheet" href="/src/pages/dictionary/dictionary.css" />
+    <link rel="stylesheet" href="/src/styles/font.css" />
+  </head>
+  <body>
+    <h1>앗..야생의 포켓몬이 나타났다..!</h1>
+    <header class="header">
+      <div class="logo">
+        <img src="/src/assets/Pokebola-pokeball-png-0.png" alt="포켓몬로고" />
+        <span>나의 포켓몬 도감</span>
+      </div>
+      <form class="search-form">
+        <input
+          type="text"
+          placeholder="포켓몬 이름 또는 설명, 특성 키워드를 입력해주세요."
+        />
+        <button type="submit">🔍</button>
+      </form>
+
+      <button class="detailed-inquiry">
+        <img src="/src/assets/icon_ball_b.png" alt="상세조회 버튼" />
+        <span>상세조회</span>
+      </button>
+    </header>
+
+    <div class="status-bar">
+      <h3 class="sub-pixel">발견한 수: 123</h3>
+      <h3 class="sub-pixel">잡은 수: 123</h3>
+    </div>
+    <div class="container" id="pokedex"></div>
+    <script type="module" src="/src/pages/dictionary/dictionary.ts"></script>
+  </body>
+</html>
