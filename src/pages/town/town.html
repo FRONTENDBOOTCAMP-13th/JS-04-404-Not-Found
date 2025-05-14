@@ -18,32 +18,40 @@
     <div class="wrapper">
       <div class="inner-980 town">
         <!-- ST: 아이콘 이미지 -->
-        <img
-          class="dictionary-icon"
-          src="../../assets/town/dictionary.png"
-          alt="도감"
-        />
-        <img
-          class="gacha-icon"
-          src="../../assets/town/gachashop.png"
-          alt="포켓몬 가챠 게임"
-        />
-        <img
-          class="slot-icon"
-          src="../../assets/town/slotshop.png"
-          alt="포켓몬 슬롯 게임"
-        />
-        <img
-          class="info-icon"
-          src="../../assets/town/userinfo.png"
-          alt="내 정보"
-        />
-        <!-- ED: 아이콘 배경이미지-->
+        <a href="../dictionary/dictionary.html">
+          <img
+            class="town-icon dictionary-icon"
+            src="../../assets/town/dictionary.png"
+            alt="도감"
+          />
+        </a>
+        <a href="../gacha/gacha.html">
+          <img
+            class="town-icon gacha-icon"
+            src="../../assets/town/gachashop.png"
+            alt="포켓몬 가챠 게임"
+          />
+        </a>
+        <a href="../slot/slot.html">
+          <img
+            class="town-icon slot-icon"
+            src="../../assets/town/slotshop.png"
+            alt="포켓몬 슬롯 게임"
+          />
+        </a>
+        <a href="#">
+          <img
+            class="town-icon info-icon"
+            src="../../assets/town/userinfo.png"
+            alt="내 정보"
+          />
+        </a>
+        <!-- ED: 아이콘 이미지-->
         <!-- ST: 마을 배경이미지 -->
         <img
+          usemap="#town-map"
           class="town-img"
           src="../../assets/town/town.png"
-          usemap="#town-map"
         />
         <!-- ED: 마을 배경이미지-->
         <!-- ST: 마을 이미지맵-->
@@ -52,37 +60,44 @@
             target="_self"
             alt="포켓몬 가챠 게임"
             title="gachagame"
-            href="#"
-            coords="127,237,448,475"
+            href="../gacha/gacha.html"
+            coords="426,477,163,240"
             shape="rect"
           />
           <area
             target="_self"
             alt="포켓몬 슬롯 게임"
             title="slotgame"
-            href="#"
-            coords="567,235,867,480"
+            href="../slot/slot.html"
+            coords="849,472,582,242"
             shape="rect"
           />
           <area
             target="_self"
             alt="도감"
             title="dictionary"
-            href="#"
-            coords="543,511,882,720"
+            href="../dictionary/dictionary.html"
+            coords="546,517,874,712"
             shape="rect"
           />
           <area
+            id="userInfo"
             target="_self"
             alt="내 정보"
             title="userinfo"
             href="#"
-            coords="174,541,465,742"
+            coords="174,556,459,737"
             shape="rect"
           />
         </map>
         <!-- ED: 마을 이미지맵-->
+        <dialog id="userInfoModal" class="user-info-modal d-none">
+          <h2>내 모달</h2>
+          <p>내용 껑껑</p>
+          <button id="userInfoModalCloseBtn">닫기</button>
+        </dialog>
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/image-map-resizer@1.0.10/js/imageMapResizer.min.js"></script>
   </body>
 </html>

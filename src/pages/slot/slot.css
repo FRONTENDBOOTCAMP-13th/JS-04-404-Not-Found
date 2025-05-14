@@ -1,14 +1,9 @@
 /* ST : 슬롯 페이지 */
 .slot {
   background-color: #000;
+  position: relative;
   /* ST : 슬롯 버튼 + 슬롯테두리이미지 + 슬롯 숫자 랩핑 */
 
-  .slot-wrapper {
-    position: relative;
-    /* background-color: red; */
-    background: url(../../assets/slot/slot-ballback.png) no-repeat center/cover;
-    aspect-ratio: 1/1;
-  }
   /* ST : 슬롯 버튼 */
   .slot-btn {
     position: absolute;
@@ -50,8 +45,9 @@
     /* 검은 박스안 모든 텍스트 폰트 */
     font-family: 'Pretendard';
     font-weight: 800;
-    font-size: calc(
-      min(12vw, 12vh)
+    font-size: min(
+      12vw,
+      12vh
     ); /* 부모 사이즈 및 화면 사이즈 대비 폰트 사이즈 조절 */
   }
 
