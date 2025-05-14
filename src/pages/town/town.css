@@ -1,0 +1,40 @@
+/* ST : 마을 페이지 */
+.town {
+  position: relative;
+  /* ST : 마을이미지 */
+  .town-img {
+    max-height: 100%;
+    aspect-ratio: 1/1;
+  }
+  /* ED : 마을이미지 */
+
+  .dictionary-icon {
+    position: absolute;
+    width: 8%;
+    transform: translate(-50% -50%);
+    right: 28%;
+    bottom: 43%;
+  }
+  .gacha-icon {
+    position: absolute;
+    width: 8%;
+    transform: translate(-50% -50%);
+    top: 18%;
+    left: 27%;
+  }
+  .slot-icon {
+    position: absolute;
+    width: 8%;
+    transform: translate(-50% -50%);
+    right: 28%;
+    top: 18%;
+  }
+  .info-icon {
+    position: absolute;
+    width: 8%;
+    transform: translate(-50% -50%);
+    left: 27%;
+    bottom: 43%;
+  }
+}
+/* ED : 마을 페이지 */
