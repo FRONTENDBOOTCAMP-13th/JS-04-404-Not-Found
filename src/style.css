@@ -28,27 +28,21 @@ body {
   align-items: center;
 }
 
-.inner-1240 {
-  margin: 0 auto;
-  width: 100%;
-  max-width: 1240px;
-  height: 100%;
-}
-
 .inner-980 {
   margin: 0 auto;
   height: min(980px, 100vw, 100vh);
-  max-height: 100%;
   aspect-ratio: 1/1;
 }
 
 /* 반응형 */
 @media (max-width: 640px) {
-  .inner-1240 {
-    max-width: none;
+  .wrapper {
+    background: url('./assets/common/gameboy.png') no-repeat center / 100%;
   }
-
   .inner-980 {
-    max-width: none;
+    scale: 92%;
+    transform: translate(-0%, -20.5%);
+    border-radius: 14px;
+    overflow: hidden;
   }
 }
