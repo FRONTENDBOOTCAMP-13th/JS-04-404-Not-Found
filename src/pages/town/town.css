@@ -94,6 +94,9 @@
   .d-none {
     display: none;
   }
+  .batge-gray {
+    filter: brightness(10%);
+  }
 }
 @keyframes bouncebottom {
   0%,
