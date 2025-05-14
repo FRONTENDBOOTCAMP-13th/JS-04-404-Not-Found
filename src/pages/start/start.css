@@ -1,0 +1,67 @@
+.start {
+  padding: 15px;
+  border: 15px double rgba(191, 0, 0, 70%);
+
+  .charactor-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75%;
+  }
+  .charactor-area img {
+    width: 130px;
+  }
+
+  .text-area {
+    position: relative;
+    height: 25%;
+    padding: 36px 25px;
+    border: 10px double var(--color-black);
+    border-radius: 20px;
+  }
+
+  .text-area > span {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--color-black);
+    border-radius: 50%;
+    background-color: var(--color-black);
+  }
+  .text-area > span:nth-of-type(1) {
+    top: -18px;
+    left: -18px;
+  }
+  .text-area > span:nth-of-type(2) {
+    top: -18px;
+    right: -18px;
+  }
+  .text-area > span:nth-of-type(3) {
+    bottom: -18px;
+    left: -18px;
+  }
+  .text-area > span:nth-of-type(4) {
+    bottom: -18px;
+    right: -18px;
+  }
+
+  .text-area > span::after {
+    content: '';
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background-color: var(--color-white);
+    border-bottom-left-radius: 50% 100%;
+    border-bottom-right-radius: 50% 100%;
+  }
+
+  .text-list {
+    font-size: 40px;
+    line-height: 1.7;
+  }
+  .text-list li:not(:nth-child(6)) {
+    display: none;
+  }
+}
