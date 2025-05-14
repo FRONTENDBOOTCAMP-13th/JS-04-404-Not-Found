@@ -23,6 +23,9 @@ body {
 .wrapper {
   width: 100vw;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .inner-1240 {
@@ -34,9 +37,8 @@ body {
 
 .inner-980 {
   margin: 0 auto;
-  width: 100%;
-  max-width: 980px;
-  height: 100%;
+  aspect-ratio: 1/1;
+  max-height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
