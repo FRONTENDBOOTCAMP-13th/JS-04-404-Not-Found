@@ -1,0 +1,131 @@
+body {
+  text-align: center;
+  background: linear-gradient(to bottom, #d9eaff, #e4d3fc);
+  margin: 0;
+  padding: 1rem;
+}
+
+/* 전체 헤더 */
+.header {
+  width: 100%;
+  background-color: #3b5998;
+  padding: 16px 0;
+  margin-bottom: 50px;
+}
+
+.header-inner {
+  max-width: 1024px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 20px;
+}
+
+/* 로고 + 텍스트 */
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+}
+
+.logo img {
+  margin-left: 30px;
+  margin-right: 30px;
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+}
+
+/* 검색 영역 */
+.search-form {
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-top: 20px;
+  display: flex;
+  flex: 1;
+  background-color: rgb(21, 53, 136);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.search-form input {
+  flex: 1;
+  background: transparent;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.search-form input::placeholder {
+  color: #bbb;
+  font-size: 20px;
+}
+
+.search-form button {
+  background-color: #e53935;
+  border: none;
+  padding: 12px 16px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/*상세조회버튼*/
+
+.detailed-inquiry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  gap: 4px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: 'Pretendard';
+  font-size: 16px;
+  color: black;
+  font-weight: bolder;
+}
+
+.detailed-inquiry img {
+  width: 32px;
+  height: 32px;
+}
+
+/*api*/
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 20px;
+  justify-content: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.card {
+  width: 200px;
+  text-align: center;
+  border: 5px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+  width: 200px;
+  height: 200px;
+}
