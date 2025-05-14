@@ -1,0 +1,94 @@
+.gacha{
+  position: relative;
+
+  .event-none{
+    pointer-events: none;
+  }
+  
+  .gacha-base{
+    width: 980px;
+    height: 980px;
+    max-height: 100%;
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .gacha-bg{
+    margin: 0 auto;
+    max-height: 100%;
+  }
+
+  .gacha-text-w {        
+    position: absolute;
+    left: 50%;
+    top: 0;
+    max-height: 100%;
+    translate: -50% 0%;
+  }
+  .gacha-text-y {     
+    position: absolute;
+    left: 50%;
+    top: 0;
+    max-height: 100%;
+    translate: -50% 0%;
+  }
+  .monster-ball{
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    translate: -50% 0;
+    max-height: 100%;
+    z-index: 100;
+  }
+
+  .claw-box {
+    width: 30%;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    translate: -50% 0;
+    top: 15%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+  }
+
+  .claw-body-01 {
+    height: 10%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+  }
+  /* .claw-body-02 {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -150px;
+    display: flex;
+    justify-content: center;
+    transform: translateY(-90%);
+  } */
+  .claw-line{
+    height: 55%;
+  }
+  .claw {
+    height: 20%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+  .claw-open {
+    height: 20%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%);
+  }
+
+}

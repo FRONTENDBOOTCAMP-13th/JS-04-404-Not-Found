@@ -1,0 +1,49 @@
+.home {
+  padding: 50px 0;
+  text-align: center;
+
+  .project-logo img {
+    display: inline-block;
+  }
+  .project-logo p {
+    font-size: 45px;
+    color: var(--color-text-blue);
+  }
+
+  .btn-area {
+    margin: 60px auto 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: fit-content;
+  }
+  .btn-area .press-start {
+    position: relative;
+    font-size: 56px;
+    color: var(--color-text-red);
+  }
+  .btn-area .press-start::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -70px;
+    width: 28px;
+    height: 32px;
+    transform: translateY(calc(-50% + 10px));
+    background: url('../../assets/home/red-select-icon.png') no-repeat;
+  }
+
+  .btn-area .help {
+    margin-top: -5px;
+    font-size: 32px;
+    color: var(--color-light-gray);
+    width: fit-content;
+  }
+
+  .github-link {
+    display: inline-block;
+    margin-top: 70px;
+    font-size: 24px;
+    color: var(--color-medium-gray);
+  }
+}
