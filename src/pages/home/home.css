@@ -1,17 +1,20 @@
 .home {
-  padding: 50px 0;
+  padding-block: min(10%, 10vh);
   text-align: center;
+  background-color: #fff;
 
   .project-logo img {
     display: inline-block;
+    width: 85%;
   }
   .project-logo p {
-    font-size: 45px;
+    font-size: min(3vw, 3vh);
     color: var(--color-text-blue);
   }
 
   .btn-area {
-    margin: 60px auto 0;
+    margin: 0 auto;
+    margin-top: min(6vw, 6vh);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -19,31 +22,33 @@
   }
   .btn-area .press-start {
     position: relative;
-    font-size: 56px;
+    font-size: min(4.4vw, 4.4vh);
     color: var(--color-text-red);
   }
   .btn-area .press-start::before {
     content: '';
     position: absolute;
     top: 50%;
-    left: -70px;
-    width: 28px;
-    height: 32px;
-    transform: translateY(calc(-50% + 10px));
-    background: url('../../assets/home/red-select-icon.png') no-repeat;
+    left: -8%;
+    width: 4.5%;
+    height: 18%;
+
+    transform: translateY(-25%);
+    background: url('../../assets/home/red-select-icon.png') no-repeat center;
+    background-size: 80%;
   }
 
   .btn-area .help {
     margin-top: -5px;
-    font-size: 32px;
+    font-size: min(2.8vw, 2.8vh);
     color: var(--color-light-gray);
     width: fit-content;
   }
 
   .github-link {
     display: inline-block;
-    margin-top: 70px;
-    font-size: 24px;
+    margin-top: 7.5%;
+    font-size: min(1.8vw, 1.8vh);
     color: var(--color-medium-gray);
   }
 }

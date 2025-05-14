@@ -5,13 +5,15 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
 
+import introMusicSrc from '/src/assets/music/intro-music.mp3';
+
 // index 페이지 안내 dialog
 const introNoti = document.querySelector('.music-noti') as HTMLElement;
 const musicOk = document.querySelector('.music-ok') as HTMLElement;
 const musicCancle = document.querySelector('.music-cancle') as HTMLElement;
 
 // intro-music 오디오 객체 생성
-const introMusic = new Audio('/src/assets/music/intro-music.mp3');
+const introMusic = new Audio(introMusicSrc);
 introMusic.volume = 0.5;
 
 // intro-slide
