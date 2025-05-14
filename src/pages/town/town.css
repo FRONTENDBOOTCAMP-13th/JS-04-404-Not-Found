@@ -38,12 +38,42 @@
   .user-info-modal {
     position: absolute;
     display: block;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 72%;
+    left: 13%;
+    width: 38%;
+    padding: 3% 4%;
+    aspect-ratio: 380/200;
     z-index: 1;
-    background-color: #0000009d;
+    background: url('../../assets/town/modalbg.png') no-repeat center/cover;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+  }
+  .user-info-text {
+    font-size: min(1.9vw, 1.9vh);
+    line-height: 1.5;
+  }
+  .modal-close-btn {
+    column-gap: 3px;
+    display: flex;
+    align-items: center;
+
+    font-weight: bold;
+    line-height: 1;
+    width: 60%;
+    margin-bottom: 3%;
+
+    img {
+      width: 20%;
+    }
+  }
+  .user-info-text {
+    flex-shrink: 1;
+  }
+  .batges {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    flex-shrink: 1;
   }
   .d-none {
     display: none;
