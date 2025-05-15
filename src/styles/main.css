@@ -16,6 +16,7 @@
     gap: 30px;
     width: 100%;
     height: 100%;
+    padding-inline: min(2%, 2vh);
     transition: 1s ease;
     z-index: 11;
   }
@@ -26,20 +27,20 @@
   .music-noti > div > .music-ok,
   .music-noti > div > .music-cancle {
     position: absolute;
-    bottom: 40px;
-    width: 155px;
-    height: 48px;
+    bottom: 10%;
+    width: 30%;
+    height: 12%;
   }
 
   .music-noti > div > .music-ok {
-    left: 90px;
+    left: 18%;
   }
   .music-noti > div > .music-cancle {
-    right: 95px;
+    right: 19%;
   }
 
   .music-noti p {
-    font-size: 18px;
+    font-size: clamp(12px, 1.8vw, 1.8vh);
     color: var(--color-medium-gray);
   }
 
@@ -115,7 +116,7 @@
     font-size: min(2vw, 2vh);
     color: #fff;
     background: url('/src/assets/index/ico-start-btn.png') no-repeat left 6% top
-      60%;
+      64%;
     background-size: 7.5%;
     background-color: #0066c5;
   }
