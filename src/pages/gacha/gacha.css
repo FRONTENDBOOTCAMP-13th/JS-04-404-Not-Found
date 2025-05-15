@@ -1,11 +1,11 @@
-.gacha{
+.gacha {
   position: relative;
 
-  .event-none{
+  .event-none {
     pointer-events: none;
   }
-  
-  .gacha-base{
+
+  .gacha-base {
     width: 980px;
     height: 980px;
     max-height: 100%;
@@ -14,26 +14,26 @@
     overflow: hidden;
   }
 
-  .gacha-bg{
+  .gacha-bg {
     margin: 0 auto;
     max-height: 100%;
   }
 
-  .gacha-text-w {        
+  .gacha-text-w {
     position: absolute;
     left: 50%;
     top: 0;
     max-height: 100%;
     translate: -50% 0%;
   }
-  .gacha-text-y {     
+  .gacha-text-y {
     position: absolute;
     left: 50%;
     top: 0;
     max-height: 100%;
     translate: -50% 0%;
   }
-  .monster-ball{
+  .monster-ball {
     position: absolute;
     left: 50%;
     bottom: 0;
@@ -43,15 +43,15 @@
   }
 
   .claw-box {
-    width: 30%;
+    width: 20%;
     height: 100%;
     position: absolute;
+    top: 15%;
     left: 50%;
     translate: -50% 0;
-    top: 15%;
-    overflow: hidden;
     display: flex;
     justify-content: center;
+    transform-origin: center top;
   }
 
   .claw-body-01 {
@@ -62,17 +62,7 @@
     transform: translateX(-50%);
     z-index: 100;
   }
-  /* .claw-body-02 {
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    margin-left: -150px;
-    display: flex;
-    justify-content: center;
-    transform: translateY(-90%);
-  } */
-  .claw-line{
+  .claw-line {
     height: 55%;
   }
   .claw {
@@ -91,4 +81,28 @@
     transform: translateX(-50%);
   }
 
+  @media (max-width: 640px) {
+    .gacha{
+      position: relative;
+    }
+    .gacha-base {
+      position: relative;
+      width: 100%;
+      height: auto;
+    }
+    .gacha-bg {
+      margin: 0;
+    }
+    .gacha-move {
+      left: 0;
+      translate: 0;
+    }
+    .small-claw {
+      width: 20%; /* 원래 width 유지 */
+      position: absolute;
+      top: 15%; /* 원래 top 값 유지 또는 조정 */
+      translate: -50% 0;
+      left: 50%;
+    }
+  }
 }
