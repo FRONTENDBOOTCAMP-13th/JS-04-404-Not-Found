@@ -1,5 +1,24 @@
-// 음악을 재생시키는 함수
-// 슬롯이 돌아갈때 효과음 나는 함수
+// 효과음
+
+import slotMusicMp3 from '/src/assets/music/slotmusic.mp3';
+import slotBtnMusicMp3 from '/src/assets/music/btnbgm2.mp3';
+import dogamgetMusicMp3 from '/src/assets/music/dogamget.mp3';
+// 슬롯이 돌아갈때 효과음
+const slotMusic = new Audio(slotMusicMp3);
+
+// 버튼 눌렀을때 효과음
+const slotBtnMusic = new Audio(slotBtnMusicMp3);
+
+// 도감번호 받았을때 나오는 효과음
+const dogamgetMusic = new Audio(dogamgetMusicMp3);
+dogamgetMusic.volume = 0.3;
+
+// 버튼 눌렀을때 버튼 누른 효과음 재생후에 오박사 목소리 재생시키는 함수
+
+async function slotMusicPlay() {
+  await delay(500);
+  slotMusic.play();
+}
 
 // 슬롯 버튼
 const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn');
@@ -20,13 +39,14 @@ function btnEvent(btn: HTMLButtonElement) {
     //마우스 눌렀을때
     e.preventDefault();
     btndown(btn);
-    slotBtnMusic.play(); // 버튼효과음재생
+    slotBtnMusic.play(); // 버튼 눌렀을때 나오는음악
+    slotMusicPlay(); // 버튼 음악 이후 오박사 목소리 재생
   });
   btn.addEventListener('touchstart', e => {
     //손꼬락 으로 눌렀을떄
     e.preventDefault();
     btndown(btn);
-    slotBtnMusic.play(); // 버튼효과음재생
+    slotMusicPlay();
   });
   btn.addEventListener('mouseleave', e => {
     //마우스로 꾸욱 눌렀을떄
@@ -38,14 +58,14 @@ function btnEvent(btn: HTMLButtonElement) {
     e.preventDefault();
     btnup(btn);
     /*여기 아래에 버튼 눌럿을때 슬롯 돌아가는 이벤트 및 모션 추가 */
-    yourPokemon(1200); // 2초동안 슬롯이 돌아가고, 도감 번호를 뽑는 함수
+    yourPokemon(1400); // 2초동안 슬롯이 돌아가고, 도감 번호를 뽑는 함수
   });
   btn.addEventListener('touchend', e => {
     //손꼬락 뗐을때
     e.preventDefault();
     btnup(btn);
     /*여기 아래에 버튼 눌럿을때 슬롯 돌아가는 이벤트 및 모션 추가 */
-    yourPokemon(1200); // 2초동안 슬롯이 돌아가고, 도감 번호를 뽑는 함수
+    yourPokemon(1400); // 2초동안 슬롯이 돌아가고, 도감 번호를 뽑는 함수
   });
 }
 
@@ -106,16 +126,10 @@ function changeNum(num: number[]) {
   slotNum3.innerHTML = num[2].toString(); // 내용갈아 치우기
 }
 
-// 슬롯이 돌아갈때 효과음
-const slotMusic = new Audio('/src/assets/music/slot1.mp3');
-
-// 버튼 눌렀을때 효과음
-const slotBtnMusic = new Audio('/src/assets/music/btnbgm2.mp3');
-
 // 함수를 1초동안 계속 반복해주는 함수
 async function ranNumRepeat(num1: number) {
-  await delay(500);
-  slotMusic.play(); // 슬롯돌아가는 효과음
+  await delay(5000);
+  // 슬롯돌아가는 효과음
   for (let i = 5; i <= num1; i += 5) {
     await ranNumAni();
   }
@@ -135,8 +149,6 @@ async function dogamNumMake() {
 
   return dogamNum;
 }
-// 도감번호 받았을때 나오는 효과음
-const dogamgetMusic = new Audio('/src/assets/music/dogamget.mp3');
 
 /*
 추출한 도감 번호를 화면에 집어 넣는함수
@@ -162,6 +174,17 @@ async function yourPokemon(num: number) {
     changeNum(arr);
   }
   console.log(dogamNum);
+  dogamgetMusic.currentTime = 0;
   dogamgetMusic.play();
   return dogamNum;
 }
+
+/*
+어떤 값이있음. 이건 버튼을 누를 수 있냐 없냐를 가리는 불린값임
+canClick = true(누를수있음), false(누를 수 없음)
+기본값은 true로 설정되어있고, 이값은 로컬스토리지에 저장이됨.
+
+누른적이 있다~~?
+
+
+ */
