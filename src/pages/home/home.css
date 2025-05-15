@@ -25,7 +25,7 @@
     font-size: min(4.4vw, 4.4vh);
     color: var(--color-text-red);
   }
-  .btn-area .press-start::before {
+  .btn-area .press-start.active::before {
     content: '';
     position: absolute;
     top: 50%;

@@ -1,20 +1,20 @@
 import Swiper from 'swiper';
 import { Navigation, Autoplay } from 'swiper/modules';
+import { allowMusic } from '../src/common/music.ts';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
 
+// intro-music 오디오 객체 생성
 import introMusicSrc from '/src/assets/music/intro-music.mp3';
+const introMusic = new Audio(introMusicSrc);
+introMusic.volume = 0.5;
 
 // index 페이지 안내 dialog
 const introNoti = document.querySelector('.music-noti') as HTMLElement;
 const musicOk = document.querySelector('.music-ok') as HTMLElement;
 const musicCancle = document.querySelector('.music-cancle') as HTMLElement;
-
-// intro-music 오디오 객체 생성
-const introMusic = new Audio(introMusicSrc);
-introMusic.volume = 0.5;
 
 // intro-slide
 const introSwiper = new Swiper('.intro-slide', {
@@ -39,7 +39,9 @@ musicOk?.addEventListener('click', () => {
       introNoti.style.display = 'none';
     }, 1000);
   }
-  introMusic.play();
+  localStorage.setItem('musicPlay', 'true');
+  allowMusic(introMusic, true);
+
   introSwiper.autoplay.start();
 });
 
@@ -50,5 +52,7 @@ musicCancle?.addEventListener('click', () => {
       introNoti.style.display = 'none';
     }, 1000);
   }
+  localStorage.setItem('musicPlay', 'false');
+  allowMusic(introMusic, false);
   introSwiper.autoplay.start();
 });

@@ -27,4 +27,12 @@
   .text-list li {
     display: none;
   }
+
+  .user-name {
+    font-family: 'Galmuri9';
+    width: 35%;
+    /* height: 4%; */
+    font-size: 30px;
+    padding: 10px 10px;
+  }
 }
