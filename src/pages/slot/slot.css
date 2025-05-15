@@ -9,7 +9,6 @@
     position: absolute;
     bottom: 9%;
     left: 38%;
-    transform: trans lateX(-50%);
     width: 23%;
     z-index: 999;
   }

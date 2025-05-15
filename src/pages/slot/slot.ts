@@ -31,7 +31,7 @@ function btnEvent(btn: HTMLButtonElement) {
   btn.addEventListener('mouseleave', e => {
     //마우스로 꾸욱 눌렀을떄
     e.preventDefault();
-    btndown(btn);
+    btnup(btn);
   });
   btn.addEventListener('mouseup', e => {
     //마우스 뗐을때
@@ -107,10 +107,10 @@ function changeNum(num: number[]) {
 }
 
 // 슬롯이 돌아갈때 효과음
-const slotMusic = new Audio('../../assets/music/slot1.mp3');
+const slotMusic = new Audio('/src/assets/music/slot1.mp3');
 
 // 버튼 눌렀을때 효과음
-const slotBtnMusic = new Audio('../../assets/music/btnbgm2.mp3');
+const slotBtnMusic = new Audio('/src/assets/music/btnbgm2.mp3');
 
 // 함수를 1초동안 계속 반복해주는 함수
 async function ranNumRepeat(num1: number) {
@@ -136,7 +136,7 @@ async function dogamNumMake() {
   return dogamNum;
 }
 // 도감번호 받았을때 나오는 효과음
-const dogamgetMusic = new Audio('../../assets/music/dogamget.mp3');
+const dogamgetMusic = new Audio('/src/assets/music/dogamget.mp3');
 
 /*
 추출한 도감 번호를 화면에 집어 넣는함수
