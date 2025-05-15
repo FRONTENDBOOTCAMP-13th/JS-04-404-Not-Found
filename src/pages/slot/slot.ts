@@ -175,7 +175,7 @@ async function yourPokemon(num: number) {
   }
   console.log(dogamNum);
   dogamgetMusic.currentTime = 0;
-  dogamgetMusic.play();
+  // dogamgetMusic.play();
   return dogamNum;
 }
 
