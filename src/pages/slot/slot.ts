@@ -1,29 +1,54 @@
-// 효과음
+/*
+──────────── 슬롯 머신 로직 ────────────
 
-import slotMusicMp3 from '/src/assets/music/slotmusic.mp3';
-import slotBtnMusicMp3 from '/src/assets/music/btnbgm2.mp3';
-import dogamgetMusicMp3 from '/src/assets/music/dogamget.mp3';
-// 슬롯이 돌아갈때 효과음
-const slotMusic = new Audio(slotMusicMp3);
+📌 [트리거] : 버튼 클릭 (오늘 뽑기 진행)
+  ├─ 효과음 재생 (버튼 누르는 소리)
+  ├─ 배경음악 중지 (casinoMusic.pause())
+  └─ 로컬스토리지에서 '오늘 이미 뽑았는지' 체크
+      └─ 안 뽑았으면 진행되는 로직:
+          ├─ 오박사 목소리 재생 (slotMusicPlay)
+          ├─ 오박사 대사가 "피 피카츄~" 까지 딜레이
+          ├─ 슬롯 머신 숫자 롤링 시작 (숫자 빠르게 변경하는 애니메이션)
+          ├─ 실제 도감 번호 추출 & 화면 반영
+          ├─ 도감 번호를 로컬스토리지에 저장
+          ├─ 포켓몬 뽑기 팝업 & 효과음 재생
+          └─ 이벤트 종료 후 배경음악 재생 재개
 
-// 버튼 눌렀을때 효과음
-const slotBtnMusic = new Audio(slotBtnMusicMp3);
+📌 [트리거] : 버튼 클릭 (오늘 이미 뽑기 완료)
+  ├─ 효과음 재생 (버튼 누르는 소리)
+  ├─ 배경음악 중지 (casinoMusic.pause())
+  └─ "다음에 오려무나~" alert 창 띄우기
+  
+───────────────────────────────
+*/
 
-// 도감번호 받았을때 나오는 효과음
-const dogamgetMusic = new Audio(dogamgetMusicMp3);
-dogamgetMusic.volume = 0.3;
+/* ───────────── 외부 함수 및 음원 import ───────────── */
+import { allowMusic } from '../../common/music.ts'; // 효과음 함수
+import slotMusicMp3 from '/src/assets/music/slotmusic.mp3'; //오박사 목소리 배경음악
+import slotBtnMusicMp3 from '/src/assets/music/btnbgm2.mp3'; // 슬롯 버튼 배경음악
+import dogamgetMusicMp3 from '/src/assets/music/dogamget.mp3'; // 도감 포켓몬 뽑은뒤 배경음악
+import casinoMp3 from '/src/assets/music/casino.mp3'; // 카지노 배경음악
 
-// 버튼 눌렀을때 버튼 누른 효과음 재생후에 오박사 목소리 재생시키는 함수
+/* ───────────── 효과음 & 배경음악 초기화 ───────────── */
+const slotMusic = new Audio(slotMusicMp3); // 슬롯이 돌아갈때 효과음
+const slotBtnMusic = new Audio(slotBtnMusicMp3); // 버튼 눌렀을때 효과음
+const dogamgetMusic = new Audio(dogamgetMusicMp3); // 도감번호 받았을때 나오는 효과음
+dogamgetMusic.volume = 0.3; // 해당음원 Sound 볼륨 조절
 
+const casinoMusic = new Audio(casinoMp3); // 전체배경 효과음
+casinoMusic.volume = 0.3; // 해당음원 Sound 볼륨 조절
+allowMusic(casinoMusic, true); // 배경음악 호출
+
+/* ───────────── 오박사 목소리 재생 함수 ───────────── */
 async function slotMusicPlay() {
   await delay(500);
-  slotMusic.play();
+  allowMusic(slotMusic, false);
 }
 
-// 슬롯 버튼
+/* ───────────── DOM 엘리먼트 정의 ───────────── */
 const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn');
 
-// 버튼 눌렀을때 변형되는 함수
+/* ───────────── 버튼 애니메이션 효과 함수 ───────────── */
 function btndown(btn: HTMLButtonElement) {
   btn.style.transform = 'translateY(3px) scale(0.98)';
 }
@@ -33,18 +58,20 @@ function btnup(btn: HTMLButtonElement) {
   btn.style.transform = 'translateY(0px) scale(1)';
 }
 
-// 버튼한테 이벤트 부여하는 함수
+/* ───────────── 슬롯 버튼 이벤트 바인딩 ───────────── */
 function btnEvent(btn: HTMLButtonElement) {
   btn.addEventListener('mousedown', e => {
     //마우스 눌렀을때
     e.preventDefault();
     btndown(btn);
-    slotBtnMusic.play(); // 버튼 눌렀을때 나오는음악
+    allowMusic(slotBtnMusic, false); // 버튼 눌렀을때 나오는음악
     slotMusicPlay(); // 버튼 음악 이후 오박사 목소리 재생
+    casinoMusic.pause();
   });
   btn.addEventListener('touchstart', e => {
     //손꼬락 으로 눌렀을떄
     e.preventDefault();
+    allowMusic(slotBtnMusic, false); // 버튼 눌렀을때 나오는음악
     btndown(btn);
     slotMusicPlay();
   });
@@ -69,39 +96,36 @@ function btnEvent(btn: HTMLButtonElement) {
   });
 }
 
+/* ───────────── 버튼 이벤트 등록 ───────────── */
 if (slotbtn) {
   btnEvent(slotbtn);
 }
 
-/*
-슬롯 머신의 로직
-1. 버튼을 누른다. (상단 클릭이벤트 만들어 놓음)
-2. 랜덤으로 숫자를 뽑는 함수를 호출한다. 해당 함수의 동작 순서는 이렇다.
-- 1초간 애니메이션이 작동한다. -> 이거진행 (해당애니메이션은 해당위치의 숫자들이 랜덤으로 값이 마구바구 바뀌는 애니메이션이다.)
-- 배열을 생성한다. (1~151, 777, 888이 들어간 배열) -> 이거진행
-- 1초의 애니메이션이 종료된뒤, 해당 배열이 어떤 숫자인지 파악한다.
-  - 만일 1,10 과 같이 1자릿수 아니면 2자릿수라면 빈칸에 숫자 0을 채워 넣는다.
-  - 3자릿수 100이 넘거나, 777,888 과같은 숫자라면 그대로 반환한다.
-- 파악한 숫자대로 html에 표현한다. 그리고 해당 숫자를 다시 리턴한다.
-*/
-
-// 랜덤으로 1의 자리 숫자 호출
+/* ───────────── 랜덤 숫자 생성기 ───────────── */
 async function randomNumMake() {
   const randomNum = Math.floor(Math.random() * 10);
   return randomNum;
 }
 
-/**
- * 시간을 딜레이시키는 함수.
- * @param time 딜레이 되는 시간
- */
+/* ───────────── 딜레이 함수 ───────────── */
 async function delay(time: number) {
   return new Promise(resolve => setTimeout(resolve, time));
 }
 
-// 0.05초에 한번씩 숫자를 뱉고 해당 노드에 숫자 갈아치우는 함수
+/* ───────────── 슬롯 숫자 DOM 업데이트 함수 ───────────── */
+function changeNum(num: number[]) {
+  const slotNum1 = document.querySelectorAll('.slot-num')[0]; // 숫자 첫번째칸
+  const slotNum2 = document.querySelectorAll('.slot-num')[1]; // 숫자 두번째칸
+  const slotNum3 = document.querySelectorAll('.slot-num')[2]; // 숫자 세번째칸
+
+  slotNum1.innerHTML = num[0].toString(); // 내용갈아 치우기
+  slotNum2.innerHTML = num[1].toString(); // 내용갈아 치우기
+  slotNum3.innerHTML = num[2].toString(); // 내용갈아 치우기
+}
+
+/* ───────────── 슬롯 숫자 애니메이션 (랜덤 숫자 변경) ───────────── */
 async function ranNumAni() {
-  await delay(10);
+  await delay(10); // 버튼 효과음이 끝날때 까지 딜레이
   const arr = []; // 랜덤숫자를 저장하는 배열
   const randomNum1 = await randomNumMake(); // 랜덤숫자 1
   const randomNum2 = await randomNumMake(); // 랜덤숫자 2
@@ -115,76 +139,58 @@ async function ranNumAni() {
   changeNum(arr); // 슬롯 넘버를 변경하는 함수에 전달
 }
 
-// 슬롯 넘버를 변경하는 함수
-function changeNum(num: number[]) {
-  const slotNum1 = document.querySelectorAll('.slot-num')[0]; // 숫자 첫번째칸
-  const slotNum2 = document.querySelectorAll('.slot-num')[1]; // 숫자 두번째칸
-  const slotNum3 = document.querySelectorAll('.slot-num')[2]; // 숫자 세번째칸
-
-  slotNum1.innerHTML = num[0].toString(); // 내용갈아 치우기
-  slotNum2.innerHTML = num[1].toString(); // 내용갈아 치우기
-  slotNum3.innerHTML = num[2].toString(); // 내용갈아 치우기
-}
-
-// 함수를 1초동안 계속 반복해주는 함수
+/* ───────────── 슬롯 숫자 롤링 반복 함수 ───────────── */
 async function ranNumRepeat(num1: number) {
-  await delay(5000);
+  await delay(5000); // 오박사가 "피~ 피카츄~" 할 때 까지 딜레이
   // 슬롯돌아가는 효과음
   for (let i = 5; i <= num1; i += 5) {
     await ranNumAni();
   }
 }
 
-// 도감 번호를 배열로 만드는함수
+/* ───────────── 도감 번호 랜덤 추출기 ───────────── */
 async function dogamNumMake() {
   const dogamArr = [];
   for (let i = 1; i <= 151; i++) {
     dogamArr.push(i);
   }
 
-  dogamArr.push(777); // 슬비쌤
-  dogamArr.push(888); // 용쌤
+  dogamArr.push(777, 888); //특별번호 추가
 
   const dogamNum = dogamArr[Math.floor(Math.random() * dogamArr.length)];
 
   return dogamNum;
 }
 
-/*
-추출한 도감 번호를 화면에 집어 넣는함수
-혹시 추출한 도감번호가 1의자리 수이거나 10의 자리 수일떄는 앞에 0을 넣어줌
- */
+/* ───────────── 최종 도감 번호 슬롯 반영 함수 ───────────── */
 async function yourPokemon(num: number) {
   const dogamNum = await dogamNumMake();
   await ranNumRepeat(num);
+  let arr: number[] = [];
 
   if (dogamNum < 10) {
-    const arr = [0, 0, dogamNum];
-    changeNum(arr);
+    arr = [0, 0, dogamNum];
   } else if (dogamNum <= 99) {
     const dogamNum3 = dogamNum % 10; // 1의자리
     const dogamNum2 = (dogamNum - dogamNum3) / 10; // 10의자리
-    const arr = [0, dogamNum2, dogamNum3];
-    changeNum(arr);
+    arr = [0, dogamNum2, dogamNum3];
   } else {
     const dogamNum3 = dogamNum % 10; // 1의자리
     const dogamNum2 = ((dogamNum % 100) - dogamNum3) / 10; // 10의자리
     const dogamNum1 = (dogamNum - dogamNum2 * 10 - dogamNum3) / 100; // 100의자리
-    const arr = [dogamNum1, dogamNum2, dogamNum3];
-    changeNum(arr);
+    arr = [dogamNum1, dogamNum2, dogamNum3];
   }
-  console.log(dogamNum);
+
+  changeNum(arr); // 도감번호 화면에 반영
+  console.log(dogamNum); // 로컬스토리지에 저장
   dogamgetMusic.currentTime = 0;
-  // dogamgetMusic.play();
+  dogamgetMusic.play();
   return dogamNum;
 }
 
-/*
-어떤 값이있음. 이건 버튼을 누를 수 있냐 없냐를 가리는 불린값임
-canClick = true(누를수있음), false(누를 수 없음)
-기본값은 true로 설정되어있고, 이값은 로컬스토리지에 저장이됨.
-
-누른적이 있다~~?
-
-
- */
+/* ─────────────
+  ▼ canClick 플래그 (로컬스토리지 사용 예정)
+  - true: 오늘 뽑기 가능
+  - false: 오늘 이미 뽑기 완료
+  - 현재는 기본값 true 로 예상
+──────────────────────────── */
