@@ -130,15 +130,11 @@ function changeNum(num: number[]) {
 /* ───────────── 슬롯 숫자 애니메이션 (랜덤 숫자 변경) ───────────── */
 async function ranNumAni() {
   await delay(10); // 버튼 효과음이 끝날때 까지 딜레이
-  const arr = []; // 랜덤숫자를 저장하는 배열
-  const randomNum1 = await randomNumMake(); // 랜덤숫자 1
-  const randomNum2 = await randomNumMake(); // 랜덤숫자 2
-  const randomNum3 = await randomNumMake(); // 랜덤숫자 3
-
-  // 배열에 랜덤 숫자 저장
-  arr.push(randomNum1);
-  arr.push(randomNum2);
-  arr.push(randomNum3);
+  const arr = [
+    await randomNumMake(),
+    await randomNumMake(),
+    await randomNumMake(),
+  ];
 
   changeNum(arr); // 슬롯 넘버를 변경하는 함수에 전달
 }
@@ -171,25 +167,14 @@ async function dogamNumMake() {
 async function yourPokemon(num: number) {
   const dogamNum = await dogamNumMake();
   await ranNumRepeat(num);
-  let arr: number[] = [];
-
-  if (dogamNum < 10) {
-    arr = [0, 0, dogamNum];
-  } else if (dogamNum <= 99) {
-    const dogamNum3 = dogamNum % 10; // 1의자리
-    const dogamNum2 = (dogamNum - dogamNum3) / 10; // 10의자리
-    arr = [0, dogamNum2, dogamNum3];
-  } else {
-    const dogamNum3 = dogamNum % 10; // 1의자리
-    const dogamNum2 = ((dogamNum % 100) - dogamNum3) / 10; // 10의자리
-    const dogamNum1 = (dogamNum - dogamNum2 * 10 - dogamNum3) / 100; // 100의자리
-    arr = [dogamNum1, dogamNum2, dogamNum3];
-  }
-
-  changeNum(arr); // 도감번호 화면에 반영
-  console.log(dogamNum); // 로컬스토리지에 저장
+  /*
+  도감 번호를 문자화로 변경 -> 3자리 문자인데 빈공간에 0 삽입 -> 한글자씩 쪼개서 -> 문자로 변환하여 배열로 저장
+   */
+  const arr: number[] = String(dogamNum).padStart(3, '0').split('').map(Number);
   // dogamgetMusic.currentTime = 0;
   // dogamgetMusic.play();
+  changeNum(arr); // 도감번호 화면에 반영
+  localStorage.setItem('todayGet', dogamNum.toString()); // 로컬스토리지에 저장
   allowMusic(casinoMusic, true); // 배경음악 호출
   return dogamNum;
 }
