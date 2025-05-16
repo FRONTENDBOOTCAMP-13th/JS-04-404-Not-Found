@@ -152,11 +152,16 @@ async function ranNumRepeat(num1: number) {
 /* ───────────── 도감 번호 랜덤 추출기 ───────────── */
 async function dogamNumMake() {
   const dogamArr = [];
-  for (let i = 1; i <= 151; i++) {
-    dogamArr.push(i);
+  for (let i = 1; i <= 3; i++) {
+    for (let k = 1; k <= 143; k++) {
+      dogamArr.push(k);
+    }
+    for (let k = 147; k <= 149; k++) {
+      dogamArr.push(k);
+    }
   }
 
-  dogamArr.push(777, 888); //특별번호 추가
+  dogamArr.push(144, 145, 146, 777, 888); //특별번호 추가
 
   const dogamNum = dogamArr[Math.floor(Math.random() * dogamArr.length)];
 
@@ -171,11 +176,10 @@ async function yourPokemon(num: number) {
   도감 번호를 문자화로 변경 -> 3자리 문자인데 빈공간에 0 삽입 -> 한글자씩 쪼개서 -> 문자로 변환하여 배열로 저장
    */
   const arr: number[] = String(dogamNum).padStart(3, '0').split('').map(Number);
-  // dogamgetMusic.currentTime = 0;
-  // dogamgetMusic.play();
   changeNum(arr); // 도감번호 화면에 반영
+  allowMusic(dogamgetMusic, false);
   localStorage.setItem('todayGet', dogamNum.toString()); // 로컬스토리지에 저장
-  allowMusic(casinoMusic, true); // 배경음악 호출
+  // allowMusic(casinoMusic, true); // 배경음악 호출
   return dogamNum;
 }
 
