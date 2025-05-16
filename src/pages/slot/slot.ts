@@ -48,6 +48,10 @@ async function slotMusicPlay() {
 /* ───────────── DOM 엘리먼트 정의 ───────────── */
 const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn');
 
+/* ───────────── 로컬스토리지 정의 ───────────── */
+const musicPlay = localStorage.getItem('musicPlay');
+console.log(musicPlay);
+
 /* ───────────── 버튼 애니메이션 효과 함수 ───────────── */
 function btndown(btn: HTMLButtonElement) {
   btn.style.transform = 'translateY(3px) scale(0.98)';
@@ -141,8 +145,9 @@ async function ranNumAni() {
 
 /* ───────────── 슬롯 숫자 롤링 반복 함수 ───────────── */
 async function ranNumRepeat(num1: number) {
-  await delay(5000); // 오박사가 "피~ 피카츄~" 할 때 까지 딜레이
-  // 슬롯돌아가는 효과음
+  if (musicPlay === 'true') {
+    await delay(5000); // 오박사가 "피~ 피카츄~" 할 때 까지 딜레이
+  }
   for (let i = 5; i <= num1; i += 5) {
     await ranNumAni();
   }
@@ -183,8 +188,9 @@ async function yourPokemon(num: number) {
 
   changeNum(arr); // 도감번호 화면에 반영
   console.log(dogamNum); // 로컬스토리지에 저장
-  dogamgetMusic.currentTime = 0;
-  dogamgetMusic.play();
+  // dogamgetMusic.currentTime = 0;
+  // dogamgetMusic.play();
+  allowMusic(casinoMusic, true); // 배경음악 호출
   return dogamNum;
 }
 
