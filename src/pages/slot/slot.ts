@@ -1,3 +1,6 @@
+import '../../common/total-time.ts'; // 누적 플레이 타임
+
+import { addPokeNums } from '../../common/add-poke-nums';
 // 효과음
 
 import slotMusicMp3 from '/src/assets/music/slotmusic.mp3';
@@ -176,6 +179,7 @@ async function yourPokemon(num: number) {
   console.log(dogamNum);
   dogamgetMusic.currentTime = 0;
   // dogamgetMusic.play();
+  addPokeNums(dogamNum); // 도감 번호 추가
   return dogamNum;
 }
 

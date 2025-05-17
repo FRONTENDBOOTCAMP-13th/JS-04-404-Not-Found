@@ -1,3 +1,5 @@
+import '../../common/total-time.ts'; // 누적 플레이 타임
+
 const pokeball = document.querySelector('.pokeball');
 const typeModal = document.getElementById('type-modal');
 const closeTypeModal = document.getElementById('close-type-modal');
