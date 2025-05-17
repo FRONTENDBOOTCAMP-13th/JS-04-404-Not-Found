@@ -148,29 +148,17 @@ async function ranNumRepeat(num1: number) {
 
 /* ───────────── 도감 번호 랜덤 추출기 ───────────── */
 async function dogamNumMake() {
-  const dogamArr = [
-    ...Array.from({ length: 3 }, () => {
-      Array.from({ length: 143 }, (_, i) => i + 1);
-    }).flat(),
-    ...Array.from({ length: 3 }, () => {
-      Array.from({ length: 3 }, (_, i) => i + 147);
-    }).flat(),
-    144,
-    145,
-    146,
-    777,
-    888,
-  ];
-  // for (let i = 1; i <= 3; i++) {
-  //   for (let k = 1; k <= 143; k++) {
-  //     dogamArr.push(k);
-  //   }
-  //   for (let k = 147; k <= 149; k++) {
-  //     dogamArr.push(k);
-  //   }
-  // }
+  const dogamArr = [];
+  for (let i = 1; i <= 3; i++) {
+    for (let k = 1; k <= 143; k++) {
+      dogamArr.push(k);
+    }
+    for (let k = 147; k <= 149; k++) {
+      dogamArr.push(k);
+    }
+  }
 
-  // dogamArr.push(144, 145, 146, 777, 888); //특별번호 추가
+  dogamArr.push(144, 145, 146, 777, 888); //특별번호 추가
 
   const dogamNum = dogamArr[Math.floor(Math.random() * dogamArr.length)];
 
@@ -215,7 +203,7 @@ async function slotMachine() {
 async function tomorryReturn() {
   return new Promise<void>(resolve => {
     alert('내일 다시 오려무나~');
-    resolve(); // 중요!! 여기서 Promise를 종료시켜야 다음으로 넘어감
+    resolve();
   });
 }
 /* ─────────────
