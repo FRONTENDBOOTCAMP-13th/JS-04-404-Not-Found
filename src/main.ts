@@ -1,3 +1,5 @@
+import './common/total-time.ts'; // 누적 플레이 타임
+
 import Swiper from 'swiper';
 import { Navigation, Autoplay } from 'swiper/modules';
 import { allowMusic } from '../src/common/music.ts';

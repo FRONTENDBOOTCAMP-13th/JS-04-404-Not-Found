@@ -1,15 +1,17 @@
-export let userName = '';
+import '../../common/total-time.ts'; // 누적 플레이 타임
 
+import { allowMusic } from '../../common/music.ts';
 import startMusicSrc from '/src/assets/music/start-music.mp3';
+export let userName = '';
 
 // start-music 오디오 객체 생성 및 음악 재생
 const startMusic = new Audio(startMusicSrc);
 startMusic.volume = 0.5;
-
-const startWrap = document.querySelector('.start');
-const textList = document.querySelectorAll('.text-list li');
+allowMusic(startMusic, true);
 
 // 텍스트 리스트 display none/block
+const startWrap = document.querySelector('.start');
+const textList = document.querySelectorAll('.text-list li');
 let currentIndex = 0;
 function showCurrentText() {
   textList.forEach((li, idx) => {
@@ -29,8 +31,7 @@ startWrap?.addEventListener('click', () => {
       userName = name;
       if (name !== '') {
         localStorage.setItem('userName', JSON.stringify(userName));
-      }
-      if (userName === '') {
+      } else {
         userInput.focus();
         return;
       }

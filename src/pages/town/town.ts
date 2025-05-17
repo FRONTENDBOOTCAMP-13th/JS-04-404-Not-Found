@@ -1,3 +1,5 @@
+import '../../common/total-time.ts'; // 누적 플레이 타임
+
 // 이미지맵 리사이저 cdn 실행 스크립트 입니다.
 declare function imageMapResize(): void;
 imageMapResize();
