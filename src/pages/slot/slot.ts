@@ -69,15 +69,14 @@ function btnEvent(btn: HTMLButtonElement) {
     e.preventDefault();
     btndown(btn);
     allowMusic(slotBtnMusic, false); // 버튼 눌렀을때 나오는음악
-    slotMachine();
-    casinoMusic.pause();
+    casinoMusic.pause(); //배경음악 일시정지
   });
   btn.addEventListener('touchstart', e => {
     //손꼬락 으로 눌렀을떄
     e.preventDefault();
-    allowMusic(slotBtnMusic, false); // 버튼 눌렀을때 나오는음악
     btndown(btn);
-    slotMusicPlay();
+    allowMusic(slotBtnMusic, false); // 버튼 눌렀을때 나오는음악
+    casinoMusic.pause(); //배경음악 일시정지
   });
   btn.addEventListener('mouseleave', e => {
     //마우스로 꾸욱 눌렀을떄
@@ -89,13 +88,14 @@ function btnEvent(btn: HTMLButtonElement) {
     e.preventDefault();
     btnup(btn);
     /*여기 아래에 버튼 눌럿을때 슬롯 돌아가는 이벤트 및 모션 추가 */
+    slotMachine(); // 슬롯머신 기능
   });
   btn.addEventListener('touchend', e => {
     //손꼬락 뗐을때
     e.preventDefault();
     btnup(btn);
     /*여기 아래에 버튼 눌럿을때 슬롯 돌아가는 이벤트 및 모션 추가 */
-    yourPokemon(1400); // 2초동안 슬롯이 돌아가고, 도감 번호를 뽑는 함수
+    slotMachine(); // 슬롯머신 기능
   });
 }
 
