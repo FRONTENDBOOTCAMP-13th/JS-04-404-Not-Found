@@ -69,7 +69,7 @@ function btnEvent(btn: HTMLButtonElement) {
     e.preventDefault();
     btndown(btn);
     allowMusic(slotBtnMusic, false); // 버튼 눌렀을때 나오는음악
-    slotMusicPlay(); // 버튼 음악 이후 오박사 목소리 재생
+    slotMachine();
     casinoMusic.pause();
   });
   btn.addEventListener('touchstart', e => {
@@ -89,7 +89,6 @@ function btnEvent(btn: HTMLButtonElement) {
     e.preventDefault();
     btnup(btn);
     /*여기 아래에 버튼 눌럿을때 슬롯 돌아가는 이벤트 및 모션 추가 */
-    yourPokemon(1400); // 2초동안 슬롯이 돌아가고, 도감 번호를 뽑는 함수
   });
   btn.addEventListener('touchend', e => {
     //손꼬락 뗐을때
@@ -177,12 +176,39 @@ async function yourPokemon(num: number) {
    */
   const arr: number[] = String(dogamNum).padStart(3, '0').split('').map(Number);
   changeNum(arr); // 도감번호 화면에 반영
+  const slotTime = Date.now();
   allowMusic(dogamgetMusic, false);
+
   localStorage.setItem('todayGet', dogamNum.toString()); // 로컬스토리지에 저장
-  // allowMusic(casinoMusic, true); // 배경음악 호출
+  localStorage.setItem('lastSlot', slotTime.toString()); // 로컬스토리지에 저장
+  allowMusic(casinoMusic, true); // 배경음악 호출
   return dogamNum;
 }
 
+/* ───────────── 슬롯 머신 실행함수 ───────────── */
+async function slotMachine() {
+  const clickBtnTime = Date.now(); //버튼누를때 시간체크
+  localStorage.setItem('clickBtnTime', clickBtnTime.toString()); // 로컬스토리지에 저장
+  const entryLastSlot = localStorage.getItem('lastSlot');
+
+  if (
+    entryLastSlot === null ||
+    Number(clickBtnTime) - Number(entryLastSlot) > 24 * 60 * 60 * 1000
+  ) {
+    await slotMusicPlay(); // 버튼 음악 이후 오박사 목소리 재생
+    await yourPokemon(1400); // 2초동안 슬롯이 돌아가고, 도감 번호를 뽑는 함수
+  } else {
+    await tomorryReturn();
+    allowMusic(casinoMusic, true); // 배경음악 호출
+  }
+}
+/* ───────────── 다시오려무나 팝업창 ───────────── */
+async function tomorryReturn() {
+  return new Promise<void>(resolve => {
+    alert('내일 다시 오려무나~');
+    resolve(); // 중요!! 여기서 Promise를 종료시켜야 다음으로 넘어감
+  });
+}
 /* ─────────────
   ▼ canClick 플래그 (로컬스토리지 사용 예정)
   - true: 오늘 뽑기 가능
