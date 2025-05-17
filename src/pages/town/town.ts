@@ -28,6 +28,7 @@ function openModalEvent(target: Element, modal: Element) {
     openModal(modal);
   });
 }
+
 // 특정 이벤트에 모달창 닫기함수가 실행되는 함수.
 function closeModalEvent(target: Element, modal: Element) {
   target.addEventListener('click', e => {

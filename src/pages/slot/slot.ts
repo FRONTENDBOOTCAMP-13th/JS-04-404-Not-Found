@@ -69,15 +69,14 @@ function btnEvent(btn: HTMLButtonElement) {
     e.preventDefault();
     btndown(btn);
     allowMusic(slotBtnMusic, false); // 버튼 눌렀을때 나오는음악
-    slotMusicPlay(); // 버튼 음악 이후 오박사 목소리 재생
-    casinoMusic.pause();
+    casinoMusic.pause(); //배경음악 일시정지
   });
   btn.addEventListener('touchstart', e => {
     //손꼬락 으로 눌렀을떄
     e.preventDefault();
-    allowMusic(slotBtnMusic, false); // 버튼 눌렀을때 나오는음악
     btndown(btn);
-    slotMusicPlay();
+    allowMusic(slotBtnMusic, false); // 버튼 눌렀을때 나오는음악
+    casinoMusic.pause(); //배경음악 일시정지
   });
   btn.addEventListener('mouseleave', e => {
     //마우스로 꾸욱 눌렀을떄
@@ -89,14 +88,14 @@ function btnEvent(btn: HTMLButtonElement) {
     e.preventDefault();
     btnup(btn);
     /*여기 아래에 버튼 눌럿을때 슬롯 돌아가는 이벤트 및 모션 추가 */
-    yourPokemon(1400); // 2초동안 슬롯이 돌아가고, 도감 번호를 뽑는 함수
+    slotMachine(); // 슬롯머신 기능
   });
   btn.addEventListener('touchend', e => {
     //손꼬락 뗐을때
     e.preventDefault();
     btnup(btn);
     /*여기 아래에 버튼 눌럿을때 슬롯 돌아가는 이벤트 및 모션 추가 */
-    yourPokemon(1400); // 2초동안 슬롯이 돌아가고, 도감 번호를 뽑는 함수
+    slotMachine(); // 슬롯머신 기능
   });
 }
 
@@ -130,15 +129,11 @@ function changeNum(num: number[]) {
 /* ───────────── 슬롯 숫자 애니메이션 (랜덤 숫자 변경) ───────────── */
 async function ranNumAni() {
   await delay(10); // 버튼 효과음이 끝날때 까지 딜레이
-  const arr = []; // 랜덤숫자를 저장하는 배열
-  const randomNum1 = await randomNumMake(); // 랜덤숫자 1
-  const randomNum2 = await randomNumMake(); // 랜덤숫자 2
-  const randomNum3 = await randomNumMake(); // 랜덤숫자 3
-
-  // 배열에 랜덤 숫자 저장
-  arr.push(randomNum1);
-  arr.push(randomNum2);
-  arr.push(randomNum3);
+  const arr = [
+    await randomNumMake(),
+    await randomNumMake(),
+    await randomNumMake(),
+  ];
 
   changeNum(arr); // 슬롯 넘버를 변경하는 함수에 전달
 }
@@ -156,11 +151,16 @@ async function ranNumRepeat(num1: number) {
 /* ───────────── 도감 번호 랜덤 추출기 ───────────── */
 async function dogamNumMake() {
   const dogamArr = [];
-  for (let i = 1; i <= 151; i++) {
-    dogamArr.push(i);
+  for (let i = 1; i <= 3; i++) {
+    for (let k = 1; k <= 143; k++) {
+      dogamArr.push(k);
+    }
+    for (let k = 147; k <= 149; k++) {
+      dogamArr.push(k);
+    }
   }
 
-  dogamArr.push(777, 888); //특별번호 추가
+  dogamArr.push(144, 145, 146, 777, 888); //특별번호 추가
 
   const dogamNum = dogamArr[Math.floor(Math.random() * dogamArr.length)];
 
@@ -171,29 +171,44 @@ async function dogamNumMake() {
 async function yourPokemon(num: number) {
   const dogamNum = await dogamNumMake();
   await ranNumRepeat(num);
-  let arr: number[] = [];
-
-  if (dogamNum < 10) {
-    arr = [0, 0, dogamNum];
-  } else if (dogamNum <= 99) {
-    const dogamNum3 = dogamNum % 10; // 1의자리
-    const dogamNum2 = (dogamNum - dogamNum3) / 10; // 10의자리
-    arr = [0, dogamNum2, dogamNum3];
-  } else {
-    const dogamNum3 = dogamNum % 10; // 1의자리
-    const dogamNum2 = ((dogamNum % 100) - dogamNum3) / 10; // 10의자리
-    const dogamNum1 = (dogamNum - dogamNum2 * 10 - dogamNum3) / 100; // 100의자리
-    arr = [dogamNum1, dogamNum2, dogamNum3];
-  }
-
+  /*
+  도감 번호를 문자화로 변경 -> 3자리 문자인데 빈공간에 0 삽입 -> 한글자씩 쪼개서 -> 문자로 변환하여 배열로 저장
+   */
+  const arr: number[] = String(dogamNum).padStart(3, '0').split('').map(Number);
   changeNum(arr); // 도감번호 화면에 반영
-  console.log(dogamNum); // 로컬스토리지에 저장
-  // dogamgetMusic.currentTime = 0;
-  // dogamgetMusic.play();
+  const slotTime = Date.now();
+  allowMusic(dogamgetMusic, false);
+
+  localStorage.setItem('todayGet', dogamNum.toString()); // 로컬스토리지에 저장
+  localStorage.setItem('lastSlot', slotTime.toString()); // 로컬스토리지에 저장
   allowMusic(casinoMusic, true); // 배경음악 호출
   return dogamNum;
 }
 
+/* ───────────── 슬롯 머신 실행함수 ───────────── */
+async function slotMachine() {
+  const clickBtnTime = Date.now(); //버튼누를때 시간체크
+  localStorage.setItem('clickBtnTime', clickBtnTime.toString()); // 로컬스토리지에 저장
+  const entryLastSlot = localStorage.getItem('lastSlot');
+
+  if (
+    entryLastSlot === null ||
+    Number(clickBtnTime) - Number(entryLastSlot) > 24 * 60 * 60 * 1000
+  ) {
+    await slotMusicPlay(); // 버튼 음악 이후 오박사 목소리 재생
+    await yourPokemon(1400); // 2초동안 슬롯이 돌아가고, 도감 번호를 뽑는 함수
+  } else {
+    await tomorryReturn();
+    allowMusic(casinoMusic, true); // 배경음악 호출
+  }
+}
+/* ───────────── 다시오려무나 팝업창 ───────────── */
+async function tomorryReturn() {
+  return new Promise<void>(resolve => {
+    alert('내일 다시 오려무나~');
+    resolve(); // 중요!! 여기서 Promise를 종료시켜야 다음으로 넘어감
+  });
+}
 /* ─────────────
   ▼ canClick 플래그 (로컬스토리지 사용 예정)
   - true: 오늘 뽑기 가능
