@@ -1,14 +1,5 @@
-
 import '../../common/total-time.ts'; // 누적 플레이 타임
-
 import { addPokeNums } from '../../common/add-poke-nums';
-// 효과음
-
-import slotMusicMp3 from '/src/assets/music/slotmusic.mp3';
-import slotBtnMusicMp3 from '/src/assets/music/btnbgm2.mp3';
-import dogamgetMusicMp3 from '/src/assets/music/dogamget.mp3';
-// 슬롯이 돌아갈때 효과음
-const slotMusic = new Audio(slotMusicMp3);
 
 /*
 ──────────── 슬롯 머신 로직 ────────────
@@ -173,7 +164,7 @@ async function dogamNumMake() {
   dogamArr.push(144, 145, 146, 777, 888); //특별번호 추가
 
   const dogamNum = dogamArr[Math.floor(Math.random() * dogamArr.length)];
-
+  addPokeNums(dogamNum); // 도감 번호 추가
   return dogamNum;
 }
 
@@ -189,7 +180,6 @@ async function yourPokemon(num: number) {
   const slotTime = Date.now();
   allowMusic(dogamgetMusic, false);
 
-  localStorage.setItem('todayGet', dogamNum.toString()); // 로컬스토리지에 저장
   localStorage.setItem('lastSlot', slotTime.toString()); // 로컬스토리지에 저장
   allowMusic(casinoMusic, true); // 배경음악 호출
   return dogamNum;
@@ -211,11 +201,7 @@ async function slotMachine() {
     allowMusic(casinoMusic, true); // 배경음악 호출
   }
 
-  console.log(dogamNum);
   dogamgetMusic.currentTime = 0;
-  // dogamgetMusic.play();
-  addPokeNums(dogamNum); // 도감 번호 추가
-  return dogamNum;
 }
 /* ───────────── 다시오려무나 팝업창 ───────────── */
 async function tomorryReturn() {
