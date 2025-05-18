@@ -10,7 +10,7 @@
     bottom: 9%;
     left: 39%;
     width: 22%;
-    z-index: 999;
+    z-index: 99;
   }
   /* ED : 슬롯 버튼 이미지 */
   .slot-btn-img {
@@ -18,7 +18,7 @@
   }
   /* ED : 슬롯 버튼 */
   .slot-bg {
-    z-index: 99;
+    z-index: 9;
     max-height: 100vh;
   }
   /* ST : 숫자 Ul */
@@ -62,5 +62,15 @@
     align-items: center;
     color: var(--color-roulette-blue);
     background-color: var(--color-white);
+  }
+  .pokeGet {
+    background-color: red;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+  }
+  .d-none {
+    display: none;
   }
 }
