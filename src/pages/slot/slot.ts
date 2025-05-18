@@ -1,14 +1,5 @@
-
 import '../../common/total-time.ts'; // 누적 플레이 타임
-
 import { addPokeNums } from '../../common/add-poke-nums';
-// 효과음
-
-import slotMusicMp3 from '/src/assets/music/slotmusic.mp3';
-import slotBtnMusicMp3 from '/src/assets/music/btnbgm2.mp3';
-import dogamgetMusicMp3 from '/src/assets/music/dogamget.mp3';
-// 슬롯이 돌아갈때 효과음
-const slotMusic = new Audio(slotMusicMp3);
 
 /*
 ──────────── 슬롯 머신 로직 ────────────
@@ -51,18 +42,19 @@ const casinoMusic = new Audio(casinoMp3); // 전체배경 효과음
 casinoMusic.volume = 0.3; // 해당음원 Sound 볼륨 조절
 allowMusic(casinoMusic, true); // 배경음악 호출
 
+/* ───────────── DOM 엘리먼트 정의 ───────────── */
+const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn'); // 슬롯 머신 버튼
+const slotNum = document.querySelectorAll('.slot-num'); // 슬롯머신 숫자 모든 li
+
+/* ───────────── 로컬스토리지 정의 ───────────── */
+const musicPlay = localStorage.getItem('musicPlay');
+console.log(musicPlay);
+
 /* ───────────── 오박사 목소리 재생 함수 ───────────── */
 async function slotMusicPlay() {
   await delay(500);
   allowMusic(slotMusic, false);
 }
-
-/* ───────────── DOM 엘리먼트 정의 ───────────── */
-const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn');
-
-/* ───────────── 로컬스토리지 정의 ───────────── */
-const musicPlay = localStorage.getItem('musicPlay');
-console.log(musicPlay);
 
 /* ───────────── 버튼 애니메이션 효과 함수 ───────────── */
 function btndown(btn: HTMLButtonElement) {
@@ -129,13 +121,10 @@ async function delay(time: number) {
 
 /* ───────────── 슬롯 숫자 DOM 업데이트 함수 ───────────── */
 function changeNum(num: number[]) {
-  const slotNum1 = document.querySelectorAll('.slot-num')[0]; // 숫자 첫번째칸
-  const slotNum2 = document.querySelectorAll('.slot-num')[1]; // 숫자 두번째칸
-  const slotNum3 = document.querySelectorAll('.slot-num')[2]; // 숫자 세번째칸
-
-  slotNum1.innerHTML = num[0].toString(); // 내용갈아 치우기
-  slotNum2.innerHTML = num[1].toString(); // 내용갈아 치우기
-  slotNum3.innerHTML = num[2].toString(); // 내용갈아 치우기
+  for (let i = 0; i < slotNum.length; i++) {
+    // 각 li에 배열에든 3개의 숫자 순서대로 넣기
+    slotNum[i].innerHTML = num[i].toString();
+  }
 }
 
 /* ───────────── 슬롯 숫자 애니메이션 (랜덤 숫자 변경) ───────────── */
@@ -175,7 +164,7 @@ async function dogamNumMake() {
   dogamArr.push(144, 145, 146, 777, 888); //특별번호 추가
 
   const dogamNum = dogamArr[Math.floor(Math.random() * dogamArr.length)];
-
+  addPokeNums(dogamNum); // 도감 번호 추가
   return dogamNum;
 }
 
@@ -191,7 +180,6 @@ async function yourPokemon(num: number) {
   const slotTime = Date.now();
   allowMusic(dogamgetMusic, false);
 
-  localStorage.setItem('todayGet', dogamNum.toString()); // 로컬스토리지에 저장
   localStorage.setItem('lastSlot', slotTime.toString()); // 로컬스토리지에 저장
   allowMusic(casinoMusic, true); // 배경음악 호출
   return dogamNum;
@@ -200,7 +188,6 @@ async function yourPokemon(num: number) {
 /* ───────────── 슬롯 머신 실행함수 ───────────── */
 async function slotMachine() {
   const clickBtnTime = Date.now(); //버튼누를때 시간체크
-  localStorage.setItem('clickBtnTime', clickBtnTime.toString()); // 로컬스토리지에 저장
   const entryLastSlot = localStorage.getItem('lastSlot');
 
   if (
@@ -214,17 +201,13 @@ async function slotMachine() {
     allowMusic(casinoMusic, true); // 배경음악 호출
   }
 
-  console.log(dogamNum);
   dogamgetMusic.currentTime = 0;
-  // dogamgetMusic.play();
-  addPokeNums(dogamNum); // 도감 번호 추가
-  return dogamNum;
 }
 /* ───────────── 다시오려무나 팝업창 ───────────── */
 async function tomorryReturn() {
   return new Promise<void>(resolve => {
     alert('내일 다시 오려무나~');
-    resolve(); // 중요!! 여기서 Promise를 종료시켜야 다음으로 넘어감
+    resolve();
   });
 }
 /* ─────────────
