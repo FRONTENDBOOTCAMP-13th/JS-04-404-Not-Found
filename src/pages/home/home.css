@@ -1,7 +1,17 @@
 .home {
+  position: relative;
   padding-block: min(10%, 10vh);
   text-align: center;
-  background-color: #fff;
+
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    z-index: -1;
+  }
 
   .project-logo img {
     display: inline-block;
