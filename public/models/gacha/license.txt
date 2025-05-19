@@ -1,0 +1,11 @@
+Model Information:
+* title:	Pokeball (animated)
+* source:	https://sketchfab.com/3d-models/pokeball-animated-a1f5d0bac5b74b73adc7d7d1eddc64d3
+* author:	Ahsan.Faraz (https://sketchfab.com/Ahsan.Faraz)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Pokeball (animated)" (https://sketchfab.com/3d-models/pokeball-animated-a1f5d0bac5b74b73adc7d7d1eddc64d3) by Ahsan.Faraz (https://sketchfab.com/Ahsan.Faraz) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
