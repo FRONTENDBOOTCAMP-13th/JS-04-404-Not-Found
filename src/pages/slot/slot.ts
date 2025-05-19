@@ -43,6 +43,25 @@ const casinoMusic = new Audio(casinoMp3); // 전체배경 효과음
 casinoMusic.volume = 0.3; // 해당음원 Sound 볼륨 조절
 allowMusic(casinoMusic, true); // 배경음악 호출
 
+const pokeList: number[][] = [
+  [
+    1, 4, 7, 10, 13, 16, 19, 21, 23, 27, 29, 32, 35, 37, 39, 41, 43, 46, 48, 50,
+    52, 54, 56, 58, 60, 63, 66, 69, 72, 74, 77, 79, 81, 84, 86, 88, 90, 92, 96,
+    98, 100, 102, 104, 109, 114, 116, 118, 120, 129, 133, 140, 147,
+  ],
+  [
+    2, 5, 8, 11, 14, 17, 20, 24, 25, 28, 30, 33, 36, 40, 42, 44, 47, 49, 53, 55,
+    61, 64, 67, 70, 75, 80, 82, 83, 85, 87, 89, 93, 95, 99, 101, 103, 105, 106,
+    107, 108, 110, 111, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 134,
+    135, 136, 138, 141, 142, 148,
+  ],
+  [
+    3, 6, 9, 12, 15, 18, 22, 26, 31, 34, 38, 45, 51, 57, 59, 62, 65, 68, 71, 73,
+    76, 78, 91, 94, 97, 112, 113, 115, 130, 131, 132, 137, 139, 143, 149,
+  ],
+  [144, 145, 146, 150, 151, 777, 888],
+];
+
 // ST : 뒤로가기, 음소거 버튼 ------------------
 const backBtn = document.querySelector('.back-btn') as HTMLElement;
 const toggleSoundBtn = document.querySelector('.toggle-sound') as HTMLElement;
@@ -111,6 +130,8 @@ topBtnHover();
 /* ───────────── DOM 엘리먼트 정의 ───────────── */
 const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn'); // 슬롯 머신 버튼
 const slotNum = document.querySelectorAll('.slot-num'); // 슬롯머신 숫자 모든 li
+const pokeGetModal = document.getElementById('pokeGet');
+const cardGetBtn = document.getElementById('cardGetBtn'); //카드 획득하기 버튼
 
 /* ───────────── 로컬스토리지 정의 ───────────── */
 // const slotPlay = localStorage.getItem('musicPlay');
@@ -217,23 +238,33 @@ async function ranNumRepeat(num1: number) {
 
 /* ───────────── 도감 번호 랜덤 추출기 ───────────── */
 async function dogamNumMake() {
-  const dogamArr = [];
+  const dogamArr: number[] = [];
+  for (let i = 1; i <= 4; i++) {
+    pokeList[0].forEach(a => {
+      dogamArr.push(a);
+    });
+  }
   for (let i = 1; i <= 3; i++) {
-    for (let k = 1; k <= 143; k++) {
-      dogamArr.push(k);
-    }
-    for (let k = 147; k <= 149; k++) {
-      dogamArr.push(k);
-    }
+    pokeList[1].forEach(a => {
+      dogamArr.push(a);
+    });
+  }
+  for (let i = 1; i <= 2; i++) {
+    pokeList[2].forEach(a => {
+      dogamArr.push(a);
+    });
   }
 
-  dogamArr.push(144, 145, 146, 777, 888); //특별번호 추가
+  pokeList[3].forEach(a => {
+    dogamArr.push(a);
+  });
 
   const dogamNum = dogamArr[Math.floor(Math.random() * dogamArr.length)];
   addPokeNums(dogamNum); // 도감 번호 추가
   return dogamNum;
 }
-
+console.log('pokeList:', pokeList);
+console.log('pokeList[0]:', pokeList[0]);
 /* ───────────── 최종 도감 번호 슬롯 반영 함수 ───────────── */
 async function yourPokemon(num: number) {
   const dogamNum = await dogamNumMake();
@@ -242,13 +273,12 @@ async function yourPokemon(num: number) {
   도감 번호를 문자화로 변경 -> 3자리 문자인데 빈공간에 0 삽입 -> 한글자씩 쪼개서 -> 문자로 변환하여 배열로 저장
    */
   const arr: number[] = String(dogamNum).padStart(3, '0').split('').map(Number);
-  changeNum(arr); // 도감번호 화면에 반영
+  // changeNum(arr); // 도감번호 화면에 반영
   const slotTime = Date.now();
-  allowMusic(dogamgetMusic, false);
 
   localStorage.setItem('lastSlot', slotTime.toString()); // 로컬스토리지에 저장
-  allowMusic(casinoMusic, true); // 배경음악 호출
-  return dogamNum;
+
+  return changeNum(arr);
 }
 
 /* ───────────── 슬롯 머신 실행함수 ───────────── */
@@ -261,13 +291,12 @@ async function slotMachine() {
     Number(clickBtnTime) - Number(entryLastSlot) > 24 * 60 * 60 * 1000
   ) {
     await slotMusicPlay(); // 버튼 음악 이후 오박사 목소리 재생
-    await yourPokemon(1400); // 2초동안 슬롯이 돌아가고, 도감 번호를 뽑는 함수
+    await yourPokemon(1200); // 2초동안 슬롯이 돌아가고, 도감 번호를 뽑는 함수
+    openGet();
   } else {
     await tomorryReturn();
     allowMusic(casinoMusic, true); // 배경음악 호출
   }
-
-  dogamgetMusic.currentTime = 0;
 }
 /* ───────────── 다시오려무나 팝업창 ───────────── */
 async function tomorryReturn() {
@@ -276,9 +305,23 @@ async function tomorryReturn() {
     resolve();
   });
 }
-/* ─────────────
-  ▼ canClick 플래그 (로컬스토리지 사용 예정)
-  - true: 오늘 뽑기 가능
-  - false: 오늘 이미 뽑기 완료
-  - 현재는 기본값 true 로 예상
-──────────────────────────── */
+/* ───────────── 포켓몬 get 화면 띄우기 ───────────── */
+async function openGet() {
+  await delay(1000);
+  if (pokeGetModal !== null) {
+    await pokeGetModal.classList.remove('d-none');
+    void pokeGetModal.offsetWidth;
+    await pokeGetModal.classList.add('active');
+  }
+
+  allowMusic(dogamgetMusic, false);
+}
+/* ───────────── 포켓몬 get 화면 닫기버튼 ───────────── */
+function closeGet() {
+  cardGetBtn?.addEventListener('click', () => {
+    pokeGetModal?.classList.add('d-none');
+    pokeGetModal?.classList.remove('active');
+    allowMusic(casinoMusic, true); // 배경음악 호출
+  });
+}
+closeGet();

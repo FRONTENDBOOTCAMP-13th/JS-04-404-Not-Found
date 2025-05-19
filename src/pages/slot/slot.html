@@ -26,13 +26,27 @@
           <span class="sr-only"></span>
         </button>
         <!-- ED : 뒤로가기, 음소거 버튼-->
-        <div class="pokeGet d-none">
-          <img
-            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/79.gif"
-            alt=""
-          />
-          <button type="menu">확인</button>
+        <!-- ST : 카드 획득 화면-->
+        <div class="poke-get" id="pokeGet">
+          <div class="card-wrapper">
+            <img
+              class="pokeCard card-ab"
+              src="../../assets/slot/ex-card.png"
+              alt=""
+            />
+            <img
+              id="starBack"
+              class="star-back card-ab"
+              src="../../assets/slot/star1.png"
+              alt=""
+            />
+            <p class="pokeName card-ab">야돈</p>
+            <button id="cardGetBtn" class="card-ab get-btn" type="menu">
+              <span>획득하기</span>
+            </button>
+          </div>
         </div>
+        <!-- ED : 카드 획득 화면-->
         <!-- ST : 슬롯버튼-->
         <button class="slot-btn" id="slotBtn">
           <img
