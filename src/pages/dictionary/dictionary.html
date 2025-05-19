@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/src/style.css" />
     <link rel="stylesheet" href="/src/pages/dictionary/dictionary.css" />
 
     <title>포켓몬 도감</title>
@@ -13,9 +12,6 @@
       <div class="inner-980">
         <div class="pokedex">
           <div class="pokedex-header">
-            <div class="light">
-              <img src="/src/assets/dictionary/poke_light.png" alt="/" />
-            </div>
             <div class="logo">
               <img
                 src="/src/assets/dictionary/포켓몬로고.png"
@@ -33,7 +29,8 @@
           <div class="search-bar">
             <input
               type="text"
-              placeholder="포켓몬 이름, 특성 등을 검색하세요"
+              placeholder="포켓몬 이름, 번호 등을 검색하세요"
+              id="search-input"
             />
             <button class="search-btn">🔍</button>
             <select id="view-filter">
