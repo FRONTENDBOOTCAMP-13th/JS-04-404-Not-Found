@@ -1,3 +1,5 @@
+import './common/total-time.ts'; // 누적 플레이 타임
+
 import Swiper from 'swiper';
 import { Navigation, Autoplay } from 'swiper/modules';
 import { allowMusic } from '../src/common/music.ts';
@@ -16,7 +18,7 @@ const introNoti = document.querySelector('.music-noti') as HTMLElement;
 const musicOk = document.querySelector('.music-ok') as HTMLElement;
 const musicCancle = document.querySelector('.music-cancle') as HTMLElement;
 
-// intro-slide
+// ST :intro-slide
 const introSwiper = new Swiper('.intro-slide', {
   modules: [Navigation, Autoplay],
   loop: true, // 무한 루프
@@ -31,7 +33,9 @@ const introSwiper = new Swiper('.intro-slide', {
   },
 });
 introSwiper.autoplay.stop();
+// ED :intro-slide
 
+// ST : System mesage 클릭 이벤트
 musicOk?.addEventListener('click', () => {
   if (introNoti) {
     introNoti.style.opacity = '0';
@@ -56,3 +60,4 @@ musicCancle?.addEventListener('click', () => {
   allowMusic(introMusic, false);
   introSwiper.autoplay.start();
 });
+// ED : System mesage 클릭 이벤트

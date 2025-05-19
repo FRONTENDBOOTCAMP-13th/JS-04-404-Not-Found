@@ -1,3 +1,4 @@
+
 // music.ts 파일에서 함수 가져오기
 import { allowMusic } from '../../common/music.ts';
 

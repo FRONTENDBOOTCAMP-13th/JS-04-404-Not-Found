@@ -12,11 +12,32 @@
     <link rel="stylesheet" href="/src/style.css" />
     <link rel="stylesheet" href="./slot.css" />
     <script type="module" src="./slot.ts"></script>
+
     <title>Slot</title>
   </head>
   <body>
     <div class="wrapper">
       <div class="inner-980 slot">
+        <!-- ST : 뒤로가기, 음소거 버튼-->
+        <button type="button" class="back-btn">
+          <span class="sr-only">뒤로가기</span>
+        </button>
+        <button type="button" class="toggle-sound">
+          <span class="sr-only"></span>
+        </button>
+        <!-- ED : 뒤로가기, 음소거 버튼-->
+        <!-- ST : 카드 획득 화면-->
+        <div class="poke-get" id="pokeGet">
+          <div class="card-wrapper">
+            <img id="pokeCard" class="poke-card card-ab" src="" alt="" />
+            <img id="starBack" class="star-back card-ab" src="" alt="" />
+            <p id="pokeName" class="poke-name card-ab"></p>
+            <button id="cardGetBtn" class="card-ab get-btn" type="menu">
+              <span>획득하기</span>
+            </button>
+          </div>
+        </div>
+        <!-- ED : 카드 획득 화면-->
         <!-- ST : 슬롯버튼-->
         <button class="slot-btn" id="slotBtn">
           <img
