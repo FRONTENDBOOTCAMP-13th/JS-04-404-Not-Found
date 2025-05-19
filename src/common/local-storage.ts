@@ -10,11 +10,14 @@ export const userName: string | null = localStorage.getItem('userName');
 
 // musicPlay : localStorage의 musicPlay 값
 /*
-첫 System message 또는 음소거 버튼을 통해 set 되는 값
+로컬 스토리지에 저장되어있는 음소거/재생 값.
 true 일 경우 모든 페이지 배경음악 및 효과음 ON
 false 일 경우 모든 페ㅐ이지 배경음악 및 효과음 OFF
 */
-export const musicPlay: string | null = localStorage.getItem('musicPlay');
+// export const musicPlay: string | null = localStorage.getItem('musicPlay');
+export function musicPlay(): string | null {
+  return localStorage.getItem('musicPlay');
+}
 
 // myPokemon : 내가 획득한 포켓몬의 도감번호 배열
 /*
