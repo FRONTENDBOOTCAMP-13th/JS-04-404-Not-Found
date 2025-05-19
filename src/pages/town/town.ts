@@ -1,8 +1,15 @@
 import '../../common/total-time.ts'; // 누적 플레이 타임
 import { toggleSound } from '../../common/toggle-sound.ts'; // 음악 켜기 / 끄기 기능
-import { musicPlay } from '../../common/local-storage.ts'; // 현재 로컬스토리지의 음소거 상태
+import {
+  musicPlay,
+  userName,
+  myPokemon,
+  playTime,
+} from '../../common/local-storage.ts'; // 현재 로컬스토리지의 음소거 상태
 import { allowMusic } from '../../common/music.ts';
 import townMusicSrc from '/src/assets/music/town-music.mp3';
+import soundOn from '/src/assets/common/sound-on.png'; // sound-on 이미지
+import soundOff from '/src/assets/common/sound-off.png'; // sound-off 이미지
 
 // town-music 오디오 객체 생성 및 음악 재생
 const townMusic = new Audio(townMusicSrc);
@@ -21,6 +28,9 @@ const userInfoModalCloseBtn = document.querySelector('#userInfoModalCloseBtn'); 
 // 모달창 열기함수
 function openModal(modal: Element) {
   modal.classList.remove('d-none');
+  if (modal === userInfoModal) {
+    updatePlayTimeText();
+  }
 }
 
 // 모달창 닫기 함수
@@ -71,10 +81,10 @@ const toggleSoundText = document.querySelector(
 
 // 버튼 및 span의 텍스트 초기화
 if (musicPlay() === 'true') {
-  toggleSoundBtn.style.backgroundImage = `url('/src/assets/common/sound-on.png')`;
+  toggleSoundBtn.style.backgroundImage = `url(${soundOn})`;
   toggleSoundText.innerHTML = '전체 소리 끄기 버튼';
 } else {
-  toggleSoundBtn.style.backgroundImage = `url('/src/assets/common/sound-off.png')`;
+  toggleSoundBtn.style.backgroundImage = `url(${soundOff})`;
   toggleSoundText.innerHTML = '전체 소리 켜기 버튼';
 }
 
@@ -88,10 +98,10 @@ toggleSoundBtn.addEventListener('click', () => {
   const soundState: string | null = musicPlay();
   toggleSound(townMusic);
   if (soundState === 'true') {
-    toggleSoundBtn.style.backgroundImage = `url('/src/assets/common/sound-off.png')`;
+    toggleSoundBtn.style.backgroundImage = `url(${soundOff})`;
     toggleSoundText.innerHTML = '전체 소리 켜기 버튼';
   } else {
-    toggleSoundBtn.style.backgroundImage = `url('/src/assets/common/sound-on.png')`;
+    toggleSoundBtn.style.backgroundImage = `url(${soundOn})`;
     toggleSoundText.innerHTML = '전체 소리 끄기 버튼';
   }
 });
@@ -126,3 +136,22 @@ window.addEventListener('resize', topBtnHover);
 topBtnHover();
 
 // ED : 뒤로가기, 음소거 버튼 ------------------
+
+// ST : user-info-text 영역 ------------------
+
+const userNameText = document.querySelector('.user-name') as HTMLElement;
+const allPokemonText = document.querySelector('.all-pokemons') as HTMLElement;
+const playTimeText = document.querySelector('.play-time') as HTMLElement;
+
+function updatePlayTimeText() {
+  const allSeconds: number = playTime();
+  const minutes = Math.floor(allSeconds / 60);
+  const seconds = allSeconds % 60;
+  playTimeText.innerHTML = `${minutes}분 ${seconds}초`;
+}
+
+userNameText.innerHTML = JSON.parse(userName() as string);
+allPokemonText.innerHTML = myPokemon.length.toString();
+updatePlayTimeText();
+
+// ED : user-info-text 영역 ------------------

@@ -37,6 +37,12 @@ export const myPokemon: number[] = JSON.parse(
 /*
 초 단위로 저장된 값을 반환
 */
-export function playTime(): string | null {
-  return localStorage.getItem('playTime');
+export function playTime(): number {
+  return Number(localStorage.getItem('playTime'));
 }
+
+// 1초마다 playTime 값을 증가시키는 함수
+setInterval(() => {
+  const current = Number(localStorage.getItem('playTime')) || 0;
+  localStorage.setItem('playTime', String(current + 1));
+}, 1000);
