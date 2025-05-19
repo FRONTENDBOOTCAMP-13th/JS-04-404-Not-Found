@@ -1,13 +1,25 @@
 // three-scene.ts
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { MeshStandardMaterial } from 'three';
+
+// CustomEvent 타입 정의 추가
+interface ThreeSceneEventDetail {
+  forceReinit: boolean;
+  timestamp: number;
+}
+
+// 애니메이션 인터페이스 정의
+interface ModelAnimations {
+  idle?: THREE.AnimationAction;
+  open?: THREE.AnimationAction;
+}
 
 let monsterBallScene: MonsterBallScene | null = null;
 
 /// 씬 초기화 함수
-function initScene() {
+function initScene(): void {
   // 이미 초기화된 경우 리셋
   if (monsterBallScene) {
     monsterBallScene.dispose();
@@ -45,7 +57,7 @@ window.addEventListener('initThreeScene', (event: Event) => {
   console.log('initThreeScene 이벤트 감지');
 
   // CustomEvent의 detail 속성 사용을 위한 타입 캐스팅
-  const customEvent = event as CustomEvent;
+  const customEvent = event as CustomEvent<ThreeSceneEventDetail>;
   const forceReinit = customEvent.detail?.forceReinit || false;
 
   // 강제 초기화 모드
@@ -90,13 +102,10 @@ class MonsterBallScene {
   private model: THREE.Group | null = null;
   private isOpen: boolean = false;
   private isAnimating: boolean = false;
-  private animations: {
-    idle?: THREE.AnimationAction;
-    open?: THREE.AnimationAction;
-  } = {};
+  private animations: ModelAnimations = {};
 
   // 상단 부분 식별을 위한 임계값
-  private topThreshold: number = 0;
+  // private topThreshold: number = 0;
 
   // 상단 파트와 피벗 그룹 저장
   private topPart: THREE.Object3D | null = null;
@@ -213,7 +222,7 @@ class MonsterBallScene {
     // 모델 로드
     loader.load(
       '/models/gacha/scene.gltf', // public 폴더 내의 경로로 변경 필요
-      gltf => {
+      (gltf: GLTF) => {
         this.model = gltf.scene;
         this.scene.add(this.model);
 
@@ -246,7 +255,9 @@ class MonsterBallScene {
         // 모델이 화면 크기에 맞게 자동 조정되도록 설정
         this.fitModelToContainer();
       },
-      error => {
+      undefined,
+      // 수정 후:
+      (error: unknown) => {
         console.error('모델 로드 오류:', error);
       },
     );
@@ -396,10 +407,10 @@ class MonsterBallScene {
   //   }
   // }
 
-  private setupAnimations(gltf: any): void {
+  private setupAnimations(gltf: GLTF): void {
     // GLTF에 포함된 애니메이션이 있는 경우 (만약 모델에 애니메이션이 있다면)
-    if (gltf.animations && gltf.animations.length > 0) {
-      this.mixer = new THREE.AnimationMixer(this.model!);
+    if (gltf.animations && gltf.animations.length > 0 && this.model) {
+      this.mixer = new THREE.AnimationMixer(this.model);
 
       // 애니메이션 클립 매핑
       gltf.animations.forEach((clip: THREE.AnimationClip) => {
@@ -407,9 +418,13 @@ class MonsterBallScene {
           clip.name.toLowerCase().includes('idle') ||
           clip.name.toLowerCase().includes('shake')
         ) {
-          this.animations.idle = this.mixer!.clipAction(clip);
+          if (this.mixer) {
+            this.animations.idle = this.mixer.clipAction(clip);
+          }
         } else if (clip.name.toLowerCase().includes('open')) {
-          this.animations.open = this.mixer!.clipAction(clip);
+          if (this.mixer) {
+            this.animations.open = this.mixer.clipAction(clip);
+          }
         }
       });
 
@@ -437,11 +452,16 @@ class MonsterBallScene {
 
     // 단일 트랙을 포함한 애니메이션 클립 생성 (Y축만)
     const idleClip = new THREE.AnimationClip('idle', 2, [idleTrackY]);
-    this.animations.idle = this.mixer.clipAction(idleClip);
-    this.animations.idle.setLoop(THREE.LoopRepeat, Infinity);
+
+    if (this.mixer) {
+      this.animations.idle = this.mixer.clipAction(idleClip);
+      if (this.animations.idle) {
+        this.animations.idle.setLoop(THREE.LoopRepeat, Infinity);
+      }
+    }
 
     // 상단 파트가 있는 경우 열림 애니메이션 생성
-    if (this.topPart) {
+    if (this.topPart && this.topPartOriginalPosition) {
       console.log('상단 파트에 대한 복합 애니메이션 생성');
 
       // 상단 파트의 x축 회전 트랙 (뒤로 젖히기)
@@ -455,20 +475,14 @@ class MonsterBallScene {
       const positionTrack = new THREE.NumberKeyframeTrack(
         `${this.topPart.name}.position[y]`, // 로컬 위치
         [0, 0.5], // 키프레임 시간
-        [
-          this.topPartOriginalPosition?.y || 0,
-          (this.topPartOriginalPosition?.y || 0) + 1.3,
-        ], // 위로 이동
+        [this.topPartOriginalPosition.y, this.topPartOriginalPosition.y + 1.3], // 위로 이동
       );
 
       // 상단 파트의 z축 위치 이동 트랙 (앞으로 이동하기) - 추가됨
       const positionTrackZ = new THREE.NumberKeyframeTrack(
         `${this.topPart.name}.position[z]`, // 로컬 위치의 z축
         [0, 0.5], // 키프레임 시간
-        [
-          this.topPartOriginalPosition?.z || 0,
-          (this.topPartOriginalPosition?.z || 0) + 1.0,
-        ], // 앞으로 1.0 단위 이동
+        [this.topPartOriginalPosition.z, this.topPartOriginalPosition.z + 1.0], // 앞으로 1.0 단위 이동
       );
 
       // 여러 트랙을 포함한 애니메이션 클립 생성 (z축 트랙 추가)
@@ -477,9 +491,14 @@ class MonsterBallScene {
         positionTrack,
         positionTrackZ,
       ]);
-      this.animations.open = this.mixer.clipAction(openClip);
-      this.animations.open.setLoop(THREE.LoopOnce, 1);
-      this.animations.open.clampWhenFinished = true;
+
+      if (this.mixer) {
+        this.animations.open = this.mixer.clipAction(openClip);
+        if (this.animations.open) {
+          this.animations.open.setLoop(THREE.LoopOnce, 1);
+          this.animations.open.clampWhenFinished = true;
+        }
+      }
     }
   }
 
@@ -515,7 +534,7 @@ class MonsterBallScene {
 
     this.isAnimating = true;
 
-    // 배경음악 중지 // 주석: 배경음악 중지 코드 추가
+    // 배경음악 중지
     if (this.bgmAudio) {
       this.bgmAudio.pause();
       this.bgmAudio.currentTime = 0;
@@ -578,15 +597,18 @@ class MonsterBallScene {
       // 이징 함수 적용 (부드러운 애니메이션)
       const easeProgress = 1 - Math.pow(1 - progress, 3); // cubic ease-out
 
-      // 상단 파트의 회전 애니메이션
-      this.topPart!.rotation.x =
-        startRotation + (targetRotation - startRotation) * easeProgress;
+      if (this.topPart) {
+        // 추가: null 체크
+        // 상단 파트의 회전 애니메이션
+        this.topPart.rotation.x =
+          startRotation + (targetRotation - startRotation) * easeProgress;
 
-      // 상단 파트의 위치 이동 애니메이션 (y축 및 z축)
-      this.topPart!.position.y =
-        startPosition.y + (targetPosition.y - startPosition.y) * easeProgress;
-      this.topPart!.position.z =
-        startPosition.z + (targetPosition.z - startPosition.z) * easeProgress; // z축 이동 추가
+        // 상단 파트의 위치 이동 애니메이션 (y축 및 z축)
+        this.topPart.position.y =
+          startPosition.y + (targetPosition.y - startPosition.y) * easeProgress;
+        this.topPart.position.z =
+          startPosition.z + (targetPosition.z - startPosition.z) * easeProgress; // z축 이동 추가
+      }
 
       if (progress < 1) {
         requestAnimationFrame(animate);
@@ -669,26 +691,27 @@ class MonsterBallScene {
     }
 
     // 배경음악 객체 생성 및 설정
-    // 기존 재생 중인 오디오 검사 추가 // 주석: 기존 재생 중인 오디오 검사 추가
     const existingAudio = document.querySelector(
       '[data-bgm="three-bg"]',
-    ) as HTMLAudioElement;
+    ) as HTMLAudioElement | null;
 
     if (existingAudio) {
       console.log('기존 재생 중인 Three.js 배경음악 발견, 재사용');
       this.bgmAudio = existingAudio;
     } else {
       this.bgmAudio = new Audio('/src/assets/music/three-bg.mp3');
-      this.bgmAudio.volume = 0.3;
-      this.bgmAudio.loop = true;
-      this.bgmAudio.preload = 'auto';
-      // 식별을 위한 데이터 속성 추가 // 주석: 식별용 데이터 속성 추가
-      this.bgmAudio.setAttribute('data-bgm', 'three-bg');
+      if (this.bgmAudio) {
+        this.bgmAudio.volume = 0.3;
+        this.bgmAudio.loop = true;
+        this.bgmAudio.preload = 'auto';
+        // 식별을 위한 데이터 속성 추가
+        this.bgmAudio.setAttribute('data-bgm', 'three-bg');
 
-      // 숨겨진 오디오 컨테이너에 추가하여 문서에서 관리 // 주석: 문서에 오디오 요소 추가
-      const audioContainer =
-        document.querySelector('.audio-container') || document.body;
-      audioContainer.appendChild(this.bgmAudio);
+        // 숨겨진 오디오 컨테이너에 추가하여 문서에서 관리
+        const audioContainer =
+          document.querySelector('.audio-container') || document.body;
+        audioContainer.appendChild(this.bgmAudio);
+      }
     }
 
     // 재생 시점 관리 개선
@@ -697,12 +720,14 @@ class MonsterBallScene {
       document.getElementById('three-scene') !== null ||
       document.querySelector('.three-test') !== null;
 
-    // 현재 표시 상태 확인 (display != none) // 주석: 표시 상태 확인 로직 추가
+    const threeScene = document.getElementById('three-scene');
+    const threeTest = document.querySelector('.three-test');
+    // 현재 표시 상태 확인 (display != none)
     const isVisible =
       threeSceneActive &&
-      (document.getElementById('three-scene')?.offsetParent !== null ||
-        (document.querySelector('.three-test') as HTMLElement)?.offsetParent !==
-          null);
+      ((threeScene instanceof HTMLElement &&
+        threeScene.offsetParent !== null) ||
+        (threeTest instanceof HTMLElement && threeTest.offsetParent !== null));
 
     // 가챠 페이지에서 오는지 확인
     const fromGachaEvent = sessionStorage.getItem('fromGachaEvent') === 'true';
@@ -710,11 +735,16 @@ class MonsterBallScene {
     if (isVisible) {
       console.log('Three.js 페이지 활성화 상태 감지, 배경음악 준비');
 
-      // 다른 배경음악 중지 (가챠 BGM 등) // 주석: 다른 배경음악 중지 로직 추가
-      document.querySelectorAll('audio').forEach(el => {
-        const audio = el as HTMLAudioElement;
-        audio.play(); // 예시
-      });
+      // 다른 배경음악 중지 (가챠 BGM 등)
+      document
+        .querySelectorAll('audio:not([data-bgm="three-bg"])')
+        .forEach(element => {
+          const audio = element as HTMLAudioElement;
+          if (!audio.paused) {
+            console.log('다른 배경음악 중지:', audio.src);
+            audio.pause();
+          }
+        });
 
       // 배경음악이 재생 중이 아닌 경우에만 재생 시도
       if (this.bgmAudio && this.bgmAudio.paused) {
@@ -755,7 +785,7 @@ class MonsterBallScene {
           console.warn('배경음악 자동 재생 실패:', error);
 
           // 상호작용이 있었거나 집게 이벤트 후라면 다시 시도
-          if (hadUserInteraction) {
+          if (hadUserInteraction && this.bgmAudio) {
             console.log('사용자 상호작용 이후, 배경음악 다시 시도');
             setTimeout(() => {
               this.bgmAudio?.play().catch(e => {
@@ -835,7 +865,7 @@ class MonsterBallScene {
       this.audio = null;
     }
 
-    // 배경음악은 일시 정지만 하고 문서에서 제거하지 않음 // 주석: 배경음악 정리 수정
+    // 배경음악은 일시 정지만 하고 문서에서 제거하지 않음
     if (this.bgmAudio) {
       this.bgmAudio.pause();
       // DOM에서 제거하지 않고 참조만 해제
@@ -854,17 +884,15 @@ class MonsterBallScene {
           if (mesh.material) {
             if (Array.isArray(mesh.material)) {
               mesh.material.forEach(material => {
-                if (material instanceof MeshStandardMaterial && material.map) {
-                  material.map.dispose();
-                }
+                // 타입 캐스팅으로 MeshBasicMaterial 또는 다른 적절한 타입으로 변환
+                const mat = material as THREE.MeshBasicMaterial;
+                if (mat.map) mat.map.dispose();
+                material.dispose();
               });
             } else {
-              if (
-                mesh.material instanceof MeshStandardMaterial &&
-                mesh.material.map
-              ) {
-                mesh.material.map.dispose();
-              }
+              const mat = mesh.material as THREE.MeshBasicMaterial;
+              if (mat.map) mat.map.dispose();
+              mesh.material.dispose();
             }
           }
         }
@@ -885,7 +913,4 @@ class MonsterBallScene {
   }
 }
 
-// 초기화 코드 - DOMContentLoaded 이벤트에 연결
-// document.addEventListener('DOMContentLoaded', () => {
-//   const monsterBallScene = new MonsterBallScene('three-scene');
-// });
+// 초기화 코드는 중복 발생 방지를 위해 삭제 - DOMContentLoaded 이벤트는 이미 등록됨
