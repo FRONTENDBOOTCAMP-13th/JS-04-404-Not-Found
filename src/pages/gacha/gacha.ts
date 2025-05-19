@@ -119,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Three.js 객체를 명시적으로 파괴하기 위한 이벤트 발생
         const event = new CustomEvent('destroyThreeScene');
         window.dispatchEvent(event);
+        
       }
 
       // 0.5초 후에 배경음악 다시 시작
