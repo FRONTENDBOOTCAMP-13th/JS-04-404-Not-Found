@@ -395,7 +395,6 @@ async function cardImg(dogamNum: number): Promise<string> {
   const data = await res.json();
   const cardVersion = data.data;
 
-  // ✨ 레어도 우선순위: holofoil > normal > 아무거나
   const rareCard = cardVersion.find(
     (card: {
       cardmarket?: object;
@@ -403,11 +402,11 @@ async function cardImg(dogamNum: number): Promise<string> {
       set: { name: string };
       rarities?: string[];
       rarity?: string;
-    }) => card.rarity && card.rarity.toLowerCase().includes('ultra'),
+    }) => card.rarity && card.rarity.toLowerCase().includes('rainbow'),
   );
 
-  const chosenCard = rareCard || cardVersion[cardVersion.length - 1];
-  const cardUrl = chosenCard.images.large;
+  const chooseCard = rareCard || cardVersion[cardVersion.length - 1];
+  const cardUrl = chooseCard.images.large;
 
   await preloadImage(cardUrl);
 
@@ -415,7 +414,6 @@ async function cardImg(dogamNum: number): Promise<string> {
     pokeCard.src = cardUrl;
   }
 
-  console.log('💎 chosen:', chosenCard);
   return cardUrl;
 }
 
