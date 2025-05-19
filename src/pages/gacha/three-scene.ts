@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { MeshStandardMaterial } from 'three';
 
 let monsterBallScene: MonsterBallScene | null = null;
 
@@ -99,7 +100,7 @@ class MonsterBallScene {
 
   // 상단 파트와 피벗 그룹 저장
   private topPart: THREE.Object3D | null = null;
-  private pivotGroup: THREE.Group | null = null;
+  // private pivotGroup: THREE.Group | null = null;
 
   // 상단 파트의 원래 위치 저장 (애니메이션 후 복원용)
   private topPartOriginalPosition: THREE.Vector3 | null = null;
@@ -319,81 +320,81 @@ class MonsterBallScene {
   }
 
   // 모델 내 모든 오브젝트 이름 출력 (디버깅용)
-  private logModelStructure(): void {
-    if (!this.model) return;
+  // private logModelStructure(): void {
+  //   if (!this.model) return;
 
-    console.log('모델 구조:');
+  //   console.log('모델 구조:');
 
-    // 모델의 경계 상자 계산
-    const boundingBox = new THREE.Box3().setFromObject(this.model);
-    const center = boundingBox.getCenter(new THREE.Vector3());
-    const size = boundingBox.getSize(new THREE.Vector3());
+  //   // 모델의 경계 상자 계산
+  //   const boundingBox = new THREE.Box3().setFromObject(this.model);
+  //   const center = boundingBox.getCenter(new THREE.Vector3());
+  //   const size = boundingBox.getSize(new THREE.Vector3());
 
-    console.log('모델 중심점:', center);
-    console.log('모델 크기:', size);
+  //   console.log('모델 중심점:', center);
+  //   console.log('모델 크기:', size);
 
-    // 상단/하단 구분을 위한 y 좌표 임계값
-    this.topThreshold = center.y + size.y / 4;
-    console.log('상단 구분 임계값:', this.topThreshold);
+  //   // 상단/하단 구분을 위한 y 좌표 임계값
+  //   this.topThreshold = center.y + size.y / 4;
+  //   console.log('상단 구분 임계값:', this.topThreshold);
 
-    // 모든 메시 객체 로깅 - 부모-자식 관계와 경로 정보 추가
-    const logObject = (node: THREE.Object3D, depth = 0, path = '') => {
-      const indent = '  '.repeat(depth);
-      const newPath = path ? `${path}.${node.name}` : node.name;
+  //   // 모든 메시 객체 로깅 - 부모-자식 관계와 경로 정보 추가
+  //   const logObject = (node: THREE.Object3D, depth = 0, path = '') => {
+  //     const indent = '  '.repeat(depth);
+  //     const newPath = path ? `${path}.${node.name}` : node.name;
 
-      // 메시인 경우 추가 정보 기록
-      if ((node as THREE.Mesh).isMesh) {
-        const meshBoundingBox = new THREE.Box3().setFromObject(node);
-        const meshCenter = meshBoundingBox.getCenter(new THREE.Vector3());
-        const meshSize = meshBoundingBox.getSize(new THREE.Vector3());
+  //     // 메시인 경우 추가 정보 기록
+  //     if ((node as THREE.Mesh).isMesh) {
+  //       const meshBoundingBox = new THREE.Box3().setFromObject(node);
+  //       const meshCenter = meshBoundingBox.getCenter(new THREE.Vector3());
+  //       const meshSize = meshBoundingBox.getSize(new THREE.Vector3());
 
-        console.log(`${indent}${node.name} (${node.type}) - 경로: ${newPath}`);
-        console.log(
-          `${indent}  위치: (${meshCenter.x.toFixed(2)}, ${meshCenter.y.toFixed(2)}, ${meshCenter.z.toFixed(2)})`,
-        );
-        console.log(
-          `${indent}  크기: (${meshSize.x.toFixed(2)}, ${meshSize.y.toFixed(2)}, ${meshSize.z.toFixed(2)})`,
-        );
-      } else {
-        console.log(`${indent}${node.name} (${node.type}) - 경로: ${newPath}`);
-      }
+  //       console.log(`${indent}${node.name} (${node.type}) - 경로: ${newPath}`);
+  //       console.log(
+  //         `${indent}  위치: (${meshCenter.x.toFixed(2)}, ${meshCenter.y.toFixed(2)}, ${meshCenter.z.toFixed(2)})`,
+  //       );
+  //       console.log(
+  //         `${indent}  크기: (${meshSize.x.toFixed(2)}, ${meshSize.y.toFixed(2)}, ${meshSize.z.toFixed(2)})`,
+  //       );
+  //     } else {
+  //       console.log(`${indent}${node.name} (${node.type}) - 경로: ${newPath}`);
+  //     }
 
-      // 자식 객체 순회
-      node.children.forEach(child => {
-        logObject(child, depth + 1, newPath);
-      });
-    };
+  //     // 자식 객체 순회
+  //     node.children.forEach(child => {
+  //       logObject(child, depth + 1, newPath);
+  //     });
+  //   };
 
-    // 모델의 모든 객체 로깅 (계층 구조 포함)
-    console.log('모델의 계층 구조:');
-    logObject(this.model);
+  //   // 모델의 모든 객체 로깅 (계층 구조 포함)
+  //   console.log('모델의 계층 구조:');
+  //   logObject(this.model);
 
-    // 모델 내 모든 메시 객체를 배열로 수집
-    const allMeshes: THREE.Mesh[] = [];
-    this.model.traverse(node => {
-      if ((node as THREE.Mesh).isMesh) {
-        allMeshes.push(node as THREE.Mesh);
-      }
-    });
+  //   // 모델 내 모든 메시 객체를 배열로 수집
+  //   const allMeshes: THREE.Mesh[] = [];
+  //   this.model.traverse(node => {
+  //     if ((node as THREE.Mesh).isMesh) {
+  //       allMeshes.push(node as THREE.Mesh);
+  //     }
+  //   });
 
-    // 메시 객체들을 y 좌표 기준으로 정렬 (내림차순)
-    allMeshes.sort((a, b) => {
-      const boxA = new THREE.Box3().setFromObject(a);
-      const boxB = new THREE.Box3().setFromObject(b);
-      const centerA = boxA.getCenter(new THREE.Vector3());
-      const centerB = boxB.getCenter(new THREE.Vector3());
-      return centerB.y - centerA.y;
-    });
+  //   // 메시 객체들을 y 좌표 기준으로 정렬 (내림차순)
+  //   allMeshes.sort((a, b) => {
+  //     const boxA = new THREE.Box3().setFromObject(a);
+  //     const boxB = new THREE.Box3().setFromObject(b);
+  //     const centerA = boxA.getCenter(new THREE.Vector3());
+  //     const centerB = boxB.getCenter(new THREE.Vector3());
+  //     return centerB.y - centerA.y;
+  //   });
 
-    // 상위 3개 메시 객체 출력
-    console.log('상단 후보 객체 (y좌표 기준):');
-    for (let i = 0; i < Math.min(3, allMeshes.length); i++) {
-      const mesh = allMeshes[i];
-      const box = new THREE.Box3().setFromObject(mesh);
-      const center = box.getCenter(new THREE.Vector3());
-      console.log(`${i + 1}. ${mesh.name} - y좌표: ${center.y.toFixed(4)}`);
-    }
-  }
+  //   // 상위 3개 메시 객체 출력
+  //   console.log('상단 후보 객체 (y좌표 기준):');
+  //   for (let i = 0; i < Math.min(3, allMeshes.length); i++) {
+  //     const mesh = allMeshes[i];
+  //     const box = new THREE.Box3().setFromObject(mesh);
+  //     const center = box.getCenter(new THREE.Vector3());
+  //     console.log(`${i + 1}. ${mesh.name} - y좌표: ${center.y.toFixed(4)}`);
+  //   }
+  // }
 
   private setupAnimations(gltf: any): void {
     // GLTF에 포함된 애니메이션이 있는 경우 (만약 모델에 애니메이션이 있다면)
@@ -700,7 +701,8 @@ class MonsterBallScene {
     const isVisible =
       threeSceneActive &&
       (document.getElementById('three-scene')?.offsetParent !== null ||
-        document.querySelector('.three-test')?.offsetParent !== null);
+        (document.querySelector('.three-test') as HTMLElement)?.offsetParent !==
+          null);
 
     // 가챠 페이지에서 오는지 확인
     const fromGachaEvent = sessionStorage.getItem('fromGachaEvent') === 'true';
@@ -709,14 +711,10 @@ class MonsterBallScene {
       console.log('Three.js 페이지 활성화 상태 감지, 배경음악 준비');
 
       // 다른 배경음악 중지 (가챠 BGM 등) // 주석: 다른 배경음악 중지 로직 추가
-      document
-        .querySelectorAll('audio:not([data-bgm="three-bg"])')
-        .forEach((audio: HTMLAudioElement) => {
-          if (!audio.paused) {
-            console.log('다른 배경음악 중지:', audio.src);
-            audio.pause();
-          }
-        });
+      document.querySelectorAll('audio').forEach(el => {
+        const audio = el as HTMLAudioElement;
+        audio.play(); // 예시
+      });
 
       // 배경음악이 재생 중이 아닌 경우에만 재생 시도
       if (this.bgmAudio && this.bgmAudio.paused) {
@@ -856,12 +854,17 @@ class MonsterBallScene {
           if (mesh.material) {
             if (Array.isArray(mesh.material)) {
               mesh.material.forEach(material => {
-                if (material.map) material.map.dispose();
-                material.dispose();
+                if (material instanceof MeshStandardMaterial && material.map) {
+                  material.map.dispose();
+                }
               });
             } else {
-              if (mesh.material.map) mesh.material.map.dispose();
-              mesh.material.dispose();
+              if (
+                mesh.material instanceof MeshStandardMaterial &&
+                mesh.material.map
+              ) {
+                mesh.material.map.dispose();
+              }
             }
           }
         }
@@ -883,6 +886,6 @@ class MonsterBallScene {
 }
 
 // 초기화 코드 - DOMContentLoaded 이벤트에 연결
-document.addEventListener('DOMContentLoaded', () => {
-  const monsterBallScene = new MonsterBallScene('three-scene');
-});
+// document.addEventListener('DOMContentLoaded', () => {
+//   const monsterBallScene = new MonsterBallScene('three-scene');
+// });
