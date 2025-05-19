@@ -2,7 +2,33 @@
 .slot {
   background-color: #000;
   position: relative;
+  overflow: hidden;
   /* ST : 슬롯 버튼 + 슬롯테두리이미지 + 슬롯 숫자 랩핑 */
+
+  /* ST: 뒤로가기, 음소거 버튼 */
+  .back-btn {
+    position: absolute;
+    top: 1%;
+    left: 1%;
+    width: 6%;
+    height: 6%;
+    background: url('../../assets/common/back-btn.png') no-repeat center;
+    background-size: cover;
+    opacity: 0.7;
+    z-index: 9999999;
+  }
+  .toggle-sound {
+    position: absolute;
+    top: 1%;
+    right: 1%;
+    width: 6%;
+    height: 6%;
+    background: url('../../assets/common/sound-on.png') no-repeat center;
+    background-size: cover;
+    opacity: 0.7;
+    z-index: 9999999;
+  }
+  /* ED: 뒤로가기, 음소거 버튼 */
 
   /* ST : 슬롯 버튼 */
   .slot-btn {
@@ -63,14 +89,62 @@
     color: var(--color-roulette-blue);
     background-color: var(--color-white);
   }
-  .pokeGet {
-    background-color: red;
+  .poke-get {
+    background-color: #000000b7;
     position: absolute;
     width: 100%;
     height: 100%;
     z-index: 999;
   }
-  .d-none {
-    display: none;
+  #pokeGet {
+    transition: all 0.5s ease-in-out;
+    opacity: 0;
+    pointer-events: none;
+  }
+  #pokeGet.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .card-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .card-ab {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+  }
+
+  .star-back {
+    top: 42%;
+    aspect-ratio: 694/815;
+    width: 70%;
+  }
+  .poke-card {
+    top: 46%;
+    z-index: 9999;
+    width: 30%;
+  }
+
+  .poke-name {
+    color: white;
+    top: 77.5%;
+    z-index: 9999;
+    font-size: min(
+      5vw,
+      5vh
+    ); /* 부모 사이즈 및 화면 사이즈 대비 폰트 사이즈 조절 */
+  }
+  .get-btn {
+    font-size: min(
+      3dvw,
+      3dvh
+    ); /* 부모 사이즈 및 화면 사이즈 대비 폰트 사이즈 조절 */
+    color: white;
+    background: var(--color-button-blue);
+    top: 90%;
+    padding: 8px 30px;
+    border: 6px double #000;
   }
 }

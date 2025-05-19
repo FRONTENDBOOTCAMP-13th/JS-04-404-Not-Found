@@ -1,6 +1,3 @@
-import '../../common/total-time.ts'; // 누적 플레이 타임
-import { addPokeNums } from '../../common/add-poke-nums';
-
 /*
 ──────────── 슬롯 머신 로직 ────────────
 
@@ -26,11 +23,21 @@ import { addPokeNums } from '../../common/add-poke-nums';
 */
 
 /* ───────────── 외부 함수 및 음원 import ───────────── */
+import '../../common/total-time.ts'; // 누적 플레이 타임
+import { addPokeNums } from '../../common/add-poke-nums';
+import { toggleSound } from '../../common/toggle-sound.ts'; // 음악 켜기 / 끄기 기능
+import { musicPlay } from '../../common/local-storage.ts'; // 현재 로컬스토리지의 음소거 상태
 import { allowMusic } from '../../common/music.ts'; // 효과음 함수
 import slotMusicMp3 from '/src/assets/music/slotmusic.mp3'; //오박사 목소리 배경음악
 import slotBtnMusicMp3 from '/src/assets/music/btnbgm2.mp3'; // 슬롯 버튼 배경음악
 import dogamgetMusicMp3 from '/src/assets/music/dogamget.mp3'; // 도감 포켓몬 뽑은뒤 배경음악
 import casinoMp3 from '/src/assets/music/casino.mp3'; // 카지노 배경음악
+import soundOn from '/src/assets/common/sound-on.png'; // sound-on 이미지
+import soundOff from '/src/assets/common/sound-off.png'; // sound-off 이미지
+import oneStar from '/src/assets/slot/star1.png';
+import twoStar from '/src/assets/slot/star2.png';
+import threeStar from '/src/assets/slot/star3.png';
+const apiKey = import.meta.env.VITE_POKEMONTCG_API_KEY; // 카드 api불러오기
 
 /* ───────────── 효과음 & 배경음악 초기화 ───────────── */
 const slotMusic = new Audio(slotMusicMp3); // 슬롯이 돌아갈때 효과음
@@ -42,13 +49,101 @@ const casinoMusic = new Audio(casinoMp3); // 전체배경 효과음
 casinoMusic.volume = 0.3; // 해당음원 Sound 볼륨 조절
 allowMusic(casinoMusic, true); // 배경음악 호출
 
+const pokeList: number[][] = [
+  [
+    1, 4, 7, 10, 13, 16, 19, 21, 23, 27, 29, 32, 35, 37, 39, 41, 43, 46, 48, 50,
+    52, 54, 56, 58, 60, 63, 66, 69, 72, 74, 77, 79, 81, 84, 86, 88, 90, 92, 96,
+    98, 100, 102, 104, 109, 114, 116, 118, 120, 129, 133, 140, 147,
+  ],
+  [
+    2, 5, 8, 11, 14, 17, 20, 24, 25, 28, 30, 33, 36, 40, 42, 44, 47, 49, 53, 55,
+    61, 64, 67, 70, 75, 80, 82, 83, 85, 87, 89, 93, 95, 99, 101, 103, 105, 106,
+    107, 108, 110, 111, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 134,
+    135, 136, 138, 141, 142, 148,
+  ],
+  [
+    3, 6, 9, 12, 15, 18, 22, 26, 31, 34, 38, 45, 51, 57, 59, 62, 65, 68, 71, 73,
+    76, 78, 91, 94, 97, 112, 113, 115, 130, 131, 132, 137, 139, 143, 149,
+  ],
+  [144, 145, 146, 150, 151, 777, 888],
+];
+
+// ST : 뒤로가기, 음소거 버튼 ------------------
+const backBtn = document.querySelector('.back-btn') as HTMLElement;
+const toggleSoundBtn = document.querySelector('.toggle-sound') as HTMLElement;
+const toggleSoundText = document.querySelector(
+  '.toggle-sound > span',
+) as HTMLElement;
+
+// 버튼 및 span의 텍스트 초기화
+if (musicPlay() === 'true') {
+  toggleSoundBtn.style.backgroundImage = `url(${soundOn})`;
+  toggleSoundText.innerHTML = '전체 소리 끄기 버튼';
+} else {
+  toggleSoundBtn.style.backgroundImage = `url(${soundOff})`;
+  toggleSoundText.innerHTML = '전체 소리 켜기 버튼';
+}
+
+// 뒤로가기
+backBtn.addEventListener('click', () => {
+  window.history.back();
+});
+
+// 음소거/재생
+toggleSoundBtn.addEventListener('click', () => {
+  const soundState: string | null = musicPlay();
+  toggleSound(casinoMusic);
+  if (soundState === 'true') {
+    toggleSoundBtn.style.backgroundImage = `url(${soundOff})`;
+    toggleSoundText.innerHTML = '전체 소리 켜기 버튼';
+  } else {
+    toggleSoundBtn.style.backgroundImage = `url(${soundOn})`;
+    toggleSoundText.innerHTML = '전체 소리 끄기 버튼';
+  }
+});
+
+// 640기준으로 뒤로가기, 음소거/재생 마우스 이벤트 등록/제거
+function topBtnHover() {
+  const winW: number = window.innerWidth;
+  if (winW > 640) {
+    backBtn.style.opacity = '0.7';
+    toggleSoundBtn.style.opacity = '0.7';
+    backBtn.addEventListener('mouseenter', () => {
+      backBtn.style.opacity = '1';
+    });
+    backBtn.addEventListener('mouseleave', () => {
+      backBtn.style.opacity = '0.7';
+    });
+    toggleSoundBtn.addEventListener('mouseenter', () => {
+      toggleSoundBtn.style.opacity = '1';
+    });
+    toggleSoundBtn.addEventListener('mouseleave', () => {
+      toggleSoundBtn.style.opacity = '0.7';
+    });
+  } else {
+    backBtn.style.opacity = '1';
+    toggleSoundBtn.style.opacity = '1';
+  }
+}
+
+// 리사이즈 이벤트로 브라우저 사이즈 달라질 때마다 이벤트동작
+window.addEventListener('resize', topBtnHover);
+// 초기 동작
+topBtnHover();
+// ED : 뒤로가기, 음소거 버튼 ------------------
+
 /* ───────────── DOM 엘리먼트 정의 ───────────── */
 const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn'); // 슬롯 머신 버튼
 const slotNum = document.querySelectorAll('.slot-num'); // 슬롯머신 숫자 모든 li
+const pokeGetModal = document.getElementById('pokeGet');
+const cardGetBtn = document.getElementById('cardGetBtn'); //카드 획득하기 버튼
+const starBack = document.querySelector('#starBack'); // 포켓몬 카드배경
+const pokeName = document.querySelector('#pokeName'); // 포켓몬 카드이름
+const pokeCard = document.querySelector('#pokeCard');
 
 /* ───────────── 로컬스토리지 정의 ───────────── */
-const musicPlay = localStorage.getItem('musicPlay');
-console.log(musicPlay);
+// const slotPlay = localStorage.getItem('musicPlay');
+// console.log(musicPlay);
 
 /* ───────────── 오박사 목소리 재생 함수 ───────────── */
 async function slotMusicPlay() {
@@ -141,7 +236,7 @@ async function ranNumAni() {
 
 /* ───────────── 슬롯 숫자 롤링 반복 함수 ───────────── */
 async function ranNumRepeat(num1: number) {
-  if (musicPlay === 'true') {
+  if (musicPlay() === 'true') {
     await delay(5000); // 오박사가 "피~ 피카츄~" 할 때 까지 딜레이
   }
   for (let i = 5; i <= num1; i += 5) {
@@ -151,37 +246,45 @@ async function ranNumRepeat(num1: number) {
 
 /* ───────────── 도감 번호 랜덤 추출기 ───────────── */
 async function dogamNumMake() {
-  const dogamArr = [];
+  const dogamArr: number[] = [];
+  for (let i = 1; i <= 4; i++) {
+    pokeList[0].forEach(a => {
+      dogamArr.push(a);
+    });
+  }
   for (let i = 1; i <= 3; i++) {
-    for (let k = 1; k <= 143; k++) {
-      dogamArr.push(k);
-    }
-    for (let k = 147; k <= 149; k++) {
-      dogamArr.push(k);
-    }
+    pokeList[1].forEach(a => {
+      dogamArr.push(a);
+    });
+  }
+  for (let i = 1; i <= 2; i++) {
+    pokeList[2].forEach(a => {
+      dogamArr.push(a);
+    });
   }
 
-  dogamArr.push(144, 145, 146, 777, 888); //특별번호 추가
+  pokeList[3].forEach(a => {
+    dogamArr.push(a);
+  });
 
   const dogamNum = dogamArr[Math.floor(Math.random() * dogamArr.length)];
   addPokeNums(dogamNum); // 도감 번호 추가
   return dogamNum;
 }
-
 /* ───────────── 최종 도감 번호 슬롯 반영 함수 ───────────── */
 async function yourPokemon(num: number) {
   const dogamNum = await dogamNumMake();
+  const preLoadImg = cardImg(dogamNum);
   await ranNumRepeat(num);
   /*
   도감 번호를 문자화로 변경 -> 3자리 문자인데 빈공간에 0 삽입 -> 한글자씩 쪼개서 -> 문자로 변환하여 배열로 저장
    */
   const arr: number[] = String(dogamNum).padStart(3, '0').split('').map(Number);
-  changeNum(arr); // 도감번호 화면에 반영
-  const slotTime = Date.now();
-  allowMusic(dogamgetMusic, false);
 
+  const slotTime = Date.now();
   localStorage.setItem('lastSlot', slotTime.toString()); // 로컬스토리지에 저장
-  allowMusic(casinoMusic, true); // 배경음악 호출
+  changeNum(arr);
+  await preLoadImg;
   return dogamNum;
 }
 
@@ -195,13 +298,12 @@ async function slotMachine() {
     Number(clickBtnTime) - Number(entryLastSlot) > 24 * 60 * 60 * 1000
   ) {
     await slotMusicPlay(); // 버튼 음악 이후 오박사 목소리 재생
-    await yourPokemon(1400); // 2초동안 슬롯이 돌아가고, 도감 번호를 뽑는 함수
+    const dogamNum = await yourPokemon(1200); // 2초동안 슬롯이 돌아가고, 도감 번호를 뽑는 함수
+    openGet(dogamNum);
   } else {
     await tomorryReturn();
     allowMusic(casinoMusic, true); // 배경음악 호출
   }
-
-  dogamgetMusic.currentTime = 0;
 }
 /* ───────────── 다시오려무나 팝업창 ───────────── */
 async function tomorryReturn() {
@@ -210,9 +312,121 @@ async function tomorryReturn() {
     resolve();
   });
 }
-/* ─────────────
-  ▼ canClick 플래그 (로컬스토리지 사용 예정)
-  - true: 오늘 뽑기 가능
-  - false: 오늘 이미 뽑기 완료
-  - 현재는 기본값 true 로 예상
-──────────────────────────── */
+/* ───────────── 포켓몬 get 화면 띄우기 ───────────── */
+async function openGet(dogamNum: number) {
+  await Promise.all([changePoke(dogamNum), starBackChange(dogamNum)]);
+  if (pokeGetModal !== null) {
+    await pokeGetModal.classList.remove('d-none');
+    void pokeGetModal.offsetWidth;
+    await pokeGetModal.classList.add('active');
+  }
+  allowMusic(dogamgetMusic, false);
+}
+/* ───────────── 포켓몬 get 배경 별 셋팅하는 함수 ───────────── */
+async function starBackChange(dogamNum: number) {
+  if (starBack instanceof HTMLImageElement) {
+    if (pokeList[0].includes(dogamNum)) {
+      starBack.src = oneStar;
+    } else if (pokeList[1].includes(dogamNum)) {
+      starBack.src = twoStar;
+    } else if (
+      pokeList[2].includes(dogamNum) ||
+      pokeList[3].includes(dogamNum)
+    ) {
+      starBack.src = threeStar;
+    }
+  }
+}
+/* ───────────── 뽑은 포켓몬 한글이름 출력하기 ───────────── */
+async function changePoke(dogamNum: number) {
+  const thisName = await getPokeKorName(dogamNum);
+  if (pokeName !== null) {
+    pokeName.innerHTML = thisName;
+  }
+}
+/* ───────────── 뽑은 포켓몬 한글이름 불러오기 ───────────── */
+async function getPokeKorName(pokeNum: number) {
+  const pokeData = await fetch(
+    `https://pokeapi.co/api/v2/pokemon-species/${pokeNum}`,
+  );
+  const pokeDataObj = await pokeData.json();
+  const thisPokeName = pokeDataObj.names[2].name;
+  return thisPokeName;
+}
+
+/* ───────────── 포켓몬 get 화면 닫기버튼 ───────────── */
+function closeGet() {
+  cardGetBtn?.addEventListener('click', () => {
+    pokeGetModal?.classList.add('d-none');
+    pokeGetModal?.classList.remove('active');
+    allowMusic(casinoMusic, true); // 배경음악 호출
+  });
+}
+
+/* ───────────── 도감번호에 맞는 카드 추출하기 ───────────── */
+// async function cardImg(dogamNum: number): Promise<string> {
+//   const imgUrl = `https://api.pokemontcg.io/v2/cards?q=nationalPokedexNumbers:${dogamNum}`;
+//   const res = await fetch(imgUrl, {
+//     headers: {
+//       'X-Api-Key': apiKey,
+//     },
+//   });
+
+//   const data = await res.json();
+//   const cardVersion = data.data;
+//   const lastVersionIndex = data.data.length - 1;
+//   const cardUrl = cardVersion[lastVersionIndex].images.large;
+//   await preloadImage(cardUrl);
+
+//   if (pokeCard instanceof HTMLImageElement) {
+//     pokeCard.src = cardUrl;
+//   }
+//   console.log(data.data);
+//   return cardUrl;
+// }
+async function cardImg(dogamNum: number): Promise<string> {
+  const imgUrl = `https://api.pokemontcg.io/v2/cards?q=nationalPokedexNumbers:${dogamNum}`;
+  const res = await fetch(imgUrl, {
+    headers: {
+      'X-Api-Key': apiKey,
+    },
+  });
+
+  const data = await res.json();
+  const cardVersion = data.data;
+
+  // ✨ 레어도 우선순위: holofoil > normal > 아무거나
+  const rareCard = cardVersion.find(
+    (card: {
+      cardmarket?: object;
+      images: { large: string };
+      set: { name: string };
+      rarities?: string[];
+      rarity?: string;
+    }) => card.rarity && card.rarity.toLowerCase().includes('ultra'),
+  );
+
+  const chosenCard = rareCard || cardVersion[cardVersion.length - 1];
+  const cardUrl = chosenCard.images.large;
+
+  await preloadImage(cardUrl);
+
+  if (pokeCard instanceof HTMLImageElement) {
+    pokeCard.src = cardUrl;
+  }
+
+  console.log('💎 chosen:', chosenCard);
+  return cardUrl;
+}
+
+/* ───────────── 프리로드 함수 ───────────── */
+async function preloadImage(url: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(); // 이미지 로딩 완료
+    img.onerror = reject; // 에러나면 거절
+    img.src = url; // 다운로드 시작
+  });
+}
+
+closeGet();
