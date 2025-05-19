@@ -221,9 +221,9 @@ let isMobileView: boolean = window.innerWidth <= 640;
 // 동작 상태 추적 변수 (스페이스바 액션 중인지)
 let isGrabbing: boolean = false;
 // 동작 단계 추적 변수 (0: 시작 안함, 1: 내려가는 중, 2: 줄 최대 내려감, 3: 올라가는 중, 4: 완료)
-let grabStage: number = 0;
+// let grabStage: number = 0;
 // 동작 시작 시간 (리사이즈 시 동작 상태 유지에 사용)
-let grabStartTime: number = 0;
+// let grabStartTime: number = 0;
 
 // 키보드 눌림 상태 추적을 위한 객체
 const keyState: { [key: string]: boolean } = {
