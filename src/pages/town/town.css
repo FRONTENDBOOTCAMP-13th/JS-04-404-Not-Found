@@ -73,7 +73,7 @@
     align-items: center;
   }
   .user-info-text {
-    font-size: min(1.8vw, 1.8vh);
+    font-size: min(18px, 1.8vw, 1.8vh);
     line-height: 1.5;
   }
   .modal-close-btn {
@@ -87,20 +87,20 @@
     margin-bottom: 6%;
 
     img {
-      width: 20%;
+      width: 18%; /*20*/
     }
   }
   .user-info-text {
     flex-shrink: 1;
   }
   /* 뱃지 모음 li */
-  .batges {
+  .badges {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     flex-shrink: 1;
     gap: 8%;
     aspect-ratio: 1/1;
-    width: 46%;
+    width: 42%; /*46*/
     /* 뱃지 낱개 li */
     li {
       width: 100%;
@@ -117,7 +117,7 @@
   .d-none {
     display: none;
   }
-  .batge-gray {
+  .badge-gray {
     filter: brightness(10%);
   }
 }

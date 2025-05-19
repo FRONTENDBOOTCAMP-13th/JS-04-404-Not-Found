@@ -29,6 +29,7 @@ const userInfoModalCloseBtn = document.querySelector('#userInfoModalCloseBtn'); 
 function openModal(modal: Element) {
   modal.classList.remove('d-none');
   if (modal === userInfoModal) {
+    // 접속시간 text로 넣기
     updatePlayTimeText();
   }
 }
@@ -43,10 +44,12 @@ function openModalEvent(target: Element, modal: Element) {
   target.addEventListener('click', e => {
     e.preventDefault();
     openModal(modal);
+    updateUserInfo();
   });
   target.addEventListener('touchstart', e => {
     e.preventDefault();
     openModal(modal);
+    updateUserInfo();
   });
 }
 
@@ -139,19 +142,71 @@ topBtnHover();
 
 // ST : user-info-text 영역 ------------------
 
+const userTitleText = document.querySelector('.user-title') as HTMLElement;
 const userNameText = document.querySelector('.user-name') as HTMLElement;
 const allPokemonText = document.querySelector('.all-pokemons') as HTMLElement;
 const playTimeText = document.querySelector('.play-time') as HTMLElement;
+const badgeGray = document.querySelectorAll(
+  '.badge-gray',
+) as NodeListOf<HTMLElement>;
 
+// 배지
+const allGymLeaders = [
+  [74, 95],
+  [120, 121],
+  [25, 26, 100],
+  [45, 71, 114],
+  [89, 109, 110],
+  [49, 64, 65, 122],
+  [58, 59, 77, 78],
+  [31, 34, 51, 111, 112],
+];
+
+// myPokemon이 allGymeLeaders중에 포함하고
+for (let i = 0; i < allGymLeaders.length; i++) {
+  if (allGymLeaders[i].every(id => myPokemon().includes(id))) {
+    badgeGray[i].style.filter = 'brightness(100%)';
+  } else {
+    badgeGray[i].style.filter = 'brightness(10%)';
+  }
+}
+
+// 별칭
+if (myPokemon().length >= 151) {
+  userTitleText.innerHTML = '13기 사랑해요♥';
+} else if (myPokemon().length >= 145) {
+  userTitleText.innerHTML = '킹갓제네럴 레드';
+} else if (myPokemon().length >= 130) {
+  userTitleText.innerHTML = '마스터 트레이너';
+} else if (myPokemon().length >= 100) {
+  userTitleText.innerHTML = '엘리트 트레이너';
+} else if (myPokemon().length >= 70) {
+  userTitleText.innerHTML = '중급 트레이너';
+} else if (myPokemon().length >= 30) {
+  userTitleText.innerHTML = '초급 트레이너';
+} else if (myPokemon().length >= 5) {
+  userTitleText.innerHTML = '트레이너 스쿨 학생';
+} else {
+  userTitleText.innerHTML = '태초마을 지우';
+}
+
+// 접속시간
 function updatePlayTimeText() {
+  // 접속시간 갱신해서 넣기 위한 함수
   const allSeconds: number = playTime();
   const minutes = Math.floor(allSeconds / 60);
   const seconds = allSeconds % 60;
   playTimeText.innerHTML = `${minutes}분 ${seconds}초`;
 }
 
-userNameText.innerHTML = JSON.parse(userName() as string);
-allPokemonText.innerHTML = myPokemon.length.toString();
 updatePlayTimeText();
 
+// 갱신 함수
+function updateUserInfo() {
+  userNameText.innerHTML = JSON.parse(userName() as string); // 유저 이름 텍스트
+  allPokemonText.innerHTML = JSON.parse(
+    localStorage.getItem('myPokemon') || '[]',
+  ).length.toString(); // 도감(잡은 포켓몬 수) 텍스트
+}
+updateUserInfo();
 // ED : user-info-text 영역 ------------------
