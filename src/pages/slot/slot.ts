@@ -1,6 +1,3 @@
-import '../../common/total-time.ts'; // 누적 플레이 타임
-import { addPokeNums } from '../../common/add-poke-nums';
-
 /*
 ──────────── 슬롯 머신 로직 ────────────
 
@@ -26,6 +23,10 @@ import { addPokeNums } from '../../common/add-poke-nums';
 */
 
 /* ───────────── 외부 함수 및 음원 import ───────────── */
+import '../../common/total-time.ts'; // 누적 플레이 타임
+import { addPokeNums } from '../../common/add-poke-nums';
+import { toggleSound } from '../../common/toggle-sound.ts'; // 음악 켜기 / 끄기 기능
+import { musicPlay } from '../../common/local-storage.ts'; // 현재 로컬스토리지의 음소거 상태
 import { allowMusic } from '../../common/music.ts'; // 효과음 함수
 import slotMusicMp3 from '/src/assets/music/slotmusic.mp3'; //오박사 목소리 배경음악
 import slotBtnMusicMp3 from '/src/assets/music/btnbgm2.mp3'; // 슬롯 버튼 배경음악
@@ -42,13 +43,78 @@ const casinoMusic = new Audio(casinoMp3); // 전체배경 효과음
 casinoMusic.volume = 0.3; // 해당음원 Sound 볼륨 조절
 allowMusic(casinoMusic, true); // 배경음악 호출
 
+// ST : 뒤로가기, 음소거 버튼 ------------------
+const backBtn = document.querySelector('.back-btn') as HTMLElement;
+const toggleSoundBtn = document.querySelector('.toggle-sound') as HTMLElement;
+const toggleSoundText = document.querySelector(
+  '.toggle-sound > span',
+) as HTMLElement;
+
+// 버튼 및 span의 텍스트 초기화
+if (musicPlay() === 'true') {
+  toggleSoundBtn.style.backgroundImage = `url('/src/assets/common/sound-on.png')`;
+  toggleSoundText.innerHTML = '전체 소리 끄기 버튼';
+} else {
+  toggleSoundBtn.style.backgroundImage = `url('/src/assets/common/sound-off.png')`;
+  toggleSoundText.innerHTML = '전체 소리 켜기 버튼';
+}
+
+// 뒤로가기
+backBtn.addEventListener('click', () => {
+  window.history.back();
+});
+
+// 음소거/재생
+toggleSoundBtn.addEventListener('click', () => {
+  const soundState: string | null = musicPlay();
+  toggleSound(casinoMusic);
+  if (soundState === 'true') {
+    toggleSoundBtn.style.backgroundImage = `url('/src/assets/common/sound-off.png')`;
+    toggleSoundText.innerHTML = '전체 소리 켜기 버튼';
+  } else {
+    toggleSoundBtn.style.backgroundImage = `url('/src/assets/common/sound-on.png')`;
+    toggleSoundText.innerHTML = '전체 소리 끄기 버튼';
+  }
+});
+
+// 640기준으로 뒤로가기, 음소거/재생 마우스 이벤트 등록/제거
+function topBtnHover() {
+  const winW: number = window.innerWidth;
+  if (winW > 640) {
+    backBtn.style.opacity = '0.7';
+    toggleSoundBtn.style.opacity = '0.7';
+    backBtn.addEventListener('mouseenter', () => {
+      backBtn.style.opacity = '1';
+    });
+    backBtn.addEventListener('mouseleave', () => {
+      backBtn.style.opacity = '0.7';
+    });
+    toggleSoundBtn.addEventListener('mouseenter', () => {
+      toggleSoundBtn.style.opacity = '1';
+    });
+    toggleSoundBtn.addEventListener('mouseleave', () => {
+      toggleSoundBtn.style.opacity = '0.7';
+    });
+  } else {
+    backBtn.style.opacity = '1';
+    toggleSoundBtn.style.opacity = '1';
+  }
+}
+
+// 리사이즈 이벤트로 브라우저 사이즈 달라질 때마다 이벤트동작
+window.addEventListener('resize', topBtnHover);
+// 초기 동작
+topBtnHover();
+
+// ED : 뒤로가기, 음소거 버튼 ------------------
+
 /* ───────────── DOM 엘리먼트 정의 ───────────── */
 const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn'); // 슬롯 머신 버튼
 const slotNum = document.querySelectorAll('.slot-num'); // 슬롯머신 숫자 모든 li
 
 /* ───────────── 로컬스토리지 정의 ───────────── */
-const musicPlay = localStorage.getItem('musicPlay');
-console.log(musicPlay);
+// const slotPlay = localStorage.getItem('musicPlay');
+// console.log(musicPlay);
 
 /* ───────────── 오박사 목소리 재생 함수 ───────────── */
 async function slotMusicPlay() {
@@ -141,7 +207,7 @@ async function ranNumAni() {
 
 /* ───────────── 슬롯 숫자 롤링 반복 함수 ───────────── */
 async function ranNumRepeat(num1: number) {
-  if (musicPlay === 'true') {
+  if (musicPlay() === 'true') {
     await delay(5000); // 오박사가 "피~ 피카츄~" 할 때 까지 딜레이
   }
   for (let i = 5; i <= num1; i += 5) {

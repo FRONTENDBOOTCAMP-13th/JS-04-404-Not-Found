@@ -1,7 +1,6 @@
 /* ST : 마을 페이지 */
 .town {
   position: relative;
-
   /* ST: 뒤로가기, 음소거 버튼 */
   .back-btn {
     position: absolute;
@@ -24,7 +23,6 @@
     opacity: 0.7;
   }
   /* ED: 뒤로가기, 음소거 버튼 */
-
   /* ST : 마을이미지 */
   .town-img {
     max-height: 100%;
