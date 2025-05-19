@@ -29,9 +29,9 @@ export function musicPlay(): string | null {
 if (!localStorage.getItem('myPokemon')) {
   localStorage.setItem('myPokemon', '[]');
 }
-export const myPokemon: number[] = JSON.parse(
-  localStorage.getItem('myPokemon') || '[]',
-);
+export function myPokemon() {
+  return JSON.parse(localStorage.getItem('myPokemon') || '[]');
+}
 
 // playTime : 총 접속 시간
 /*
