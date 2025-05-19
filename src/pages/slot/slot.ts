@@ -37,6 +37,7 @@ import soundOff from '/src/assets/common/sound-off.png'; // sound-off 이미지
 import oneStar from '/src/assets/slot/star1.png';
 import twoStar from '/src/assets/slot/star2.png';
 import threeStar from '/src/assets/slot/star3.png';
+const apiKey = import.meta.env.VITE_POKEMONTCG_API_KEY; // 카드 api불러오기
 
 /* ───────────── 효과음 & 배경음악 초기화 ───────────── */
 const slotMusic = new Audio(slotMusicMp3); // 슬롯이 돌아갈때 효과음
@@ -137,7 +138,8 @@ const slotNum = document.querySelectorAll('.slot-num'); // 슬롯머신 숫자 �
 const pokeGetModal = document.getElementById('pokeGet');
 const cardGetBtn = document.getElementById('cardGetBtn'); //카드 획득하기 버튼
 const starBack = document.querySelector('#starBack'); // 포켓몬 카드배경
-const pokeName = document.querySelector('#pokeName');
+const pokeName = document.querySelector('#pokeName'); // 포켓몬 카드이름
+const pokeCard = document.querySelector('#pokeCard');
 
 /* ───────────── 로컬스토리지 정의 ───────────── */
 // const slotPlay = localStorage.getItem('musicPlay');
@@ -269,21 +271,20 @@ async function dogamNumMake() {
   addPokeNums(dogamNum); // 도감 번호 추가
   return dogamNum;
 }
-console.log('pokeList:', pokeList);
-console.log('pokeList[0]:', pokeList[0]);
 /* ───────────── 최종 도감 번호 슬롯 반영 함수 ───────────── */
 async function yourPokemon(num: number) {
   const dogamNum = await dogamNumMake();
+  const preLoadImg = cardImg(dogamNum);
   await ranNumRepeat(num);
   /*
   도감 번호를 문자화로 변경 -> 3자리 문자인데 빈공간에 0 삽입 -> 한글자씩 쪼개서 -> 문자로 변환하여 배열로 저장
    */
   const arr: number[] = String(dogamNum).padStart(3, '0').split('').map(Number);
-  // changeNum(arr); // 도감번호 화면에 반영
-  const slotTime = Date.now();
 
+  const slotTime = Date.now();
   localStorage.setItem('lastSlot', slotTime.toString()); // 로컬스토리지에 저장
   changeNum(arr);
+  await preLoadImg;
   return dogamNum;
 }
 
@@ -299,7 +300,6 @@ async function slotMachine() {
     await slotMusicPlay(); // 버튼 음악 이후 오박사 목소리 재생
     const dogamNum = await yourPokemon(1200); // 2초동안 슬롯이 돌아가고, 도감 번호를 뽑는 함수
     openGet(dogamNum);
-    console.log(dogamNum);
   } else {
     await tomorryReturn();
     allowMusic(casinoMusic, true); // 배경음악 호출
@@ -314,14 +314,12 @@ async function tomorryReturn() {
 }
 /* ───────────── 포켓몬 get 화면 띄우기 ───────────── */
 async function openGet(dogamNum: number) {
-  await delay(1000);
-  await changePoke(dogamNum);
+  await Promise.all([changePoke(dogamNum), starBackChange(dogamNum)]);
   if (pokeGetModal !== null) {
     await pokeGetModal.classList.remove('d-none');
     void pokeGetModal.offsetWidth;
     await pokeGetModal.classList.add('active');
   }
-  starBackChange(dogamNum);
   allowMusic(dogamgetMusic, false);
 }
 /* ───────────── 포켓몬 get 배경 별 셋팅하는 함수 ───────────── */
@@ -364,4 +362,71 @@ function closeGet() {
     allowMusic(casinoMusic, true); // 배경음악 호출
   });
 }
+
+/* ───────────── 도감번호에 맞는 카드 추출하기 ───────────── */
+// async function cardImg(dogamNum: number): Promise<string> {
+//   const imgUrl = `https://api.pokemontcg.io/v2/cards?q=nationalPokedexNumbers:${dogamNum}`;
+//   const res = await fetch(imgUrl, {
+//     headers: {
+//       'X-Api-Key': apiKey,
+//     },
+//   });
+
+//   const data = await res.json();
+//   const cardVersion = data.data;
+//   const lastVersionIndex = data.data.length - 1;
+//   const cardUrl = cardVersion[lastVersionIndex].images.large;
+//   await preloadImage(cardUrl);
+
+//   if (pokeCard instanceof HTMLImageElement) {
+//     pokeCard.src = cardUrl;
+//   }
+//   console.log(data.data);
+//   return cardUrl;
+// }
+async function cardImg(dogamNum: number): Promise<string> {
+  const imgUrl = `https://api.pokemontcg.io/v2/cards?q=nationalPokedexNumbers:${dogamNum}`;
+  const res = await fetch(imgUrl, {
+    headers: {
+      'X-Api-Key': apiKey,
+    },
+  });
+
+  const data = await res.json();
+  const cardVersion = data.data;
+
+  // ✨ 레어도 우선순위: holofoil > normal > 아무거나
+  const rareCard = cardVersion.find(
+    (card: {
+      cardmarket?: object;
+      images: { large: string };
+      set: { name: string };
+      rarities?: string[];
+      rarity?: string;
+    }) => card.rarity && card.rarity.toLowerCase().includes('ultra'),
+  );
+
+  const chosenCard = rareCard || cardVersion[cardVersion.length - 1];
+  const cardUrl = chosenCard.images.large;
+
+  await preloadImage(cardUrl);
+
+  if (pokeCard instanceof HTMLImageElement) {
+    pokeCard.src = cardUrl;
+  }
+
+  console.log('💎 chosen:', chosenCard);
+  return cardUrl;
+}
+
+/* ───────────── 프리로드 함수 ───────────── */
+async function preloadImage(url: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(); // 이미지 로딩 완료
+    img.onerror = reject; // 에러나면 거절
+    img.src = url; // 다운로드 시작
+  });
+}
+
 closeGet();

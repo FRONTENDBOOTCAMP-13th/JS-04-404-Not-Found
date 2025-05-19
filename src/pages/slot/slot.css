@@ -121,7 +121,7 @@
     aspect-ratio: 694/815;
     width: 70%;
   }
-  .pokeCard {
+  .poke-card {
     top: 46%;
     z-index: 9999;
     width: 30%;
@@ -146,22 +146,5 @@
     top: 90%;
     padding: 8px 30px;
     border: 6px double #000;
-  }
-}
-
-@keyframes cardSpinImpact {
-  0% {
-    transform: translate(-50%, -50%) rotateY(0deg) scale(0.5);
-    opacity: 0;
-  }
-  50% {
-    transform: translate(-50%, -50%) rotateY(720deg) scale(1.2);
-    opacity: 1;
-  }
-  70% {
-    transform: translate(-50%, -50%) rotateY(810deg) scale(0.95);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotateY(900deg) scale(1);
   }
 }
