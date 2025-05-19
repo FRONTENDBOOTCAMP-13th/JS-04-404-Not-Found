@@ -1,6 +1,11 @@
-
 // music.ts 파일에서 함수 가져오기
 import { allowMusic } from '../../common/music.ts';
+
+// 타입 정의 추가: 커스텀 이벤트 인터페이스
+interface ThreeSceneEventDetail {
+  forceReinit: boolean;
+  timestamp: number;
+}
 
 // 오디오 객체 생성 및 변수 추가
 let bgmAudio: HTMLAudioElement | null = null; // BGM 오디오 객체
@@ -9,27 +14,32 @@ let effectAudio: HTMLAudioElement | null = null; // 효과음 오디오 객체
 // 오디오 초기화 함수
 const initAudio = (): void => {
   // 음악 기능 활성화 (기본값으로 활성화)
-  if (localStorage.getItem('musicPlay') === null) {
+  const musicPlaySetting = localStorage.getItem('musicPlay');
+  if (musicPlaySetting === null) {
     localStorage.setItem('musicPlay', 'true');
   }
 
   // BGM 오디오 객체 생성
   bgmAudio = new Audio();
-  bgmAudio.src = '/src/assets/music/gacha-bg.mp3'; // 실제 BGM 파일 경로로 변경 필요
-  bgmAudio.volume = 0.5; // 볼륨 설정
+  if (bgmAudio) {
+    bgmAudio.src = '/src/assets/music/gacha-bg.mp3'; // 실제 BGM 파일 경로로 변경 필요
+    bgmAudio.volume = 0.5; // 볼륨 설정
+  }
 
   // 효과음 오디오 객체 생성
   effectAudio = new Audio();
-  effectAudio.src = '/src/assets/music/claw-bgm.mp3'; // 실제 효과음 파일 경로로 변경 필요
-  effectAudio.volume = 0.5; // 볼륨 설정
+  if (effectAudio) {
+    effectAudio.src = '/src/assets/music/claw-bgm.mp3'; // 실제 효과음 파일 경로로 변경 필요
+    effectAudio.volume = 0.5; // 볼륨 설정
+  }
 
   // 페이지 로드 시 BGM 시작
   startBGM();
 };
 
 // Three-test 요소 선택 추가
-const threeTest = document.querySelector('.three-test') as HTMLElement;
-const popClose = document.querySelector('.pop-close') as HTMLElement;
+const threeTest = document.querySelector('.three-test') as HTMLElement | null;
+const popClose = document.querySelector('.pop-close') as HTMLElement | null;
 
 // 기존 코드 상단에 추가 (이벤트 추가)
 const initOrResetThreeScene = (): void => {
@@ -41,7 +51,7 @@ const initOrResetThreeScene = (): void => {
     }
 
     // 전역 이벤트를 발생시켜 three-scene.ts에 초기화 신호 전달
-    const event = new CustomEvent('initThreeScene', {
+    const event = new CustomEvent<ThreeSceneEventDetail>('initThreeScene', {
       detail: { forceReinit: true, timestamp: Date.now() },
     });
     window.dispatchEvent(event);
@@ -119,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Three.js 객체를 명시적으로 파괴하기 위한 이벤트 발생
         const event = new CustomEvent('destroyThreeScene');
         window.dispatchEvent(event);
-        
       }
 
       // 0.5초 후에 배경음악 다시 시작
@@ -131,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // text-y 요소 선택 및 깜빡임 효과
-const gachaTextY = document.querySelector('.gacha-text-y') as HTMLElement;
+const gachaTextY = document.querySelector('.gacha-text-y') as HTMLElement | null;
 if (gachaTextY) {
   // 1초마다 실행되는 인터벌 설정
   setInterval(() => {
@@ -146,13 +155,13 @@ if (gachaTextY) {
 }
 
 // text-y 요소 선택 및 깜빡임 효과
-const helpText = document.querySelector('.help-text') as HTMLElement;
+const helpText = document.querySelector('.help-text') as HTMLElement | null;
 let helpTextInterval: number | null = null; // 인터벌 ID를 저장할 변수 추가
 let userInteracted: boolean = false; // 사용자 상호작용 여부를 추적하는 변수 추가
 
 if (helpText) {
   // 1초마다 실행되는 인터벌 설정
-  helpTextInterval = window.setInterval(() => {
+  helpTextInterval = setInterval(() => {
     // 사용자가 상호작용했으면 인터벌 중지 및 텍스트 숨김
     if (userInteracted) {
       if (helpTextInterval) {
@@ -168,7 +177,9 @@ if (helpText) {
 
     // 일정 시간 후 다시 불투명도를 0으로 되돌리기
     setTimeout(() => {
-      helpText.style.opacity = '0';
+      if (helpText) {
+        helpText.style.opacity = '0';
+      }
     }, 500); // 0.5초 후에 다시 불투명하게 변경
   }, 1000); // 1초마다 반복
 }
@@ -191,21 +202,21 @@ const hideHelpText = (): void => {
 };
 
 // 필요한 요소들을 선택
-const clawBox = document.querySelector('.claw-box') as HTMLElement;
-const clawLine = document.querySelector('.claw-line') as HTMLElement;
-const claw = document.querySelector('.claw') as HTMLElement;
-const clawOpen = document.querySelector('.claw-open') as HTMLElement;
-const clawBall = document.querySelector('.claw-ball') as HTMLElement;
+const clawBox = document.querySelector('.claw-box') as HTMLElement | null;
+const clawLine = document.querySelector('.claw-line') as HTMLElement | null;
+const claw = document.querySelector('.claw') as HTMLElement | null;
+const clawOpen = document.querySelector('.claw-open') as HTMLElement | null;
+const clawBall = document.querySelector('.claw-ball') as HTMLElement | null;
 
 // 모바일 조작 요소 선택 추가
-const joystickLeft = document.querySelector('.joystick-left') as HTMLElement;
-const joystickRight = document.querySelector('.joystick-right') as HTMLElement;
-const aButton = document.querySelector('.a-button') as HTMLElement;
+const joystickLeft = document.querySelector('.joystick-left') as HTMLElement | null;
+const joystickRight = document.querySelector('.joystick-right') as HTMLElement | null;
+const aButton = document.querySelector('.a-button') as HTMLElement | null;
 
 // 부모 요소의 너비를 기준으로 최대 이동 거리 계산 (부모 너비의 35%)
-const parentElement = clawBox.parentElement as HTMLElement;
 const getMaxMoveDistance = (): number => {
-  if (parentElement) {
+  if (clawBox && clawBox.parentElement) {
+    const parentElement = clawBox.parentElement;
     // 스크롤바 문제를 방지하기 위해 부모 요소의 clientWidth 사용 (스크롤바 제외 너비)
     return parentElement.clientWidth * 0.35;
   }
@@ -282,24 +293,35 @@ window.addEventListener('resize', () => {
 // 모든 타이머 초기화 및 상태 완전 리셋 함수 - 브라우저 창 초기화 등에 사용
 const resetAllTimersAndState = (): void => {
   // 모든 타이머 초기화
-  grabTimers.forEach(timer => clearTimeout(timer));
+  grabTimers.forEach((timer: number) => clearTimeout(timer));
   grabTimers = [];
 
   // 상태 및 요소 초기화
   isGrabbing = false;
-  grabStage = 0;
-  clawBox.classList.remove('grabbing');
+  // grabStage = 0;
+  
+  if (clawBox) {
+    clawBox.classList.remove('grabbing');
+  }
 
   // 요소 초기 상태로 복원
-  claw.style.opacity = '1';
-  clawOpen.style.opacity = '0';
+  if (claw) {
+    claw.style.opacity = '1';
+  }
+  
+  if (clawOpen) {
+    clawOpen.style.opacity = '0';
+  }
+  
   if (clawBall) {
     clawBall.style.opacity = '0';
   }
 
   // 집게 줄 초기 상태로 복원
-  clawLine.style.transition = 'height 0.5s ease-in-out';
-  clawLine.style.height = '5%';
+  if (clawLine) {
+    clawLine.style.transition = 'height 0.5s ease-in-out';
+    clawLine.style.height = '5%';
+  }
 
   // 콘솔 확인
   console.log('갔냐?');
@@ -318,13 +340,17 @@ const adjustPositionKeepingGrabAction = (): void => {
   currentPosition = positionRatio * maxMoveDistance;
 
   // 현재 위치 업데이트 (트랜지션 없이)
-  clawBox.style.transition = 'none';
-  clawBox.style.transform = `translateX(${currentPosition}px)`;
+  if (clawBox) {
+    clawBox.style.transition = 'none';
+    clawBox.style.transform = `translateX(${currentPosition}px)`;
 
-  // 리사이징 완료 후 트랜지션 복원 (다음 프레임에서)
-  requestAnimationFrame(() => {
-    clawBox.style.transition = 'transform 0.3s ease-out';
-  });
+    // 리사이징 완료 후 트랜지션 복원 (다음 프레임에서)
+    requestAnimationFrame(() => {
+      if (clawBox) {
+        clawBox.style.transition = 'transform 0.3s ease-out';
+      }
+    });
+  }
 };
 
 // 키보드 keydown 이벤트 처리
@@ -346,7 +372,7 @@ document.addEventListener('keydown', (event: KeyboardEvent) => {
   } else if (event.key === ' ') {
     // 스페이스바 처리 (집기 동작)
     // 이미 동작 중이거나 집기 동작 중이면 무시
-    if (!isGrabbing && !clawBox.classList.contains('grabbing')) {
+    if (!isGrabbing && clawBox && !clawBox.classList.contains('grabbing')) {
       grabAction();
     }
   }
@@ -365,109 +391,118 @@ document.addEventListener('keyup', (event: KeyboardEvent) => {
   }
 });
 
-// 모바일 조작 이벤트 추가 - 터치 이벤트
-joystickLeft.addEventListener('touchstart', () => {
-  // help-text 숨김
-  hideHelpText();
-  if (isMobileView) {
-    keyState.ArrowLeft = true;
-  }
-});
-
-joystickRight.addEventListener('touchstart', () => {
-  // help-text 숨김
-  hideHelpText();
-  if (isMobileView) {
-    keyState.ArrowRight = true;
-  }
-});
-
-// 마우스 클릭 이벤트에도 help-text 숨김 로직 추가
-joystickLeft.addEventListener('touchend', () => {
-  // help-text 숨김
-  hideHelpText();
-  if (isMobileView) {
-    keyState.ArrowLeft = false;
-  }
-});
-
-joystickRight.addEventListener('touchend', () => {
-  // help-text 숨김
-  hideHelpText();
-  if (isMobileView) {
-    keyState.ArrowRight = false;
-  }
-});
-
-// 모바일 A 버튼 이벤트 추가
-aButton.addEventListener('touchstart', () => {
-  // help-text 숨김
-  hideHelpText();
-  if (isMobileView && !isGrabbing && !clawBox.classList.contains('grabbing')) {
-    grabAction();
-  }
-});
-
 // 모바일 터치 이벤트 취소 함수 (터치 시 화면 스크롤 방지)
 const preventDefaultTouch = (event: TouchEvent): void => {
   event.preventDefault();
 };
 
-// 모바일 조작 요소에 터치 이벤트 취소 추가
-joystickLeft.addEventListener('touchmove', preventDefaultTouch);
-joystickRight.addEventListener('touchmove', preventDefaultTouch);
-aButton.addEventListener('touchmove', preventDefaultTouch);
+// 모바일 조작 이벤트 추가 - 터치 이벤트
+if (joystickLeft) {
+  joystickLeft.addEventListener('touchstart', () => {
+    // help-text 숨김
+    hideHelpText();
+    if (isMobileView) {
+      keyState.ArrowLeft = true;
+    }
+  });
+  
+  joystickLeft.addEventListener('touchend', () => {
+    // help-text 숨김
+    hideHelpText();
+    if (isMobileView) {
+      keyState.ArrowLeft = false;
+    }
+  });
+  
+  joystickLeft.addEventListener('touchmove', (event: TouchEvent) => {
+    preventDefaultTouch(event);
+  });
+  
+  joystickLeft.addEventListener('mousedown', () => {
+    // help-text 숨김
+    hideHelpText();
+    if (isMobileView) {
+      keyState.ArrowLeft = true;
+    }
+  });
+  
+  joystickLeft.addEventListener('mouseup', () => {
+    if (isMobileView) {
+      keyState.ArrowLeft = false;
+    }
+  });
+  
+  joystickLeft.addEventListener('mouseleave', () => {
+    if (isMobileView) {
+      keyState.ArrowLeft = false;
+    }
+  });
+}
 
-// 모바일 클릭 이벤트 추가 (터치 외에도 마우스 클릭으로 조작 가능하도록)
-joystickLeft.addEventListener('mousedown', () => {
-  // help-text 숨김
-  hideHelpText();
-  if (isMobileView) {
-    keyState.ArrowLeft = true;
-  }
-});
+if (joystickRight) {
+  joystickRight.addEventListener('touchstart', () => {
+    // help-text 숨김
+    hideHelpText();
+    if (isMobileView) {
+      keyState.ArrowRight = true;
+    }
+  });
+  
+  joystickRight.addEventListener('touchend', () => {
+    // help-text 숨김
+    hideHelpText();
+    if (isMobileView) {
+      keyState.ArrowRight = false;
+    }
+  });
+  
+  joystickRight.addEventListener('touchmove', (event: TouchEvent) => {
+    preventDefaultTouch(event);
+  });
+  
+  joystickRight.addEventListener('mousedown', () => {
+    // help-text 숨김
+    hideHelpText();
+    if (isMobileView) {
+      keyState.ArrowRight = true;
+    }
+  });
+  
+  joystickRight.addEventListener('mouseup', () => {
+    if (isMobileView) {
+      keyState.ArrowRight = false;
+    }
+  });
+  
+  joystickRight.addEventListener('mouseleave', () => {
+    if (isMobileView) {
+      keyState.ArrowRight = false;
+    }
+  });
+}
 
-joystickRight.addEventListener('mousedown', () => {
-  // help-text 숨김
-  hideHelpText();
-  if (isMobileView) {
-    keyState.ArrowRight = true;
-  }
-});
-
-// 모바일 클릭 이벤트 해제
-joystickLeft.addEventListener('mouseup', () => {
-  if (isMobileView) {
-    keyState.ArrowLeft = false;
-  }
-});
-
-joystickRight.addEventListener('mouseup', () => {
-  if (isMobileView) {
-    keyState.ArrowRight = false;
-  }
-});
-
-joystickLeft.addEventListener('mouseleave', () => {
-  if (isMobileView) {
-    keyState.ArrowLeft = false;
-  }
-});
-
-joystickRight.addEventListener('mouseleave', () => {
-  if (isMobileView) {
-    keyState.ArrowRight = false;
-  }
-});
-
-// A 버튼 클릭 이벤트
-aButton.addEventListener('click', () => {
-  // help-text 숨김
-  hideHelpText();
-  if (isMobileView && !isGrabbing && !clawBox.classList.contains('grabbing')) {
-    grabAction();
-  }
-});
+// A 버튼 이벤트 리스너
+if (aButton) {
+  aButton.addEventListener('touchstart', () => {
+    // help-text 숨김
+    hideHelpText();
+    if (isMobileView && !isGrabbing && clawBox && !clawBox.classList.contains('grabbing')) {
+      grabAction();
+    }
+  });
+  
+  aButton.addEventListener('touchmove', (event: TouchEvent) => {
+    preventDefaultTouch(event);
+  });
+  
+  aButton.addEventListener('click', () => {
+    // help-text 숨김
+    hideHelpText();
+    if (isMobileView && !isGrabbing && clawBox && !clawBox.classList.contains('grabbing')) {
+      grabAction();
+    }
+  });
+}
 
 // 키 상태에 따라 지속적으로 이동시키기 위한 애니메이션 프레임
 function moveClawBox(): void {
@@ -477,7 +512,7 @@ function moveClawBox(): void {
   }
 
   // 집기 동작 중이 아닐 때만 이동 가능
-  if (!isGrabbing) {
+  if (!isGrabbing && clawBox) {
     if (keyState.ArrowLeft && currentPosition > -maxMoveDistance) {
       currentPosition -= 5; // 이동 속도 조절
       clawBox.style.transform = `translateX(${currentPosition}px)`;
@@ -498,8 +533,13 @@ requestAnimationFrame(moveClawBox);
 
 // 집기 동작 함수 수정 - 1초 지연 추가
 const grabAction = (): void => {
+  if (!clawBox || !clawOpen || !claw || !clawLine || !clawBall) {
+    console.error('필수 DOM 요소가 없습니다.');
+    return;
+  }
+
   // 모든 타이머 초기화
-  grabTimers.forEach(timer => clearTimeout(timer));
+  grabTimers.forEach((timer: number) => clearTimeout(timer));
   grabTimers = [];
 
   // BGM 일시 정지 및 효과음 재생
@@ -507,11 +547,11 @@ const grabAction = (): void => {
   playEffectSound();
 
   // 동작 시작 시간 기록
-  grabStartTime = performance.now();
+  // grabStartTime = performance.now();
 
   // 동작 중임을 표시
   isGrabbing = true;
-  grabStage = 1; // 내려가는 중
+  // grabStage = 1; // 내려가는 중
   clawBox.classList.add('grabbing');
 
   // 1. 집게 상태 변경 (닫힌 상태 -> 열린 상태)
@@ -523,23 +563,32 @@ const grabAction = (): void => {
   clawLine.style.height = '45%';
 
   // 3. 줄이 다 내려간 후 처리
-  const timer1 = window.setTimeout(() => {
-    grabStage = 2; // 줄 최대 내려감
-    clawBall.style.opacity = '1';
+  const timer1: number = setTimeout(() => {
+    // grabStage = 2; // 줄 최대 내려감
+    if (clawBall) {
+      clawBall.style.opacity = '1';
+    }
 
     // 4. 0.5초 후 다시 올리기
-    const timer2 = window.setTimeout(() => {
-      grabStage = 3; // 올라가는 중
+    const timer2: number = setTimeout(() => {
+      // grabStage = 3; // 올라가는 중
       // 줄 올리기
-      clawLine.style.transition = 'height 1.5s ease-in-out';
-      clawLine.style.height = '5%';
+      if (clawLine) {
+        clawLine.style.transition = 'height 1.5s ease-in-out';
+        clawLine.style.height = '5%';
+      }
 
       // 줄이 완전히 올라간 후 초기화
-      const timer3 = window.setTimeout(() => {
-        grabStage = 4; // 완료
+      const timer3: number = setTimeout(() => {
+        // grabStage = 4; // 완료
         // 집게 닫기
-        claw.style.opacity = '1';
-        clawOpen.style.opacity = '0';
+        if (claw) {
+          claw.style.opacity = '1';
+        }
+        
+        if (clawOpen) {
+          clawOpen.style.opacity = '0';
+        }
 
         // claw-ball 숨기기
         if (clawBall) {
@@ -547,7 +596,10 @@ const grabAction = (): void => {
         }
 
         // 동작 중 표시 해제
-        clawBox.classList.remove('grabbing');
+        if (clawBox) {
+          clawBox.classList.remove('grabbing');
+        }
+        
         isGrabbing = false;
 
         // 효과음 중지
@@ -577,7 +629,7 @@ const grabAction = (): void => {
 
         // 타이머 배열에서 제거
         grabTimers = grabTimers.filter(
-          t => t !== timer1 && t !== timer2 && t !== timer3,
+          (t: number) => t !== timer1 && t !== timer2 && t !== timer3
         );
       }, 2000);
 
