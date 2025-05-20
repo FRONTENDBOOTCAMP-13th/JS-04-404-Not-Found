@@ -292,6 +292,9 @@ async function yourPokemon(num: number) {
 async function slotMachine() {
   const clickBtnTime = Date.now(); //버튼누를때 시간체크
   const entryLastSlot = localStorage.getItem('lastSlot');
+  if (slotbtn !== null) {
+    btnNoneClick(slotbtn);
+  }
 
   if (
     entryLastSlot === null ||
@@ -310,6 +313,9 @@ async function tomorryReturn() {
   return new Promise<void>(resolve => {
     alert('내일 다시 오려무나~');
     resolve();
+    if (slotbtn !== null) {
+      btnCanClick(slotbtn);
+    }
   });
 }
 /* ───────────── 포켓몬 get 화면 띄우기 ───────────── */
@@ -360,6 +366,9 @@ function closeGet() {
     pokeGetModal?.classList.add('d-none');
     pokeGetModal?.classList.remove('active');
     allowMusic(casinoMusic, true); // 배경음악 호출
+    if (slotbtn !== null) {
+      btnCanClick(slotbtn);
+    }
   });
 }
 
@@ -428,3 +437,9 @@ async function preloadImage(url: string): Promise<void> {
 }
 
 closeGet();
+function btnNoneClick(btn: HTMLButtonElement) {
+  btn.disabled = true;
+}
+function btnCanClick(btn: HTMLButtonElement) {
+  btn.disabled = false;
+}
