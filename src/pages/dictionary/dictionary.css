@@ -14,7 +14,7 @@ body {
   align-items: center;
 }
 
-.inner-980 {
+.dictionary {
   margin: 0 auto;
   width: 100%;
   max-width: 980px;
@@ -78,6 +78,7 @@ body {
 }
 
 .search-bar input {
+  font-family: 'Galmuri9';
   flex: 1;
   padding: 5px 10px;
   border: none;
@@ -96,6 +97,7 @@ body {
 }
 
 .search-bar select {
+  font-family: 'Galmuri9';
   padding: 5px;
   border: none;
   border-radius: 4px;
@@ -141,23 +143,20 @@ body {
 
 .poke-num {
   font-weight: bold;
+  margin-left: 5px;
   margin-bottom: 15px;
   color: white;
-  font-family: 'I-pixel-u', monospace;
   font-size: 20px;
-  margin-top: 30px;
 }
 
 .poke-name {
   color: white;
   font-size: 18px;
-  font-family: 'I-pixel-u', monospace;
 }
 
 .poke-types {
   color: white;
   margin-top: 4px;
-  font-family: 'I-pixel-u', monospace;
   font-size: 15px;
 }
 
@@ -192,7 +191,7 @@ body {
 }
 
 .pokemon-card.unrevealed .poke-num {
-  font-size: 90px;
+  font-size: 50px;
   color: #555;
 }
 
@@ -251,6 +250,7 @@ body {
 }
 
 .type-btn {
+  font-family: 'Galmuri9';
   padding: 8px;
   font-size: 14px;
   color: #fff;
