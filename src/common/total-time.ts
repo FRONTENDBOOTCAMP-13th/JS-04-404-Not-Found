@@ -1,7 +1,7 @@
 // 누적 접속 시간
 // stayTimeTracker.ts
 let startTime = Date.now();
-const domain = 'http://localhost:5173';
+const domain = 'https://pokemon-cc.netlify.app';
 
 function saveStayTime() {
   const currentTime = Date.now();

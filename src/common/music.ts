@@ -8,6 +8,7 @@
 
 export function allowMusic(audio: HTMLAudioElement, loop: boolean) {
   const musicPlay = localStorage.getItem('musicPlay');
+  audio.currentTime = 0;
   if (musicPlay === 'true') {
     if (loop === true) {
       return audio.play(), (audio.loop = true);
