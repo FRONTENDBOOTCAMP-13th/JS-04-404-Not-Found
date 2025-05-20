@@ -87,9 +87,9 @@ const fetchPokemon = async (id: number, revealed = true): Promise<Pokemon> => {
   if (id === 777) {
     return {
       name: '용쌤',
-      imgUrl: '/public/images/슬비쌤.png',
+      imgUrl: '/public/images/용쌤이미지.png',
       number: '777',
-      types: ['전설'],
+      types: ['땅'],
       revealed,
     };
   }
@@ -97,9 +97,9 @@ const fetchPokemon = async (id: number, revealed = true): Promise<Pokemon> => {
   if (id === 888) {
     return {
       name: '슬비쌤',
-      imgUrl: '/images/슬비쌤.png',
+      imgUrl: '/public/images/슬비쌤이미지.png',
       number: '888',
-      types: ['전설'],
+      types: ['땅'],
       revealed,
     };
   }
@@ -157,7 +157,7 @@ const renderPokemonCard = (pokemon: Pokemon) => {
 const renderPokemonList = (list: Pokemon[], setCurrent = true) => {
   if (!pokedex) return;
   pokedex.innerHTML = '';
-  if (setCurrent) currentList = list; // 💡 검색에서는 false로 넘김
+  if (setCurrent) currentList = list; //  검색에서는 false로 넘김
   list.forEach(pokemon => renderPokemonCard(pokemon));
 };
 
@@ -288,7 +288,7 @@ document.querySelectorAll('.type-btn').forEach(btn => {
     typeModal?.classList.add('hidden');
   });
 });
-
+/////////////검색////////////
 searchInput?.addEventListener('keydown', event => {
   if (event.key === 'Enter') {
     const keyword = searchInput.value.trim().toLowerCase();
