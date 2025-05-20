@@ -45,6 +45,31 @@ body {
   margin-bottom: 40px;
 }
 
+/* ST: 뒤로가기, 음소거 버튼 */
+.back-btn {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 51%;
+  aspect-ratio: 1/1;
+  translate: 0 -50%;
+  background: url('../../assets/common/back-btn.png') no-repeat center;
+  background-size: cover;
+  opacity: 0.7;
+}
+.toggle-sound {
+  position: absolute;
+  top: 50%;
+  left: 8%;
+  height: 51%;
+  aspect-ratio: 1/1;
+  translate: 0 -50%;
+  background: url('../../assets/common/sound-on.png') no-repeat center;
+  background-size: cover;
+  opacity: 0.7;
+}
+/* ED: 뒤로가기, 음소거 버튼 */
+
 /* 로고는 정중앙 고정 */
 .logo {
   position: absolute;
