@@ -39,6 +39,13 @@ import twoStar from '/src/assets/slot/star2.png';
 import threeStar from '/src/assets/slot/star3.png';
 import card777 from '/src/assets/slot/777card.png';
 import card888 from '/src/assets/slot/888card.png';
+import card50 from '/src/assets/slot/card50.png';
+import card54 from '/src/assets/slot/card54.png';
+import card104 from '/src/assets/slot/card104.png';
+import card111 from '/src/assets/slot/card111.png';
+import card137 from '/src/assets/slot/card137.png';
+import card147 from '/src/assets/slot/card147.png';
+
 const apiKey = import.meta.env.VITE_POKEMONTCG_API_KEY; // 카드 api불러오기
 
 /* ───────────── 효과음 & 배경음악 초기화 ───────────── */
@@ -68,10 +75,6 @@ const pokeList: number[][] = [
     76, 78, 91, 94, 97, 112, 113, 115, 130, 131, 132, 137, 139, 143, 149,
   ],
   [144, 145, 146, 150, 151, 777, 888],
-  // [27],
-  // [27],
-  // [27],
-  // [27],
 ];
 /* ───────────── DOM 엘리먼트 정의 ───────────── */
 const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn'); // 슬롯 머신 버튼
@@ -421,6 +424,18 @@ async function cardImg(dogamNum: number): Promise<string> {
     cardUrl = card777;
   } else if (dogamNum === 888) {
     cardUrl = card888;
+  } else if (dogamNum === 50) {
+    cardUrl = card50;
+  } else if (dogamNum === 54) {
+    cardUrl = card54;
+  } else if (dogamNum === 104) {
+    cardUrl = card104;
+  } else if (dogamNum === 111) {
+    cardUrl = card111;
+  } else if (dogamNum === 137) {
+    cardUrl = card137;
+  } else if (dogamNum === 147) {
+    cardUrl = card147;
   } else {
     const imgUrl = `https://api.pokemontcg.io/v2/cards?q=nationalPokedexNumbers:${dogamNum}`;
     const res = await fetch(imgUrl, {
