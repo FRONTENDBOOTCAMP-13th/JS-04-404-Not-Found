@@ -73,10 +73,26 @@ window.addEventListener('initThreeScene', (event: Event) => {
     // 잠시 지연 후 초기화 (이전 리소스가 완전히 해제되도록)
     setTimeout(() => {
       initScene();
+
+      // 초기화 후 배경음악 명시적 재생 시도 추가
+      setTimeout(() => {
+        if (monsterBallScene) {
+          console.log('재초기화 후 배경음악 재생 시도');
+          monsterBallScene.playBGM();
+        }
+      }, 800);
     }, 100);
   } else {
     // 일반 초기화
     initScene();
+
+    // 초기화 후 배경음악 명시적 재생 시도 추가
+    setTimeout(() => {
+      if (monsterBallScene) {
+        console.log('초기화 후 배경음악 재생 시도');
+        monsterBallScene.playBGM();
+      }
+    }, 800);
   }
 });
 
@@ -117,6 +133,32 @@ class MonsterBallScene {
   private audio: HTMLAudioElement | null = null; // 효과음
   private bgmAudio: HTMLAudioElement | null = null; // 배경음악 추가
 
+  private setupCubeMapBackground(): void {
+    // 큐브맵 텍스처 로더 생성
+    const cubeTextureLoader = new THREE.CubeTextureLoader();
+
+    // 로딩 경로 설정 (필요한 경우)
+    // cubeTextureLoader.setPath('/images/cubemap/');
+
+    // 6면의 이미지 로드 (순서 중요: +x, -x, +y, -y, +z, -z)
+    const cubeTexture = cubeTextureLoader.load([
+      '/images/milkyway/dark-s_px.jpg', // right (positive x)
+      '/images/milkyway/dark-s_nx.jpg', // left (negative x)
+      '/images/milkyway/dark-s_py.jpg', // top (positive y)
+      '/images/milkyway/dark-s_ny.jpg', // bottom (negative y)
+      '/images/milkyway/dark-s_pz.jpg', // front (positive z)
+      '/images/milkyway/dark-s_nz.jpg', // back (negative z)
+    ]);
+
+    // 이미지 색상 공간 설정 (선택 사항)
+    // cubeTexture.encoding = THREE.sRGBEncoding;
+
+    // 씬의 배경으로 설정
+    this.scene.background = cubeTexture;
+
+    console.log('큐브맵 배경 설정 완료');
+  }
+
   constructor(containerId: string) {
     // 컨테이너 요소 찾기 - querySelector로 변경 (.은 클래스 선택자, #은 ID 선택자)
     const container =
@@ -129,22 +171,22 @@ class MonsterBallScene {
 
     // 씬 설정
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x333333);
+    // this.scene.background = new THREE.Color(0x333333);
 
     // 카메라 설정
     this.camera = new THREE.PerspectiveCamera(
-      10, // 시야각(FOV) 조정
+      50, // 시야각(FOV) 조정
       this.container.clientWidth / this.container.clientHeight,
       0.1,
       1000,
     );
     // 카메라 위치 설정
-    this.camera.position.set(0, 0, 5);
+    this.camera.position.set(0, 0.08, 5);
     // 카메라가 항상 씬의 중심을 바라보도록 설정
     this.camera.lookAt(new THREE.Vector3(0, 0, 0));
 
-    // 렌더러 설정
-    this.renderer = new THREE.WebGLRenderer({ antialias: true });
+    // 렌더러에 alpha: true 옵션 추가
+    this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     this.renderer.setSize(
       this.container.clientWidth,
       this.container.clientHeight,
@@ -164,6 +206,7 @@ class MonsterBallScene {
 
     // 씬 초기화
     this.setupLights();
+    this.setupCubeMapBackground();
     this.loadModel();
     this.setupEventListeners();
     this.loadAudio();
@@ -680,11 +723,10 @@ class MonsterBallScene {
       }
     }
   };
-  private loadAudio(): void {
-    // 효과음 객체 생성
-    this.audio = new Audio('/src/assets/music/dogamget.mp3');
 
-    // 필요한 경우 오디오 속성 설정
+  private loadAudio(): void {
+    // 효과음 객체 생성 (기존 코드 유지)
+    this.audio = new Audio('/music/gacha-ball-open.mp3');
     if (this.audio) {
       this.audio.volume = 0.4;
       this.audio.preload = 'auto';
@@ -699,38 +741,29 @@ class MonsterBallScene {
       console.log('기존 재생 중인 Three.js 배경음악 발견, 재사용');
       this.bgmAudio = existingAudio;
     } else {
-      this.bgmAudio = new Audio('/src/assets/music/three-bg.mp3');
+      this.bgmAudio = new Audio('/music/three-bg.mp3');
       if (this.bgmAudio) {
         this.bgmAudio.volume = 0.3;
         this.bgmAudio.loop = true;
         this.bgmAudio.preload = 'auto';
-        // 식별을 위한 데이터 속성 추가
         this.bgmAudio.setAttribute('data-bgm', 'three-bg');
 
-        // 숨겨진 오디오 컨테이너에 추가하여 문서에서 관리
         const audioContainer =
           document.querySelector('.audio-container') || document.body;
         audioContainer.appendChild(this.bgmAudio);
       }
     }
 
-    // 재생 시점 관리 개선
-    // 페이지 로드 시 현재 페이지가 Three.js 페이지인지 확인 후 배경음악 재생
-    const threeSceneActive =
-      document.getElementById('three-scene') !== null ||
-      document.querySelector('.three-test') !== null;
-
-    const threeScene = document.getElementById('three-scene');
-    const threeTest = document.querySelector('.three-test');
-    // 현재 표시 상태 확인 (display != none)
-    const isVisible =
-      threeSceneActive &&
-      ((threeScene instanceof HTMLElement &&
-        threeScene.offsetParent !== null) ||
-        (threeTest instanceof HTMLElement && threeTest.offsetParent !== null));
-
-    // 가챠 페이지에서 오는지 확인
+    // 가챠 페이지에서 왔는지 확인
     const fromGachaEvent = sessionStorage.getItem('fromGachaEvent') === 'true';
+    console.log('가챠 이벤트에서 왔는지 확인:', fromGachaEvent); // 디버깅용 로그 추가
+
+    // 화면이 보이는지 확인
+    const threeTest = document.querySelector('.three-test');
+    const isVisible =
+      threeTest instanceof HTMLElement &&
+      window.getComputedStyle(threeTest).display !== 'none';
+    console.log('Three.js 화면 표시 상태:', isVisible); // 디버깅용 로그 추가
 
     if (isVisible) {
       console.log('Three.js 페이지 활성화 상태 감지, 배경음악 준비');
@@ -746,10 +779,13 @@ class MonsterBallScene {
           }
         });
 
-      // 배경음악이 재생 중이 아닌 경우에만 재생 시도
-      if (this.bgmAudio && this.bgmAudio.paused) {
-        this.playBackgroundMusic();
-      }
+      // 명시적으로 배경음악 재생 시도 (타이밍 문제 해결)
+      setTimeout(() => {
+        if (this.bgmAudio && this.bgmAudio.paused) {
+          console.log('지연 후 배경음악 재생 시도');
+          this.playBackgroundMusic();
+        }
+      }, 500); // 씬 초기화 후 0.5초 지연
 
       // 플래그 초기화
       if (fromGachaEvent) {
@@ -770,9 +806,8 @@ class MonsterBallScene {
 
     console.log('배경음악 재생 시도...');
 
-    // 사용자 상호작용 추적 변수 - 집게 이벤트 후에는 이미 상호작용이 있었다고 가정
-    const hadUserInteraction =
-      sessionStorage.getItem('fromGachaEvent') === 'true';
+    // 자동 재생 정책 우회를 위한 기법 추가
+    this.bgmAudio.muted = true; // 일시적으로 음소거 (자동 재생 정책 우회용)
 
     // 재생 시도
     const playPromise = this.bgmAudio.play();
@@ -780,11 +815,23 @@ class MonsterBallScene {
     // 프로미스 처리
     if (playPromise !== undefined) {
       playPromise
-        .then(() => console.log('배경음악 재생 성공!'))
+        .then(() => {
+          console.log('배경음악 재생 성공!');
+          // 성공적으로 재생이 시작된 후 음소거 해제
+          setTimeout(() => {
+            if (this.bgmAudio) {
+              this.bgmAudio.muted = false;
+            }
+          }, 100);
+        })
         .catch(error => {
           console.warn('배경음악 자동 재생 실패:', error);
+          // 음소거 상태 복원
+          if (this.bgmAudio) this.bgmAudio.muted = false;
 
-          // 상호작용이 있었거나 집게 이벤트 후라면 다시 시도
+          // 다시 시도 - 가챠 이벤트에서 왔으면 사용자 상호작용이 있었다고 간주
+          const hadUserInteraction =
+            sessionStorage.getItem('fromGachaEvent') === 'true';
           if (hadUserInteraction && this.bgmAudio) {
             console.log('사용자 상호작용 이후, 배경음악 다시 시도');
             setTimeout(() => {
@@ -799,6 +846,12 @@ class MonsterBallScene {
           }
         });
     }
+  }
+
+  // 외부에서 직접 호출 가능한 배경음악 재생 메서드 추가
+  public playBGM(): void {
+    console.log('playBGM 메서드 호출됨');
+    this.playBackgroundMusic();
   }
 
   // 새로운 메서드: 대체 오디오 재생 설정
@@ -912,5 +965,3 @@ class MonsterBallScene {
     console.log('Three.js 씬 및 리소스 정리 완료');
   }
 }
-
-// 초기화 코드는 중복 발생 방지를 위해 삭제 - DOMContentLoaded 이벤트는 이미 등록됨
