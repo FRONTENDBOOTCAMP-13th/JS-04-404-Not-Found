@@ -11,6 +11,11 @@ import townMusicSrc from '/src/assets/music/town-music.mp3';
 import soundOn from '/src/assets/common/sound-on.png'; // sound-on 이미지
 import soundOff from '/src/assets/common/sound-off.png'; // sound-off 이미지
 
+// 페이지가 이동될 때 userInfoModal 닫기
+window.addEventListener('beforeunload', () => {
+  userInfoModal?.classList.add('d-none');
+});
+
 // town-music 오디오 객체 생성 및 음악 재생
 const townMusic = new Audio(townMusicSrc);
 townMusic.volume = 0.3;
@@ -44,12 +49,10 @@ function openModalEvent(target: Element, modal: Element) {
   target.addEventListener('click', e => {
     e.preventDefault();
     openModal(modal);
-    updateUserInfo();
   });
   target.addEventListener('touchstart', e => {
     e.preventDefault();
     openModal(modal);
-    updateUserInfo();
   });
 }
 
@@ -150,63 +153,87 @@ const badgeGray = document.querySelectorAll(
   '.badge-gray',
 ) as NodeListOf<HTMLElement>;
 
-// 배지
-const allGymLeaders = [
-  [74, 95],
-  [120, 121],
-  [25, 26, 100],
-  [45, 71, 114],
-  [89, 109, 110],
-  [49, 64, 65, 122],
-  [58, 59, 77, 78],
-  [31, 34, 51, 111, 112],
-];
+// 관장 배지 조건
+function updateUserBadge() {
+  const allGymLeaders = [
+    [74, 95],
+    [120, 121],
+    [25, 26, 100],
+    [45, 71, 114],
+    [89, 109, 110],
+    [49, 64, 65, 122],
+    [58, 59, 77, 78],
+    [31, 34, 51, 111, 112],
+  ];
 
-// myPokemon이 allGymeLeaders중에 포함하고
-for (let i = 0; i < allGymLeaders.length; i++) {
-  if (allGymLeaders[i].every(id => myPokemon().includes(id))) {
-    badgeGray[i].style.filter = 'brightness(100%)';
-  } else {
-    badgeGray[i].style.filter = 'brightness(10%)';
+  // myPokemon이 allGymeLeaders중에 포함하고 있는 지 여부에 따라 배지 획득 기능
+  for (let i = 0; i < allGymLeaders.length; i++) {
+    if (allGymLeaders[i].every(id => myPokemon().includes(id))) {
+      badgeGray[i].style.filter = 'brightness(100%)';
+    } else {
+      badgeGray[i].style.filter = 'brightness(10%)';
+    }
   }
 }
+updateUserBadge();
 
-// 별칭
-if (myPokemon().length >= 151) {
-  userTitleText.innerHTML = '13기 사랑해요♥';
-} else if (myPokemon().length >= 145) {
-  userTitleText.innerHTML = '킹갓제네럴 레드';
-} else if (myPokemon().length >= 130) {
-  userTitleText.innerHTML = '마스터 트레이너';
-} else if (myPokemon().length >= 100) {
-  userTitleText.innerHTML = '엘리트 트레이너';
-} else if (myPokemon().length >= 70) {
-  userTitleText.innerHTML = '중급 트레이너';
-} else if (myPokemon().length >= 30) {
-  userTitleText.innerHTML = '초급 트레이너';
-} else if (myPokemon().length >= 5) {
-  userTitleText.innerHTML = '트레이너 스쿨 학생';
-} else {
-  userTitleText.innerHTML = '태초마을 지우';
+// 별칭 조건 및 설정
+function updateUserTitle() {
+  const pokemonCount = myPokemon().length;
+
+  if (pokemonCount >= 151) {
+    userTitleText.innerHTML = '13기 사랑해요♥';
+  } else if (pokemonCount >= 145) {
+    userTitleText.innerHTML = '킹갓제네럴 레드';
+  } else if (pokemonCount >= 130) {
+    userTitleText.innerHTML = '마스터 트레이너';
+  } else if (pokemonCount >= 100) {
+    userTitleText.innerHTML = '엘리트 트레이너';
+  } else if (pokemonCount >= 70) {
+    userTitleText.innerHTML = '중급 트레이너';
+  } else if (pokemonCount >= 30) {
+    userTitleText.innerHTML = '초급 트레이너';
+  } else if (pokemonCount >= 5) {
+    userTitleText.innerHTML = '트레이너 스쿨 학생';
+  } else {
+    userTitleText.innerHTML = '태초마을 지우';
+  }
 }
+updateUserTitle();
 
-// 접속시간
+// 플레이 타임 갱신해서 넣기 위한 함수
 function updatePlayTimeText() {
-  // 접속시간 갱신해서 넣기 위한 함수
+  // 플레이 타임 분, 초로 변경
   const allSeconds: number = playTime();
   const minutes = Math.floor(allSeconds / 60);
   const seconds = allSeconds % 60;
   playTimeText.innerHTML = `${minutes}분 ${seconds}초`;
 }
-
 updatePlayTimeText();
 
+userNameText.innerHTML = JSON.parse(userName() as string); // 유저 이름 텍스트
 // 갱신 함수
-function updateUserInfo() {
-  userNameText.innerHTML = JSON.parse(userName() as string); // 유저 이름 텍스트
+function updateUserPokemon() {
   allPokemonText.innerHTML = JSON.parse(
     localStorage.getItem('myPokemon') || '[]',
   ).length.toString(); // 도감(잡은 포켓몬 수) 텍스트
 }
-updateUserInfo();
+updateUserPokemon();
 // ED : user-info-text 영역 ------------------
+
+// ST : 뒤로가기에서 업데이트 해야할 동작 ------------------
+window.addEventListener('pageshow', event => {
+  const navEntry = performance.getEntriesByType('navigation')[0] as
+    | PerformanceNavigationTiming
+    | undefined;
+
+  const isBackOrReload = event.persisted || navEntry?.type === 'back_forward';
+
+  if (isBackOrReload) {
+    allowMusic(townMusic, true); // 또는 startMusic 등 해당 페이지의 음악
+    updateUserPokemon();
+    updateUserTitle();
+    updateUserBadge();
+  }
+});
+// ED : 뒤로가기에서 업데이트 해야할 동작 ------------------
