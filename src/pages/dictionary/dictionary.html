@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/pages/dictionary/dictionary.css" />
+
+    <title>포켓몬 도감</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="inner-980">
+        <div class="pokedex">
+          <div class="pokedex-header">
+            <div class="logo">
+              <img
+                src="/src/assets/dictionary/포켓몬로고.png"
+                alt="포켓몬로고"
+              />
+            </div>
+            <div class="pokeball">
+              <img
+                src="/src/assets/dictionary/Pokebola-pokeball-png-0.png"
+                alt="포켓볼 상세조회"
+              />
+            </div>
+          </div>
+
+          <div class="search-bar">
+            <input
+              type="text"
+              placeholder="포켓몬 이름, 번호 등을 검색하세요"
+              id="search-input"
+            />
+            <button class="search-btn">🔍</button>
+            <select id="view-filter">
+              <option>내 도감</option>
+              <option>획득한 포켓몬</option>
+              <option>미획득한 포켓몬</option>
+              <option>전체 포켓몬 보기</option>
+            </select>
+          </div>
+
+          <div class="pokedex-content" id="pokedex"></div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="type-modal" class="modal hidden">
+      <div class="modal-content type-modal">
+        <button id="close-type-modal" class="modal-close"></button>
+        <h3>앗..야생의 포켓몬이 나타났다..!</h3>
+
+        <div class="type-grid">
+          <button class="type-btn" data-type="노말">노말</button>
+          <button class="type-btn" data-type="불꽃">불꽃</button>
+          <button class="type-btn" data-type="물">물</button>
+          <button class="type-btn" data-type="풀">풀</button>
+          <button class="type-btn" data-type="전기">전기</button>
+          <button class="type-btn" data-type="얼음">얼음</button>
+          <button class="type-btn" data-type="격투">격투</button>
+          <button class="type-btn" data-type="독">독</button>
+          <button class="type-btn" data-type="땅">땅</button>
+          <button class="type-btn" data-type="비행">비행</button>
+          <button class="type-btn" data-type="에스퍼">에스퍼</button>
+          <button class="type-btn" data-type="벌레">벌레</button>
+          <button class="type-btn" data-type="바위">바위</button>
+          <button class="type-btn" data-type="고스트">고스트</button>
+          <button class="type-btn" data-type="드래곤">드래곤</button>
+          <button class="type-btn" data-type="강철">강철</button>
+          <button class="type-btn" data-type="페어리">페어리</button>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/pages/dictionary/dictionary.ts"></script>
+  </body>
+</html>

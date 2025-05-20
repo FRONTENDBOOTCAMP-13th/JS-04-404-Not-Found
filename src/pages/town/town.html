@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="preload"
+      as="font"
+      href="/public/fonts/Galmuri9.woff"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+    <link rel="stylesheet" href="./town.css" />
+    <script type="module" src="./town.ts"></script>
+    <title>Town</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="inner-980 town">
+        <!-- ST : 뒤로가기, 음소거 버튼-->
+        <button type="button" class="back-btn">
+          <span class="sr-only">뒤로가기</span>
+        </button>
+        <button type="button" class="toggle-sound">
+          <span class="sr-only"></span>
+        </button>
+        <!-- ED : 뒤로가기, 음소거 버튼-->
+
+        <!-- ST: 아이콘 이미지 -->
+        <a href="../dictionary/dictionary.html">
+          <img
+            class="town-icon dictionary-icon"
+            src="../../assets/town/dictionary.png"
+            alt="도감"
+          />
+        </a>
+        <a href="../gacha/gacha.html">
+          <img
+            class="town-icon gacha-icon"
+            src="../../assets/town/gachashop.png"
+            alt="포켓몬 가챠 게임"
+          />
+        </a>
+        <a href="../slot/slot.html">
+          <img
+            class="town-icon slot-icon"
+            src="../../assets/town/slotshop.png"
+            alt="포켓몬 슬롯 게임"
+          />
+        </a>
+        <a href="#">
+          <img
+            class="town-icon info-icon"
+            src="../../assets/town/userinfo.png"
+            alt="내 정보"
+          />
+        </a>
+        <!-- ED: 아이콘 이미지-->
+        <!-- ST: 마을 배경이미지 -->
+        <img
+          usemap="#town-map"
+          class="town-img"
+          src="../../assets/town/town.png"
+        />
+        <!-- ED: 마을 배경이미지-->
+        <!-- ST: 마을 이미지맵-->
+        <map name="town-map">
+          <area
+            target="_self"
+            alt="포켓몬 가챠 게임"
+            title="gachagame"
+            href="../gacha/gacha.html"
+            coords="426,477,163,240"
+            shape="rect"
+          />
+          <area
+            target="_self"
+            alt="포켓몬 슬롯 게임"
+            title="slotgame"
+            href="../slot/slot.html"
+            coords="849,472,582,242"
+            shape="rect"
+          />
+          <area
+            target="_self"
+            alt="도감"
+            title="dictionary"
+            href="../dictionary/dictionary.html"
+            coords="546,517,874,712"
+            shape="rect"
+          />
+          <area
+            id="userInfo"
+            target="_self"
+            alt="내 정보"
+            title="userinfo"
+            href="#"
+            coords="174,556,459,737"
+            shape="rect"
+          />
+        </map>
+        <!-- ED: 마을 이미지맵-->
+        <dialog id="userInfoModal" class="user-info-modal d-none">
+          <ul class="user-info-text">
+            <li>
+              <button id="userInfoModalCloseBtn" class="modal-close-btn">
+                <img src="../../assets/town/modalclosebtn.png" alt="닫기버튼" />
+                닫기
+              </button>
+            </li>
+            <li>[<span class="user-title"></span>]</li>
+            <li>이름: <span class="user-name"></span></li>
+            <li>도감: <span class="all-pokemons">150</span>마리</li>
+            <li>접속시간: <span class="play-time"></span></li>
+          </ul>
+          <ul class="badges">
+            <li class="badge badge-gray">
+              <img src="../../assets/town/badge1.png" alt="회색체육관 뱃지" />
+            </li>
+            <li class="badge badge-gray">
+              <img src="../../assets/town/badge2.png" alt="블루체육관 뱃지" />
+            </li>
+            <li class="badge badge-gray">
+              <img src="../../assets/town/badge3.png" alt="갈색체육관 뱃지" />
+            </li>
+            <li class="badge badge-gray">
+              <img src="../../assets/town/badge4.png" alt="무지개체육관 뱃지" />
+            </li>
+            <li class="badge badge-gray">
+              <img src="../../assets/town/badge5.png" alt="연분홍체육관 뱃지" />
+            </li>
+            <li class="badge badge-gray">
+              <img src="../../assets/town/badge6.png" alt="노랑체육관 뱃지" />
+            </li>
+            <li class="badge badge-gray">
+              <img src="../../assets/town/badge7.png" alt="홍련체육관 뱃지" />
+            </li>
+            <li class="badge badge-gray">
+              <img src="../../assets/town/badge8.png" alt="상록체육관 뱃지" />
+            </li>
+            <li class="badge">
+              <img src="../../assets/town/ball.png" alt="몬스터볼" />
+            </li>
+          </ul>
+        </dialog>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/image-map-resizer@1.0.10/js/imageMapResizer.min.js"></script>
+  </body>
+</html>

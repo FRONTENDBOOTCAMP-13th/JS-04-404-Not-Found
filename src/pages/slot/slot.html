@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="preload"
+      as="font"
+      href="/public/fonts/Galmuri9.woff"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+    <link rel="stylesheet" href="./slot.css" />
+    <script type="module" src="./slot.ts"></script>
+
+    <title>Slot</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="inner-980 slot">
+        <!-- ST : 뒤로가기, 음소거 버튼-->
+        <button type="button" class="back-btn">
+          <span class="sr-only">뒤로가기</span>
+        </button>
+        <button type="button" class="toggle-sound">
+          <span class="sr-only"></span>
+        </button>
+        <!-- ED : 뒤로가기, 음소거 버튼-->
+        <!-- ST : 카드 획득 화면-->
+        <div class="poke-get" id="pokeGet">
+          <div class="card-wrapper">
+            <img id="pokeCard" class="poke-card card-ab" src="" alt="" />
+            <img id="starBack" class="star-back card-ab" src="" alt="" />
+            <p id="pokeName" class="poke-name card-ab"></p>
+            <button id="cardGetBtn" class="card-ab get-btn" type="menu">
+              <span>획득하기</span>
+            </button>
+          </div>
+        </div>
+        <!-- ED : 카드 획득 화면-->
+        <!-- ST : 슬롯버튼-->
+        <button class="slot-btn" id="slotBtn">
+          <img
+            class="slot-btn-img"
+            src="../../assets/slot/slot-btn.png"
+            alt="슬롯버튼"
+          />
+        </button>
+        <!-- ED: 슬롯버튼 -->
+
+        <!-- ST : 슬롯테두리 이미지-->
+        <img
+          src="../../assets/slot/slot.png"
+          class="slot-bg"
+          alt="포켓몬 슬롯 이미지"
+        />
+        <!-- ED: 슬롯테두리 이미지 -->
+
+        <!-- ST : 슬롯숫자-->
+        <ul class="slot-numbers">
+          <li class="slot-num">0</li>
+          <li class="slot-num">0</li>
+          <li class="slot-num">0</li>
+        </ul>
+        <!-- ED: 슬롯숫자 -->
+      </div>
+    </div>
+  </body>
+</html>

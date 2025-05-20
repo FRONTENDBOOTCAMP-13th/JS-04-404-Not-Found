@@ -1,0 +1,38 @@
+.start {
+  padding: 15px;
+  border: 15px double rgba(191, 0, 0, 70%);
+  background-color: #fff;
+
+  .charactor-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75%;
+  }
+  .charactor-area img {
+    width: 14.5%;
+  }
+
+  .text-area {
+    position: relative;
+    height: 25%;
+    padding: 4.6% 4.3%;
+    background: url('../../assets/start/text-box.png') no-repeat center;
+    background-size: 100% 100%;
+  }
+  .text-list {
+    font-size: min(4.1vw, 4.1vh, 42px);
+    line-height: 1.7;
+  }
+  .text-list li {
+    display: none;
+  }
+
+  .user-name {
+    font-family: 'Galmuri9';
+    width: 35%;
+    /* height: 4%; */
+    font-size: 30px;
+    padding: 10px 10px;
+  }
+}
