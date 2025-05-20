@@ -37,6 +37,8 @@ import soundOff from '/src/assets/common/sound-off.png'; // sound-off 이미지
 import oneStar from '/src/assets/slot/star1.png';
 import twoStar from '/src/assets/slot/star2.png';
 import threeStar from '/src/assets/slot/star3.png';
+import card777 from '/src/assets/slot/777card.png';
+import card888 from '/src/assets/slot/888card.png';
 const apiKey = import.meta.env.VITE_POKEMONTCG_API_KEY; // 카드 api불러오기
 
 /* ───────────── 효과음 & 배경음악 초기화 ───────────── */
@@ -292,6 +294,9 @@ async function yourPokemon(num: number) {
 async function slotMachine() {
   const clickBtnTime = Date.now(); //버튼누를때 시간체크
   const entryLastSlot = localStorage.getItem('lastSlot');
+  if (slotbtn !== null) {
+    btnNoneClick(slotbtn);
+  }
 
   if (
     entryLastSlot === null ||
@@ -310,10 +315,14 @@ async function tomorryReturn() {
   return new Promise<void>(resolve => {
     alert('내일 다시 오려무나~');
     resolve();
+    if (slotbtn !== null) {
+      btnCanClick(slotbtn);
+    }
   });
 }
 /* ───────────── 포켓몬 get 화면 띄우기 ───────────── */
 async function openGet(dogamNum: number) {
+  await delay(1000);
   await Promise.all([changePoke(dogamNum), starBackChange(dogamNum)]);
   if (pokeGetModal !== null) {
     await pokeGetModal.classList.remove('d-none');
@@ -346,11 +355,19 @@ async function changePoke(dogamNum: number) {
 }
 /* ───────────── 뽑은 포켓몬 한글이름 불러오기 ───────────── */
 async function getPokeKorName(pokeNum: number) {
-  const pokeData = await fetch(
-    `https://pokeapi.co/api/v2/pokemon-species/${pokeNum}`,
-  );
-  const pokeDataObj = await pokeData.json();
-  const thisPokeName = pokeDataObj.names[2].name;
+  let thisPokeName = '';
+  if (pokeNum === 777) {
+    thisPokeName = '슬비쌤';
+  } else if (pokeNum === 888) {
+    thisPokeName = '용쌤';
+  } else {
+    const pokeData = await fetch(
+      `https://pokeapi.co/api/v2/pokemon-species/${pokeNum}`,
+    );
+    const pokeDataObj = await pokeData.json();
+    thisPokeName = pokeDataObj.names[2].name;
+  }
+
   return thisPokeName;
 }
 
@@ -360,6 +377,10 @@ function closeGet() {
     pokeGetModal?.classList.add('d-none');
     pokeGetModal?.classList.remove('active');
     allowMusic(casinoMusic, true); // 배경음악 호출
+    if (slotbtn !== null) {
+      btnCanClick(slotbtn);
+    }
+    dogamgetMusic.pause();
   });
 }
 
@@ -385,35 +406,53 @@ function closeGet() {
 //   return cardUrl;
 // }
 async function cardImg(dogamNum: number): Promise<string> {
-  const imgUrl = `https://api.pokemontcg.io/v2/cards?q=nationalPokedexNumbers:${dogamNum}`;
-  const res = await fetch(imgUrl, {
-    headers: {
-      'X-Api-Key': apiKey,
-    },
-  });
+  let cardUrl = '';
+  if (dogamNum === 777) {
+    cardUrl = card777;
+  } else if (dogamNum === 888) {
+    cardUrl = card888;
+  } else {
+    const imgUrl = `https://api.pokemontcg.io/v2/cards?q=nationalPokedexNumbers:${dogamNum}`;
+    const res = await fetch(imgUrl, {
+      headers: {
+        'X-Api-Key': apiKey,
+      },
+    });
 
-  const data = await res.json();
-  const cardVersion = data.data;
-
-  const rareCard = cardVersion.find(
-    (card: {
-      cardmarket?: object;
-      images: { large: string };
-      set: { name: string };
-      rarities?: string[];
+    const data = await res.json();
+    interface TCGCard {
       rarity?: string;
-    }) => card.rarity && card.rarity.toLowerCase().includes('rainbow'),
-  );
+      images?: {
+        large?: string;
+      };
+    }
 
-  const chooseCard = rareCard || cardVersion[cardVersion.length - 1];
-  const cardUrl = chooseCard.images.large;
+    const cardVersion: TCGCard[] = data.data;
 
-  await preloadImage(cardUrl);
+    // 1. EX 카드 우선 찾기
+    const exCard = cardVersion.find(card =>
+      card.rarity?.toLowerCase().includes('ex'),
+    );
+
+    // 2. 없으면 fallback으로 뒤에서 세 번째 카드 사용
+    const lastVersionIndex = cardVersion.length - 3;
+    const fallbackCard = cardVersion[lastVersionIndex];
+
+    const chosenCard = exCard || fallbackCard;
+
+    if (chosenCard && chosenCard.images?.large) {
+      cardUrl = chosenCard.images.large;
+    } else {
+      console.warn('카드 이미지가 존재하지 않아요 껑!');
+      return '';
+    }
+  }
 
   if (pokeCard instanceof HTMLImageElement) {
     pokeCard.src = cardUrl;
   }
 
+  await preloadImage(cardUrl);
   return cardUrl;
 }
 
@@ -428,3 +467,9 @@ async function preloadImage(url: string): Promise<void> {
 }
 
 closeGet();
+function btnNoneClick(btn: HTMLButtonElement) {
+  btn.disabled = true;
+}
+function btnCanClick(btn: HTMLButtonElement) {
+  btn.disabled = false;
+}

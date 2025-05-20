@@ -115,7 +115,9 @@
     transform: translate(-50%, -50%);
     left: 50%;
   }
-
+  .p-none {
+    pointer-events: none;
+  }
   .star-back {
     top: 42%;
     aspect-ratio: 694/815;
@@ -125,6 +127,7 @@
     top: 46%;
     z-index: 9999;
     width: 30%;
+    border-radius: 8px;
   }
 
   .poke-name {
