@@ -143,10 +143,10 @@ const renderPokemonCard = (pokemon: Pokemon) => {
 };
 
 // 포켓몬 리스트 렌더링
-const renderPokemonList = (list: Pokemon[]) => {
+const renderPokemonList = (list: Pokemon[], setCurrent = true) => {
   if (!pokedex) return;
   pokedex.innerHTML = '';
-  currentList = list;
+  if (setCurrent) currentList = list; // 💡 검색에서는 false로 넘김
   list.forEach(pokemon => renderPokemonCard(pokemon));
 };
 
@@ -166,7 +166,13 @@ const loadOwnedPokemon = async () => {
   const parsed = JSON.parse(stored);
   const ids = Array.isArray(parsed) ? parsed : [parsed];
   ownedIds = ids;
-  await slotPokemon(ids);
+
+  // 히든카드 포함
+  const fullIds = [...ids];
+  if (!fullIds.includes(777)) fullIds.push(777);
+  if (!fullIds.includes(888)) fullIds.push(888);
+
+  await slotPokemon(fullIds);
 };
 
 // 번호 배열만 도감에 반영
@@ -198,6 +204,8 @@ viewFilter?.addEventListener('change', async () => {
     const preview = await Promise.all(
       Array.from({ length: 151 }, (_, i) => fetchPokemon(i + 1, true)),
     );
+    allPokemon = preview;
+    currentList = preview;
     renderPokemonList(preview);
   } else if (selected === '내 도감') {
     initPokedex();
@@ -214,7 +222,17 @@ viewFilter?.addEventListener('change', async () => {
     const get = allPokemon.filter(p => parsed.includes(Number(p.number)));
     renderPokemonList(get);
   } else if (selected === '미획득한 포켓몬') {
-    const nogen = allPokemon.filter(p => !ownedIds.includes(Number(p.number)));
+    initPokedex(); // 도감 초기화
+    await loadOwnedPokemon(); // 획득한 포켓몬 반영
+
+    // 777, 888 제외하면서 미획득 필터링
+    const nogen = allPokemon.filter(
+      p =>
+        !ownedIds.includes(Number(p.number)) &&
+        p.number !== '777' &&
+        p.number !== '888',
+    );
+
     renderPokemonList(nogen);
   }
 });
@@ -230,16 +248,32 @@ typeModal?.addEventListener('click', e => {
     typeModal.classList.add('hidden');
   }
 });
-
+//////////타입 부분//////////
 document.querySelectorAll('.type-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const selectedType = btn.getAttribute('data-type');
     if (!selectedType) return;
 
-    const filtered = currentList.filter(
-      p => p.revealed && p.types.includes(selectedType),
-    );
-    renderPokemonList(filtered);
+    const isFullView = viewFilter.value === '전체 포켓몬 보기';
+
+    // 기준 데이터: 전체 포켓몬 또는 획득한 포켓몬
+    const baseList = isFullView
+      ? allPokemon
+      : allPokemon.filter(p => p.revealed);
+
+    //  타입 필터링
+    const filtered = baseList.filter(p => p.types.includes(selectedType));
+
+    if (filtered.length === 0) {
+      renderPokemonList([], false);
+      const noResultDiv = document.createElement('div');
+      noResultDiv.className = 'no-result';
+      noResultDiv.textContent = '선택한 타입의 포켓몬이 없습니다.';
+      pokedex?.appendChild(noResultDiv);
+    } else {
+      renderPokemonList(filtered, false);
+    }
+
     typeModal?.classList.add('hidden');
   });
 });
@@ -247,17 +281,27 @@ document.querySelectorAll('.type-btn').forEach(btn => {
 searchInput?.addEventListener('keydown', event => {
   if (event.key === 'Enter') {
     const keyword = searchInput.value.trim().toLowerCase();
-    const filtered = allPokemon.filter(
+
+    const isFullView = viewFilter.value === '전체 포켓몬 보기';
+    const baseList = isFullView ? currentList : allPokemon;
+
+    const filtered = baseList.filter(
       p =>
-        p.revealed &&
+        (isFullView || p.revealed) &&
         (p.name.toLowerCase().includes(keyword) ||
           p.number === keyword.padStart(3, '0')),
     );
+
     if (filtered.length === 0) {
-      pokedex!.innerHTML = '<div class="no-result">검색 결과가 없습니다.</div>';
+      renderPokemonList([]); // 화면을 깔끔하게 비워주고
+      const noResultDiv = document.createElement('div');
+      noResultDiv.className = 'no-result';
+      noResultDiv.textContent = '검색 결과가 없습니다.';
+      pokedex?.appendChild(noResultDiv);
+
       alert(' 가챠랑 슬롯을 통해 다양한 포켓몬을 뽑아 보세요!');
     } else {
-      renderPokemonList(filtered);
+      renderPokemonList(filtered, false);
     }
   }
 });

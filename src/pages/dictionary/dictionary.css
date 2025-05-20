@@ -40,14 +40,26 @@ body {
 
 /* 도감 헤더 */
 .pokedex-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  justify-content: center;
+  position: relative; /* 중앙 정렬 및 포지셔닝 기준 */
+  height: 115px;
+  margin-bottom: 40px;
 }
 
+/* 로고는 정중앙 고정 */
 .logo {
-  align-items: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Pixeled';
+  font-size: 24px;
+}
+
+/* 포켓볼은 오른쪽 끝에 배치 */
+.pokeball {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .pokeball img {
@@ -60,7 +72,7 @@ body {
 .search-bar {
   display: flex;
   gap: 5px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   width: 100%;
   height: auto;
 }
