@@ -4,6 +4,7 @@ import { allowMusic } from '../../common/music.ts';
 import homeMusicSrc from '/src/assets/music/home-music.mp3';
 import selectMusicSrc from '/src/assets/music/select-music.mp3';
 import { userName } from '../../common/local-storage.ts';
+import pokeBall from '../../assets/home/ball.png';
 
 // home-music 오디오 객체 생성 및 음악 재생
 const selectMusic = new Audio(selectMusicSrc);
@@ -153,7 +154,7 @@ class Ball {
 
 // 공 이미지 생성
 const ballImage = new Image();
-ballImage.src = '../../assets/home/ball.png'; // 같은 경로에 ball.png 필요
+ballImage.src = pokeBall; // 같은 경로에 ball.png 필요
 
 const balls: Ball[] = []; // 공 배열
 const numBalls: number = 10; // 생성할 공 수
