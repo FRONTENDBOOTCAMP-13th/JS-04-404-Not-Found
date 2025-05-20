@@ -156,7 +156,7 @@
   width: 13%;
   aspect-ratio: 1/1;
   /* height: 5%; */
-  background: gold;
+  /* background: gold; */
   position: absolute;
   display: none;
   z-index: 9999999999;
