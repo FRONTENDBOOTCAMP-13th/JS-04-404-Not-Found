@@ -52,23 +52,36 @@ casinoMusic.volume = 0.3; // 해당음원 Sound 볼륨 조절
 allowMusic(casinoMusic, true); // 배경음악 호출
 
 const pokeList: number[][] = [
-  [
-    1, 4, 7, 10, 13, 16, 19, 21, 23, 27, 29, 32, 35, 37, 39, 41, 43, 46, 48, 50,
-    52, 54, 56, 58, 60, 63, 66, 69, 72, 74, 77, 79, 81, 84, 86, 88, 90, 92, 96,
-    98, 100, 102, 104, 109, 114, 116, 118, 120, 129, 133, 140, 147,
-  ],
-  [
-    2, 5, 8, 11, 14, 17, 20, 24, 25, 28, 30, 33, 36, 40, 42, 44, 47, 49, 53, 55,
-    61, 64, 67, 70, 75, 80, 82, 83, 85, 87, 89, 93, 95, 99, 101, 103, 105, 106,
-    107, 108, 110, 111, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 134,
-    135, 136, 138, 141, 142, 148,
-  ],
-  [
-    3, 6, 9, 12, 15, 18, 22, 26, 31, 34, 38, 45, 51, 57, 59, 62, 65, 68, 71, 73,
-    76, 78, 91, 94, 97, 112, 113, 115, 130, 131, 132, 137, 139, 143, 149,
-  ],
-  [144, 145, 146, 150, 151, 777, 888],
+  // [
+  //   1, 4, 7, 10, 13, 16, 19, 21, 23, 27, 29, 32, 35, 37, 39, 41, 43, 46, 48, 50,
+  //   52, 54, 56, 58, 60, 63, 66, 69, 72, 74, 77, 79, 81, 84, 86, 88, 90, 92, 96,
+  //   98, 100, 102, 104, 109, 114, 116, 118, 120, 129, 133, 140, 147,
+  // ],
+  // [
+  //   2, 5, 8, 11, 14, 17, 20, 24, 25, 28, 30, 33, 36, 40, 42, 44, 47, 49, 53, 55,
+  //   61, 64, 67, 70, 75, 80, 82, 83, 85, 87, 89, 93, 95, 99, 101, 103, 105, 106,
+  //   107, 108, 110, 111, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 134,
+  //   135, 136, 138, 141, 142, 148,
+  // ],
+  // [
+  //   3, 6, 9, 12, 15, 18, 22, 26, 31, 34, 38, 45, 51, 57, 59, 62, 65, 68, 71, 73,
+  //   76, 78, 91, 94, 97, 112, 113, 115, 130, 131, 132, 137, 139, 143, 149,
+  // ],
+  // [144, 145, 146, 150, 151, 777, 888],
+  [144],
+  [144],
+  [144],
+  [144],
 ];
+/* ───────────── DOM 엘리먼트 정의 ───────────── */
+const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn'); // 슬롯 머신 버튼
+const slotNum = document.querySelectorAll('.slot-num'); // 슬롯머신 숫자 모든 li
+const pokeGetModal = document.getElementById('pokeGet');
+const cardGetBtn = document.getElementById('cardGetBtn'); //카드 획득하기 버튼
+const starBack = document.querySelector('#starBack'); // 포켓몬 카드배경
+const pokeName = document.querySelector('#pokeName'); // 포켓몬 카드이름
+const pokeCard = document.querySelector('#pokeCard');
+const mSlotBtn = document.querySelector<HTMLButtonElement>('#MslotBtn'); // 모바일버튼
 
 // ST : 뒤로가기, 음소거 버튼 ------------------
 const backBtn = document.querySelector('.back-btn') as HTMLElement;
@@ -134,15 +147,6 @@ window.addEventListener('resize', topBtnHover);
 topBtnHover();
 // ED : 뒤로가기, 음소거 버튼 ------------------
 
-/* ───────────── DOM 엘리먼트 정의 ───────────── */
-const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn'); // 슬롯 머신 버튼
-const slotNum = document.querySelectorAll('.slot-num'); // 슬롯머신 숫자 모든 li
-const pokeGetModal = document.getElementById('pokeGet');
-const cardGetBtn = document.getElementById('cardGetBtn'); //카드 획득하기 버튼
-const starBack = document.querySelector('#starBack'); // 포켓몬 카드배경
-const pokeName = document.querySelector('#pokeName'); // 포켓몬 카드이름
-const pokeCard = document.querySelector('#pokeCard');
-
 /* ───────────── 로컬스토리지 정의 ───────────── */
 // const slotPlay = localStorage.getItem('musicPlay');
 // console.log(musicPlay);
@@ -203,6 +207,9 @@ function btnEvent(btn: HTMLButtonElement) {
 /* ───────────── 버튼 이벤트 등록 ───────────── */
 if (slotbtn) {
   btnEvent(slotbtn);
+}
+if (mSlotBtn) {
+  btnEvent(mSlotBtn);
 }
 
 /* ───────────── 랜덤 숫자 생성기 ───────────── */
@@ -294,8 +301,9 @@ async function yourPokemon(num: number) {
 async function slotMachine() {
   const clickBtnTime = Date.now(); //버튼누를때 시간체크
   const entryLastSlot = localStorage.getItem('lastSlot');
-  if (slotbtn !== null) {
+  if (slotbtn !== null && mSlotBtn !== null) {
     btnNoneClick(slotbtn);
+    btnNoneClick(mSlotBtn);
   }
 
   if (
@@ -315,8 +323,9 @@ async function tomorryReturn() {
   return new Promise<void>(resolve => {
     alert('내일 다시 오려무나~');
     resolve();
-    if (slotbtn !== null) {
+    if (slotbtn !== null && mSlotBtn !== null) {
       btnCanClick(slotbtn);
+      btnCanClick(mSlotBtn);
     }
   });
 }
@@ -377,8 +386,9 @@ function closeGet() {
     pokeGetModal?.classList.add('d-none');
     pokeGetModal?.classList.remove('active');
     allowMusic(casinoMusic, true); // 배경음악 호출
-    if (slotbtn !== null) {
+    if (slotbtn !== null && mSlotBtn !== null) {
       btnCanClick(slotbtn);
+      btnCanClick(mSlotBtn);
     }
     dogamgetMusic.pause();
   });
@@ -435,7 +445,8 @@ async function cardImg(dogamNum: number): Promise<string> {
     );
 
     // 2. 없으면 fallback으로 뒤에서 세 번째 카드 사용
-    const lastVersionIndex = cardVersion.length - 3;
+    const lastVersionIndex = cardVersion.length - 4;
+    // const lastVersionIndex = 3;
     const fallbackCard = cardVersion[lastVersionIndex];
 
     const chosenCard = exCard || fallbackCard;
@@ -467,9 +478,51 @@ async function preloadImage(url: string): Promise<void> {
 }
 
 closeGet();
+
+/* ───────────── 클릭 막는 함수 ───────────── */
 function btnNoneClick(btn: HTMLButtonElement) {
   btn.disabled = true;
+  btn.style.pointerEvents = 'none';
 }
 function btnCanClick(btn: HTMLButtonElement) {
   btn.disabled = false;
+  btn.style.pointerEvents = 'auto';
 }
+
+/* ───────────── 카드 움직이는 함수 ───────────── */
+const shine = document.querySelector('.shine');
+function cardanimation() {
+  if (pokeCard instanceof HTMLElement && shine instanceof HTMLElement) {
+    pokeCard?.addEventListener('mousemove', e => {
+      const rect = pokeCard.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      console.log('요소 내부 좌표: x', x);
+      console.log('요소 내부 좌표: y', y);
+      const rotateY = -(0.090645 * x - 10.16129);
+      const rotateX = 0.090645 * y - 10.16129;
+
+      const percentX = (x / rect.width) * 100;
+      const percentY = (y / rect.height) * 100;
+
+      const shadowX = -rotateY * 1.5; // 가로 그림자 (Y축 회전과 반대)
+      const shadowY = rotateX * 1.5; // 세로 그림자 (X축 회전과 같은 방향)
+
+      pokeCard.style.boxShadow = `${shadowX}px ${shadowY}px 20px rgba(0, 0, 0, 0.25)`;
+
+      const transformStyle = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      pokeCard.style.transform = transformStyle;
+      shine.style.transform = transformStyle;
+
+      // 🪄 shine 그라데이션 위치 마우스 따라 움직이게!
+      shine.style.backgroundPosition = `${percentX}% ${percentY}%`;
+    });
+
+    pokeCard.addEventListener('mouseleave', () => {
+      pokeCard.style.transform = `rotateX(0deg) rotateY(0deg)`;
+      pokeCard.style.boxShadow = `0px 0px 15px rgba(0, 0, 0, 0.2)`;
+      shine.style.transform = `rotateX(0deg) rotateY(0deg)`;
+    });
+  }
+}
+cardanimation();
