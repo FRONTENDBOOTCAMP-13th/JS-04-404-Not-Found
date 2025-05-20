@@ -8,7 +8,7 @@
   background: transparent;
   display: none;
 
-  .pop-close{
+  .pop-close {
     width: 50px;
     height: 50px;
     position: absolute;
@@ -17,8 +17,74 @@
     background: red;
     z-index: 10000;
   }
-
 }
+
+.poke-get {
+  background-color: #000000b7;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100000;
+  overflow: hidden;
+  display: none;
+}
+#pokeGet {
+  transition: all 0.5s ease-in-out;
+  opacity: 0;
+  pointer-events: none;
+}
+#pokeGet.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.card-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.card-ab {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+}
+.p-none {
+  pointer-events: none;
+}
+.star-back {
+  top: 42%;
+  aspect-ratio: 694/815;
+  width: 70%;
+}
+.poke-card {
+  top: 46%;
+  z-index: 9999;
+  width: 30%;
+  border-radius: 8px;
+}
+
+.poke-name {
+  color: white;
+  top: 77.5%;
+  z-index: 9999;
+  font-size: min(
+    5vw,
+    5vh
+  ); /* 부모 사이즈 및 화면 사이즈 대비 폰트 사이즈 조절 */
+}
+.get-btn {
+  font-size: min(
+    3dvw,
+    3dvh
+  ); /* 부모 사이즈 및 화면 사이즈 대비 폰트 사이즈 조절 */
+  color: white;
+  background: var(--color-button-blue);
+  top: 90%;
+  padding: 8px 30px;
+  border: 6px double #000;
+}
+
 .gacha {
   position: relative;
   overflow: hidden;
@@ -129,6 +195,31 @@
     opacity: 0;
     z-index: 100;
   }
+
+  /* ST: 뒤로가기, 음소거 버튼 */
+  .back-btn {
+    position: absolute;
+    top: 1%;
+    left: 1%;
+    width: 6%;
+    height: 6%;
+    background: url('../../assets/common/back-btn.png') no-repeat center;
+    background-size: cover;
+    opacity: 0.7;
+    z-index: 9999;
+  }
+  .toggle-sound {
+    position: absolute;
+    top: 1%;
+    right: 1%;
+    width: 6%;
+    height: 6%;
+    background: url('../../assets/common/sound-on.png') no-repeat center;
+    background-size: cover;
+    opacity: 0.7;
+    z-index: 9999;
+  }
+  /* ED: 뒤로가기, 음소거 버튼 */
 
   @media (max-width: 640px) {
     .gacha {

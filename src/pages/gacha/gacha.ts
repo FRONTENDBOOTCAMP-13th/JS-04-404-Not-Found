@@ -1,5 +1,84 @@
 // music.ts 파일에서 함수 가져오기
 import { allowMusic } from '../../common/music.ts';
+// gacha.ts 파일 상단에 추가
+import { musicPlay } from '../../common/local-storage.ts';
+import { toggleSound } from '../../common/toggle-sound.ts';
+// 이미지 import 추가
+import soundOn from '/src/assets/common/sound-on.png';
+import soundOff from '/src/assets/common/sound-off.png';
+
+// 뒤로가기, 음소거 버튼 선택
+const backBtn = document.querySelector('.back-btn') as HTMLElement;
+const toggleSoundBtn = document.querySelector('.toggle-sound') as HTMLElement;
+const toggleSoundText = document.querySelector(
+  '.toggle-sound > span',
+) as HTMLElement;
+
+// 버튼이 존재하는지 확인
+if (backBtn && toggleSoundBtn && toggleSoundText) {
+  // 버튼 및 span의 텍스트 초기화
+  if (musicPlay() === 'true') {
+    toggleSoundBtn.style.backgroundImage = `url(${soundOn})`;
+    toggleSoundText.innerHTML = '전체 소리 끄기 버튼';
+  } else {
+    toggleSoundBtn.style.backgroundImage = `url(${soundOff})`;
+    toggleSoundText.innerHTML = '전체 소리 켜기 버튼';
+  }
+
+  // 뒤로가기
+  backBtn.addEventListener('click', () => {
+    window.history.back();
+  });
+
+  // 음소거/재생
+  toggleSoundBtn.addEventListener('click', () => {
+    const soundState: string | null = musicPlay();
+
+    // null 체크 추가
+    if (bgmAudio) {
+      toggleSound(bgmAudio); // null이 아닐 때만 호출
+    }
+
+    if (soundState === 'true') {
+      toggleSoundBtn.style.backgroundImage = `url(${soundOff})`;
+      toggleSoundText.innerHTML = '전체 소리 켜기 버튼';
+    } else {
+      toggleSoundBtn.style.backgroundImage = `url(${soundOn})`;
+      toggleSoundText.innerHTML = '전체 소리 끄기 버튼';
+    }
+  });
+
+  // 초기 버튼 hover 설정 호출
+  topBtnHover();
+}
+
+// 640기준으로 뒤로가기, 음소거/재생 마우스 이벤트 등록/제거
+function topBtnHover() {
+  const winW: number = window.innerWidth;
+  if (winW > 640) {
+    if (backBtn) backBtn.style.opacity = '0.7';
+    if (toggleSoundBtn) toggleSoundBtn.style.opacity = '0.7';
+
+    backBtn?.addEventListener('mouseenter', () => {
+      backBtn.style.opacity = '1';
+    });
+    backBtn?.addEventListener('mouseleave', () => {
+      backBtn.style.opacity = '0.7';
+    });
+    toggleSoundBtn?.addEventListener('mouseenter', () => {
+      toggleSoundBtn.style.opacity = '1';
+    });
+    toggleSoundBtn?.addEventListener('mouseleave', () => {
+      toggleSoundBtn.style.opacity = '0.7';
+    });
+  } else {
+    if (backBtn) backBtn.style.opacity = '1';
+    if (toggleSoundBtn) toggleSoundBtn.style.opacity = '1';
+  }
+}
+
+// 리사이즈 이벤트로 브라우저 사이즈 달라질 때마다 이벤트동작
+window.addEventListener('resize', topBtnHover);
 
 // 타입 정의 추가: 커스텀 이벤트 인터페이스
 interface ThreeSceneEventDetail {
@@ -140,7 +219,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // text-y 요소 선택 및 깜빡임 효과
-const gachaTextY = document.querySelector('.gacha-text-y') as HTMLElement | null;
+const gachaTextY = document.querySelector(
+  '.gacha-text-y',
+) as HTMLElement | null;
 if (gachaTextY) {
   // 1초마다 실행되는 인터벌 설정
   setInterval(() => {
@@ -209,8 +290,12 @@ const clawOpen = document.querySelector('.claw-open') as HTMLElement | null;
 const clawBall = document.querySelector('.claw-ball') as HTMLElement | null;
 
 // 모바일 조작 요소 선택 추가
-const joystickLeft = document.querySelector('.joystick-left') as HTMLElement | null;
-const joystickRight = document.querySelector('.joystick-right') as HTMLElement | null;
+const joystickLeft = document.querySelector(
+  '.joystick-left',
+) as HTMLElement | null;
+const joystickRight = document.querySelector(
+  '.joystick-right',
+) as HTMLElement | null;
 const aButton = document.querySelector('.a-button') as HTMLElement | null;
 
 // 부모 요소의 너비를 기준으로 최대 이동 거리 계산 (부모 너비의 35%)
@@ -299,7 +384,7 @@ const resetAllTimersAndState = (): void => {
   // 상태 및 요소 초기화
   isGrabbing = false;
   // grabStage = 0;
-  
+
   if (clawBox) {
     clawBox.classList.remove('grabbing');
   }
@@ -308,11 +393,11 @@ const resetAllTimersAndState = (): void => {
   if (claw) {
     claw.style.opacity = '1';
   }
-  
+
   if (clawOpen) {
     clawOpen.style.opacity = '0';
   }
-  
+
   if (clawBall) {
     clawBall.style.opacity = '0';
   }
@@ -405,7 +490,7 @@ if (joystickLeft) {
       keyState.ArrowLeft = true;
     }
   });
-  
+
   joystickLeft.addEventListener('touchend', () => {
     // help-text 숨김
     hideHelpText();
@@ -413,11 +498,11 @@ if (joystickLeft) {
       keyState.ArrowLeft = false;
     }
   });
-  
+
   joystickLeft.addEventListener('touchmove', (event: TouchEvent) => {
     preventDefaultTouch(event);
   });
-  
+
   joystickLeft.addEventListener('mousedown', () => {
     // help-text 숨김
     hideHelpText();
@@ -425,13 +510,13 @@ if (joystickLeft) {
       keyState.ArrowLeft = true;
     }
   });
-  
+
   joystickLeft.addEventListener('mouseup', () => {
     if (isMobileView) {
       keyState.ArrowLeft = false;
     }
   });
-  
+
   joystickLeft.addEventListener('mouseleave', () => {
     if (isMobileView) {
       keyState.ArrowLeft = false;
@@ -447,7 +532,7 @@ if (joystickRight) {
       keyState.ArrowRight = true;
     }
   });
-  
+
   joystickRight.addEventListener('touchend', () => {
     // help-text 숨김
     hideHelpText();
@@ -455,11 +540,11 @@ if (joystickRight) {
       keyState.ArrowRight = false;
     }
   });
-  
+
   joystickRight.addEventListener('touchmove', (event: TouchEvent) => {
     preventDefaultTouch(event);
   });
-  
+
   joystickRight.addEventListener('mousedown', () => {
     // help-text 숨김
     hideHelpText();
@@ -467,13 +552,13 @@ if (joystickRight) {
       keyState.ArrowRight = true;
     }
   });
-  
+
   joystickRight.addEventListener('mouseup', () => {
     if (isMobileView) {
       keyState.ArrowRight = false;
     }
   });
-  
+
   joystickRight.addEventListener('mouseleave', () => {
     if (isMobileView) {
       keyState.ArrowRight = false;
@@ -486,19 +571,29 @@ if (aButton) {
   aButton.addEventListener('touchstart', () => {
     // help-text 숨김
     hideHelpText();
-    if (isMobileView && !isGrabbing && clawBox && !clawBox.classList.contains('grabbing')) {
+    if (
+      isMobileView &&
+      !isGrabbing &&
+      clawBox &&
+      !clawBox.classList.contains('grabbing')
+    ) {
       grabAction();
     }
   });
-  
+
   aButton.addEventListener('touchmove', (event: TouchEvent) => {
     preventDefaultTouch(event);
   });
-  
+
   aButton.addEventListener('click', () => {
     // help-text 숨김
     hideHelpText();
-    if (isMobileView && !isGrabbing && clawBox && !clawBox.classList.contains('grabbing')) {
+    if (
+      isMobileView &&
+      !isGrabbing &&
+      clawBox &&
+      !clawBox.classList.contains('grabbing')
+    ) {
       grabAction();
     }
   });
@@ -585,7 +680,7 @@ const grabAction = (): void => {
         if (claw) {
           claw.style.opacity = '1';
         }
-        
+
         if (clawOpen) {
           clawOpen.style.opacity = '0';
         }
@@ -599,7 +694,7 @@ const grabAction = (): void => {
         if (clawBox) {
           clawBox.classList.remove('grabbing');
         }
-        
+
         isGrabbing = false;
 
         // 효과음 중지
@@ -629,7 +724,7 @@ const grabAction = (): void => {
 
         // 타이머 배열에서 제거
         grabTimers = grabTimers.filter(
-          (t: number) => t !== timer1 && t !== timer2 && t !== timer3
+          (t: number) => t !== timer1 && t !== timer2 && t !== timer3,
         );
       }, 2000);
 
@@ -672,4 +767,13 @@ document.addEventListener('visibilitychange', () => {
 // 전체 문서 클릭 이벤트 추가 - 컨트롤러 외 영역 클릭 시에도 help-text 숨김
 document.addEventListener('click', () => {
   hideHelpText();
+});
+
+// gacha.ts 파일 하단에 추가
+// 배경음악 재시작 이벤트 리스너
+window.addEventListener('restartBackgroundMusic', () => {
+  // 0.5초 후에 배경음악 재시작
+  setTimeout(() => {
+    startBGM();
+  }, 500);
 });
