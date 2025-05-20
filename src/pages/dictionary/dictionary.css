@@ -143,15 +143,14 @@ body {
 
 .poke-num {
   font-weight: bold;
-  margin-left: 5px;
-  margin-bottom: 15px;
+
   color: white;
-  font-size: 20px;
+  font-size: 15px;
 }
 
 .poke-name {
   color: white;
-  font-size: 18px;
+  font-size: 15px;
 }
 
 .poke-types {
@@ -193,6 +192,8 @@ body {
 .pokemon-card.unrevealed .poke-num {
   font-size: 50px;
   color: #555;
+  margin-bottom: 15px;
+  margin-left: 5px;
 }
 
 /* 포켓볼 bounce 애니메이션 */
