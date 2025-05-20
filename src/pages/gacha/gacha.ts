@@ -22,14 +22,14 @@ const initAudio = (): void => {
   // BGM 오디오 객체 생성
   bgmAudio = new Audio();
   if (bgmAudio) {
-    bgmAudio.src = '/src/assets/music/gacha-bg.mp3'; // 실제 BGM 파일 경로로 변경 필요
+    bgmAudio.src = '/music/gacha-bg.mp3'; // 실제 BGM 파일 경로로 변경 필요
     bgmAudio.volume = 0.5; // 볼륨 설정
   }
 
   // 효과음 오디오 객체 생성
   effectAudio = new Audio();
   if (effectAudio) {
-    effectAudio.src = '/src/assets/music/claw-bgm.mp3'; // 실제 효과음 파일 경로로 변경 필요
+    effectAudio.src = '/music/claw-bgm.mp3'; // 실제 효과음 파일 경로로 변경 필요
     effectAudio.volume = 0.5; // 볼륨 설정
   }
 
