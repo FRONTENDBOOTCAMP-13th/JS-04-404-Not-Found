@@ -69,6 +69,15 @@ const pokeList: number[][] = [
   ],
   [144, 145, 146, 150, 151, 777, 888],
 ];
+/* ───────────── DOM 엘리먼트 정의 ───────────── */
+const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn'); // 슬롯 머신 버튼
+const slotNum = document.querySelectorAll('.slot-num'); // 슬롯머신 숫자 모든 li
+const pokeGetModal = document.getElementById('pokeGet');
+const cardGetBtn = document.getElementById('cardGetBtn'); //카드 획득하기 버튼
+const starBack = document.querySelector('#starBack'); // 포켓몬 카드배경
+const pokeName = document.querySelector('#pokeName'); // 포켓몬 카드이름
+const pokeCard = document.querySelector('#pokeCard');
+const mSlotBtn = document.querySelector<HTMLButtonElement>('#MslotBtn'); // 모바일버튼
 
 // ST : 뒤로가기, 음소거 버튼 ------------------
 const backBtn = document.querySelector('.back-btn') as HTMLElement;
@@ -134,15 +143,6 @@ window.addEventListener('resize', topBtnHover);
 topBtnHover();
 // ED : 뒤로가기, 음소거 버튼 ------------------
 
-/* ───────────── DOM 엘리먼트 정의 ───────────── */
-const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn'); // 슬롯 머신 버튼
-const slotNum = document.querySelectorAll('.slot-num'); // 슬롯머신 숫자 모든 li
-const pokeGetModal = document.getElementById('pokeGet');
-const cardGetBtn = document.getElementById('cardGetBtn'); //카드 획득하기 버튼
-const starBack = document.querySelector('#starBack'); // 포켓몬 카드배경
-const pokeName = document.querySelector('#pokeName'); // 포켓몬 카드이름
-const pokeCard = document.querySelector('#pokeCard');
-
 /* ───────────── 로컬스토리지 정의 ───────────── */
 // const slotPlay = localStorage.getItem('musicPlay');
 // console.log(musicPlay);
@@ -203,6 +203,9 @@ function btnEvent(btn: HTMLButtonElement) {
 /* ───────────── 버튼 이벤트 등록 ───────────── */
 if (slotbtn) {
   btnEvent(slotbtn);
+}
+if (mSlotBtn) {
+  btnEvent(mSlotBtn);
 }
 
 /* ───────────── 랜덤 숫자 생성기 ───────────── */
@@ -294,8 +297,9 @@ async function yourPokemon(num: number) {
 async function slotMachine() {
   const clickBtnTime = Date.now(); //버튼누를때 시간체크
   const entryLastSlot = localStorage.getItem('lastSlot');
-  if (slotbtn !== null) {
+  if (slotbtn !== null && mSlotBtn !== null) {
     btnNoneClick(slotbtn);
+    btnNoneClick(mSlotBtn);
   }
 
   if (
@@ -315,8 +319,9 @@ async function tomorryReturn() {
   return new Promise<void>(resolve => {
     alert('내일 다시 오려무나~');
     resolve();
-    if (slotbtn !== null) {
+    if (slotbtn !== null && mSlotBtn !== null) {
       btnCanClick(slotbtn);
+      btnCanClick(mSlotBtn);
     }
   });
 }
@@ -377,8 +382,9 @@ function closeGet() {
     pokeGetModal?.classList.add('d-none');
     pokeGetModal?.classList.remove('active');
     allowMusic(casinoMusic, true); // 배경음악 호출
-    if (slotbtn !== null) {
+    if (slotbtn !== null && mSlotBtn !== null) {
       btnCanClick(slotbtn);
+      btnCanClick(mSlotBtn);
     }
     dogamgetMusic.pause();
   });
@@ -469,7 +475,9 @@ async function preloadImage(url: string): Promise<void> {
 closeGet();
 function btnNoneClick(btn: HTMLButtonElement) {
   btn.disabled = true;
+  btn.style.pointerEvents = 'none';
 }
 function btnCanClick(btn: HTMLButtonElement) {
   btn.disabled = false;
+  btn.style.pointerEvents = 'auto';
 }

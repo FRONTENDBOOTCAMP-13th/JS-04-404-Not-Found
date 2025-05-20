@@ -151,3 +151,21 @@
     border: 6px double #000;
   }
 }
+
+.a-button {
+  width: 13%;
+  aspect-ratio: 1/1;
+  /* height: 5%; */
+  background: gold;
+  position: absolute;
+  display: none;
+  z-index: 9999999999;
+  top: 73%; /* 혹은 85% 정도? 원하는 위치 조정 */
+  right: 18%;
+  /* transform: translate(-50%, 0); */
+}
+@media screen and (max-width: 640px) {
+  .a-button {
+    display: block;
+  }
+}
