@@ -10,6 +10,31 @@ import { allowMusic } from '../../common/music.ts';
 import townMusicSrc from '/src/assets/music/town-music.mp3';
 import soundOn from '/src/assets/common/sound-on.png'; // sound-on 이미지
 import soundOff from '/src/assets/common/sound-off.png'; // sound-off 이미지
+import frontRed from '../../assets/town/front.png';
+import backRed from '../../assets/town/back.png';
+import rightRed from '../../assets/town/right.png';
+import leftRed from '../../assets/town/left.png';
+
+// ST: 캐릭터 움직임
+const red = document.querySelector('.red-character') as HTMLElement;
+
+window.addEventListener('keydown', e => {
+  if (e.key === 'ArrowUp') {
+    console.log('up');
+    red.style.background = `url(${backRed})`;
+  } else if (e.key === 'ArrowDown') {
+    console.log('down');
+    red.style.background = `url(${frontRed})`;
+  } else if (e.key === 'ArrowRight') {
+    console.log('right');
+    red.style.background = `url(${rightRed})`;
+  } else if (e.key === 'ArrowLeft') {
+    console.log('left');
+    red.style.background = `url(${leftRed})`;
+  }
+});
+
+// ED: 캐릭터 움직임
 
 // 페이지가 이동될 때 userInfoModal 닫기
 window.addEventListener('beforeunload', () => {
