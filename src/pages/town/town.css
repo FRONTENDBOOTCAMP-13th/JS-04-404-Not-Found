@@ -1,6 +1,19 @@
 /* ST : 마을 페이지 */
 .town {
   position: relative;
+
+  /* 메인 캐릭터 */
+  .red-character {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    width: 45px;
+    aspect-ratio: 1/1;
+    background: url(../../assets/town/front.png) no-repeat center;
+    background-size: cover;
+  }
+
   /* ST: 뒤로가기, 음소거 버튼 */
   .back-btn {
     position: absolute;
