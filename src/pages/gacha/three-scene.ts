@@ -4,6 +4,11 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
+// three-scene.ts 파일에 import 추가
+import { allowMusic } from '../../common/music.ts';
+import { musicPlay } from '../../common/local-storage.ts';
+import { showPokeCard } from './pokecard';
+
 // CustomEvent 타입 정의 추가
 interface ThreeSceneEventDetail {
   forceReinit: boolean;
@@ -572,6 +577,7 @@ class MonsterBallScene {
     animate();
   }
 
+  // playOpenAnimation 메서드 수정
   private playOpenAnimation(): void {
     if (!this.model || this.isAnimating) return;
 
@@ -583,13 +589,11 @@ class MonsterBallScene {
       this.bgmAudio.currentTime = 0;
     }
 
-    // 효과음 재생
+    // 효과음 재생 - 음소거 상태 확인 추가
     if (this.audio) {
-      // 이미 재생 중인 경우 처음부터 다시 재생
       this.audio.currentTime = 0;
-      this.audio.play().catch(error => {
-        console.warn('오디오 재생 오류:', error);
-      });
+      // allowMusic 함수 사용 (내부적으로 musicPlay 상태를 확인)
+      allowMusic(this.audio, false);
     }
 
     if (this.animations.open) {
@@ -605,6 +609,10 @@ class MonsterBallScene {
       setTimeout(() => {
         this.isOpen = true;
         this.isAnimating = false;
+
+        // 애니메이션 완료 후 카드 표시 (추가된 부분)
+        console.log('애니메이션 완료: 카드 표시 시작');
+        showPokeCard();
       }, 800); // 애니메이션 길이에 맞게 조정
     } else {
       // 애니메이션이 없는 경우 수동으로 열기
@@ -612,6 +620,7 @@ class MonsterBallScene {
     }
   }
 
+  // animateOpen 메서드 수정 (프로그래밍 방식 애니메이션용)
   private animateOpen(): void {
     if (!this.model || !this.topPart) return;
 
@@ -659,6 +668,12 @@ class MonsterBallScene {
         this.isOpen = true;
         this.isAnimating = false;
         console.log('애니메이션 완료: 모델 열기');
+
+        // 애니메이션 완료 후 카드 표시 (명확한 시간 지연 추가)
+        setTimeout(() => {
+          console.log('카드 표시 시작');
+          showPokeCard();
+        }, 300); // 애니메이션과 카드 표시 사이에 시간 간격 추가
       }
     };
 
@@ -725,7 +740,7 @@ class MonsterBallScene {
   };
 
   private loadAudio(): void {
-    // 효과음 객체 생성 (기존 코드 유지)
+    // 효과음 객체 생성
     this.audio = new Audio('/music/gacha-ball-open.mp3');
     if (this.audio) {
       this.audio.volume = 0.4;
@@ -756,14 +771,14 @@ class MonsterBallScene {
 
     // 가챠 페이지에서 왔는지 확인
     const fromGachaEvent = sessionStorage.getItem('fromGachaEvent') === 'true';
-    console.log('가챠 이벤트에서 왔는지 확인:', fromGachaEvent); // 디버깅용 로그 추가
+    console.log('가챠 이벤트에서 왔는지 확인:', fromGachaEvent);
 
     // 화면이 보이는지 확인
     const threeTest = document.querySelector('.three-test');
     const isVisible =
       threeTest instanceof HTMLElement &&
       window.getComputedStyle(threeTest).display !== 'none';
-    console.log('Three.js 화면 표시 상태:', isVisible); // 디버깅용 로그 추가
+    console.log('Three.js 화면 표시 상태:', isVisible);
 
     if (isVisible) {
       console.log('Three.js 페이지 활성화 상태 감지, 배경음악 준비');
@@ -779,13 +794,18 @@ class MonsterBallScene {
           }
         });
 
-      // 명시적으로 배경음악 재생 시도 (타이밍 문제 해결)
-      setTimeout(() => {
-        if (this.bgmAudio && this.bgmAudio.paused) {
-          console.log('지연 후 배경음악 재생 시도');
-          this.playBackgroundMusic();
-        }
-      }, 500); // 씬 초기화 후 0.5초 지연
+      // 로컬스토리지의 음소거 상태 확인 후 배경음악 재생 (여기가 수정된 부분)
+      if (musicPlay() === 'true') {
+        console.log('음소거 비활성화 상태. 배경음악 재생 예정');
+        setTimeout(() => {
+          if (this.bgmAudio && this.bgmAudio.paused) {
+            console.log('지연 후 배경음악 재생 시도');
+            this.playBackgroundMusic();
+          }
+        }, 500);
+      } else {
+        console.log('음소거 활성화 상태. 배경음악 재생하지 않음');
+      }
 
       // 플래그 초기화
       if (fromGachaEvent) {
@@ -850,12 +870,24 @@ class MonsterBallScene {
 
   // 외부에서 직접 호출 가능한 배경음악 재생 메서드 추가
   public playBGM(): void {
+    // 음소거 상태일 경우 재생하지 않음
+    if (musicPlay() !== 'true') {
+      console.log('음소거 상태이므로 재생하지 않음');
+      return;
+    }
+
     console.log('playBGM 메서드 호출됨');
     this.playBackgroundMusic();
   }
 
   // 새로운 메서드: 대체 오디오 재생 설정
   private setupFallbackAudioPlay(): void {
+    // 음소거 상태라면 실행하지 않음
+    if (musicPlay() !== 'true') {
+      console.log('음소거 상태이므로 대체 음악 재생을 시도하지 않음');
+      return;
+    }
+
     console.log('사용자 상호작용 후 음악 재생을 시도합니다.');
 
     // 이벤트 ID 관리를 위한 함수
@@ -867,8 +899,8 @@ class MonsterBallScene {
         document.removeEventListener(type, handleInteraction);
       });
 
-      // 음악 재생 시도
-      if (this.bgmAudio) {
+      // 음악 재생 시도 (음소거 상태 재확인)
+      if (this.bgmAudio && musicPlay() === 'true') {
         this.bgmAudio
           .play()
           .then(() => console.log('상호작용 후 배경음악 재생 성공!'))
