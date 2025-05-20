@@ -39,6 +39,13 @@ import twoStar from '/src/assets/slot/star2.png';
 import threeStar from '/src/assets/slot/star3.png';
 import card777 from '/src/assets/slot/777card.png';
 import card888 from '/src/assets/slot/888card.png';
+import card50 from '/src/assets/slot/card50.png';
+import card54 from '/src/assets/slot/card54.png';
+import card104 from '/src/assets/slot/card104.png';
+import card111 from '/src/assets/slot/card111.png';
+import card137 from '/src/assets/slot/card137.png';
+import card147 from '/src/assets/slot/card147.png';
+
 const apiKey = import.meta.env.VITE_POKEMONTCG_API_KEY; // 카드 api불러오기
 
 /* ───────────── 효과음 & 배경음악 초기화 ───────────── */
@@ -52,26 +59,22 @@ casinoMusic.volume = 0.3; // 해당음원 Sound 볼륨 조절
 allowMusic(casinoMusic, true); // 배경음악 호출
 
 const pokeList: number[][] = [
-  // [
-  //   1, 4, 7, 10, 13, 16, 19, 21, 23, 27, 29, 32, 35, 37, 39, 41, 43, 46, 48, 50,
-  //   52, 54, 56, 58, 60, 63, 66, 69, 72, 74, 77, 79, 81, 84, 86, 88, 90, 92, 96,
-  //   98, 100, 102, 104, 109, 114, 116, 118, 120, 129, 133, 140, 147,
-  // ],
-  // [
-  //   2, 5, 8, 11, 14, 17, 20, 24, 25, 28, 30, 33, 36, 40, 42, 44, 47, 49, 53, 55,
-  //   61, 64, 67, 70, 75, 80, 82, 83, 85, 87, 89, 93, 95, 99, 101, 103, 105, 106,
-  //   107, 108, 110, 111, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 134,
-  //   135, 136, 138, 141, 142, 148,
-  // ],
-  // [
-  //   3, 6, 9, 12, 15, 18, 22, 26, 31, 34, 38, 45, 51, 57, 59, 62, 65, 68, 71, 73,
-  //   76, 78, 91, 94, 97, 112, 113, 115, 130, 131, 132, 137, 139, 143, 149,
-  // ],
-  // [144, 145, 146, 150, 151, 777, 888],
-  [144],
-  [144],
-  [144],
-  [144],
+  [
+    1, 4, 7, 10, 13, 16, 19, 21, 23, 27, 29, 32, 35, 37, 39, 41, 43, 46, 48, 50,
+    52, 54, 56, 58, 60, 63, 66, 69, 72, 74, 77, 79, 81, 84, 86, 88, 90, 92, 96,
+    98, 100, 102, 104, 109, 114, 116, 118, 120, 129, 133, 140, 147,
+  ],
+  [
+    2, 5, 8, 11, 14, 17, 20, 24, 25, 28, 30, 33, 36, 40, 42, 44, 47, 49, 53, 55,
+    61, 64, 67, 70, 75, 80, 82, 83, 85, 87, 89, 93, 95, 99, 101, 103, 105, 106,
+    107, 108, 110, 111, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 134,
+    135, 136, 138, 141, 142, 148,
+  ],
+  [
+    3, 6, 9, 12, 15, 18, 22, 26, 31, 34, 38, 45, 51, 57, 59, 62, 65, 68, 71, 73,
+    76, 78, 91, 94, 97, 112, 113, 115, 130, 131, 132, 137, 139, 143, 149,
+  ],
+  [144, 145, 146, 150, 151, 777, 888],
 ];
 /* ───────────── DOM 엘리먼트 정의 ───────────── */
 const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn'); // 슬롯 머신 버튼
@@ -421,6 +424,18 @@ async function cardImg(dogamNum: number): Promise<string> {
     cardUrl = card777;
   } else if (dogamNum === 888) {
     cardUrl = card888;
+  } else if (dogamNum === 50) {
+    cardUrl = card50;
+  } else if (dogamNum === 54) {
+    cardUrl = card54;
+  } else if (dogamNum === 104) {
+    cardUrl = card104;
+  } else if (dogamNum === 111) {
+    cardUrl = card111;
+  } else if (dogamNum === 137) {
+    cardUrl = card137;
+  } else if (dogamNum === 147) {
+    cardUrl = card147;
   } else {
     const imgUrl = `https://api.pokemontcg.io/v2/cards?q=nationalPokedexNumbers:${dogamNum}`;
     const res = await fetch(imgUrl, {
@@ -445,7 +460,7 @@ async function cardImg(dogamNum: number): Promise<string> {
     );
 
     // 2. 없으면 fallback으로 뒤에서 세 번째 카드 사용
-    const lastVersionIndex = cardVersion.length - 4;
+    const lastVersionIndex = Math.max(cardVersion.length - 4, 0);
     // const lastVersionIndex = 3;
     const fallbackCard = cardVersion[lastVersionIndex];
 
@@ -491,8 +506,15 @@ function btnCanClick(btn: HTMLButtonElement) {
 
 /* ───────────── 카드 움직이는 함수 ───────────── */
 const shine = document.querySelector('.shine');
+const shine2 = document.querySelector('.shine2');
+const shadow = document.querySelector('.shadow');
 function cardanimation() {
-  if (pokeCard instanceof HTMLElement && shine instanceof HTMLElement) {
+  if (
+    pokeCard instanceof HTMLElement &&
+    shine instanceof HTMLElement &&
+    shadow instanceof HTMLElement &&
+    shine2 instanceof HTMLElement
+  ) {
     pokeCard?.addEventListener('mousemove', e => {
       const rect = pokeCard.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -513,15 +535,20 @@ function cardanimation() {
       const transformStyle = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       pokeCard.style.transform = transformStyle;
       shine.style.transform = transformStyle;
+      shine2.style.transform = transformStyle;
+      shadow.style.transform = transformStyle;
 
-      // 🪄 shine 그라데이션 위치 마우스 따라 움직이게!
       shine.style.backgroundPosition = `${percentX}% ${percentY}%`;
+      shine2.style.backgroundPosition = `${percentX}% ${percentY}%`;
+      shadow.style.background = `radial-gradient(circle at ${percentX}% ${percentY}%, rgba(255, 255, 255, 0.3) 0%, transparent 40%)`;
     });
 
     pokeCard.addEventListener('mouseleave', () => {
       pokeCard.style.transform = `rotateX(0deg) rotateY(0deg)`;
       pokeCard.style.boxShadow = `0px 0px 15px rgba(0, 0, 0, 0.2)`;
       shine.style.transform = `rotateX(0deg) rotateY(0deg)`;
+      shine2.style.transform = `rotateX(0deg) rotateY(0deg)`;
+      shadow.style.transform = `rotateX(0deg) rotateY(0deg)`;
     });
   }
 }
