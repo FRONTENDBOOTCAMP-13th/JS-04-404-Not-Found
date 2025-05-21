@@ -10,6 +10,163 @@ import { allowMusic } from '../../common/music.ts';
 import townMusicSrc from '/src/assets/music/town-music.mp3';
 import soundOn from '/src/assets/common/sound-on.png'; // sound-on 이미지
 import soundOff from '/src/assets/common/sound-off.png'; // sound-off 이미지
+import frontRed from '../../assets/town/front.png';
+import backRed from '../../assets/town/back.png';
+import rightRed from '../../assets/town/right.png';
+import leftRed from '../../assets/town/left.png';
+
+// ST: 캐릭터 움직임
+
+const red = document.querySelector('.red-character') as HTMLElement; // 캐릭터 요소
+const redH = red.clientHeight; // 캐릭터 요소 높이
+const redW = red.clientWidth; // 캐릭터 요소 너비
+console.log(redH, redW);
+
+const townImg = document.querySelector('.town'); // 맵 전체 요소
+const townH = townImg?.clientHeight as number; // 맵 높이
+const townW = townImg?.clientWidth as number; // 맵 너비
+console.log(townH, townW);
+
+// area 정보 파싱
+const areaElements = Array.from(
+  document.querySelectorAll('area'),
+) as HTMLAreaElement[];
+const areaRects = areaElements
+  .map(area => {
+    const coords = area.coords.split(',').map(Number);
+    // shape이 rect일 때만 처리
+    if (area.shape === 'rect' && coords.length === 4) {
+      const [x1, y1, x2, y2] = coords;
+      return {
+        element: area,
+        href: area.href,
+        left: Math.min(x1, x2),
+        top: Math.min(y1, y2),
+        right: Math.max(x1, x2),
+        bottom: Math.max(y1, y2),
+      };
+    }
+    return null;
+  })
+  .filter(Boolean) as Array<{
+  element: HTMLAreaElement;
+  href: string;
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
+}>;
+
+let currentDirection = ''; // 현재 방향 상태 저장
+let currentTop = parseInt(getComputedStyle(red).top, 10); // 위에서부터의 현재 위치
+let currentLeft = parseInt(getComputedStyle(red).left, 10); // 왼쪽에서부터의 현재 위치
+// console.log(currentTop, currentLeft);
+
+const moveAmount = townH / 98; // 이동시킬 픽셀 단위
+
+// red의 중심 좌표 구하기
+function getRedCenter() {
+  return {
+    x: currentLeft + redW / 2,
+    y: currentTop + redH / 2,
+  };
+}
+
+// red가 area와 겹치는지 체크
+function checkAreaCollision() {
+  const { x, y } = getRedCenter();
+  for (const area of areaRects) {
+    if (
+      x >= area.left &&
+      x <= area.right &&
+      y >= area.top &&
+      y <= area.bottom
+    ) {
+      // userInfo 영역이면 모달 오픈
+      if (
+        area.element.id === 'userInfo' ||
+        (area.href && area.href.endsWith('#'))
+      ) {
+        if (userInfoModal && userInfoModal.classList.contains('d-none')) {
+          openModal(userInfoModal);
+        }
+        return true;
+      }
+      // 그 외에는 페이지 이동
+      if (area.href && !area.href.endsWith('#')) {
+        window.location.href = area.href;
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+window.addEventListener('keydown', e => {
+  // 이동 전 위치 저장
+  const prevTop = currentTop;
+  const prevLeft = currentLeft;
+  switch (e.key) {
+    case 'ArrowUp':
+      if (currentTop <= redH / 2) return;
+      if (currentDirection !== 'up') {
+        red.style.background = `url(${backRed}) no-repeat center / cover`;
+        currentDirection = 'up';
+      }
+      currentTop -= moveAmount;
+      red.style.top = `${currentTop}px`;
+      // area 충돌 시 이동 취소
+      if (checkAreaCollision()) {
+        currentTop = prevTop;
+        red.style.top = `${currentTop}px`;
+      }
+      console.log(currentTop, currentLeft);
+      break;
+
+    case 'ArrowDown':
+      if (townH - currentTop < redH / 2) return;
+      if (currentDirection !== 'down') {
+        red.style.background = `url(${frontRed}) no-repeat center / cover`;
+        currentDirection = 'down';
+      }
+      currentTop += moveAmount;
+      red.style.top = `${currentTop}px`;
+      if (checkAreaCollision()) {
+        currentTop = prevTop;
+        red.style.top = `${currentTop}px`;
+      }
+      console.log(currentTop, currentLeft);
+      break;
+
+    case 'ArrowRight':
+      if (currentDirection !== 'right') {
+        red.style.background = `url(${rightRed}) no-repeat center / cover`;
+        currentDirection = 'right';
+      }
+      currentLeft += moveAmount;
+      red.style.left = `${currentLeft}px`;
+      if (checkAreaCollision()) {
+        currentLeft = prevLeft;
+        red.style.left = `${currentLeft}px`;
+      }
+      break;
+
+    case 'ArrowLeft':
+      if (currentLeft <= 0) return;
+      if (currentDirection !== 'left') {
+        red.style.background = `url(${leftRed}) no-repeat center / cover`;
+        currentDirection = 'left';
+      }
+      currentLeft -= moveAmount;
+      red.style.left = `${currentLeft}px`;
+      if (checkAreaCollision()) {
+        currentLeft = prevLeft;
+        red.style.left = `${currentLeft}px`;
+      }
+      break;
+  }
+});
+// ED: 캐릭터 움직임
 
 // 페이지가 이동될 때 userInfoModal 닫기
 window.addEventListener('beforeunload', () => {

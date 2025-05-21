@@ -31,8 +31,8 @@
   .user-name {
     font-family: 'Galmuri9';
     width: 35%;
-    /* height: 4%; */
     font-size: 30px;
-    padding: 10px 10px;
+    font-size: min(3.4vw, 3.4vh);
+    padding: 0.8% 0.8%;
   }
 }

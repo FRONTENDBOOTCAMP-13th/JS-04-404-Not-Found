@@ -14,7 +14,7 @@ body {
   align-items: center;
 }
 
-.inner-980 {
+.dictionary {
   margin: 0 auto;
   width: 100%;
   max-width: 980px;
@@ -40,14 +40,51 @@ body {
 
 /* 도감 헤더 */
 .pokedex-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  justify-content: center;
+  position: relative; /* 중앙 정렬 및 포지셔닝 기준 */
+  height: 115px;
+  margin-bottom: 40px;
 }
 
+/* ST: 뒤로가기, 음소거 버튼 */
+.back-btn {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 51%;
+  aspect-ratio: 1/1;
+  translate: 0 -50%;
+  background: url('../../assets/common/back-btn.png') no-repeat center;
+  background-size: cover;
+  opacity: 0.7;
+}
+.toggle-sound {
+  position: absolute;
+  top: 50%;
+  left: 15%;
+  height: 51%;
+  aspect-ratio: 1/1;
+  translate: 0 -50%;
+  background: url('../../assets/common/sound-on.png') no-repeat center;
+  background-size: cover;
+  opacity: 0.7;
+}
+/* ED: 뒤로가기, 음소거 버튼 */
+
+/* 로고는 정중앙 고정 */
 .logo {
-  align-items: center;
+  position: absolute;
+  left: 52%;
+  transform: translateX(-50%);
+  font-family: 'Pixeled';
+  font-size: 24px;
+}
+
+/* 포켓볼은 오른쪽 끝에 배치 */
+.pokeball {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .pokeball img {
@@ -57,43 +94,56 @@ body {
 }
 
 /* 검색창 */
+/* 기존 유지 */
 .search-bar {
   display: flex;
   gap: 5px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   width: 100%;
   height: auto;
 }
 
-.search-bar input {
+/* input + 버튼 묶는 그룹 */
+.input-group {
+  display: flex;
+  flex: 1;
+  gap: 5px;
+}
+
+/* input은 넓게 */
+.input-group input {
   flex: 1;
   padding: 5px 10px;
   border: none;
   border-radius: 5px;
   color: #000;
   font-size: 20px;
-  min-width: 0;
+  font-family: 'Galmuri9';
+  height: 60px;
 }
 
-.search-bar button {
-  border: none;
-  cursor: pointer;
-  font-size: 40px;
-  padding: 5px 10px;
+/* 버튼 */
+.input-group button {
+  font-size: 24px;
   background: #ff3334;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
+/* select 유지 */
 .search-bar select {
+  font-family: 'Galmuri9';
   padding: 5px;
   border: none;
   border-radius: 4px;
   font-size: 20px;
   width: auto;
   min-width: 100px;
-  max-width: 200px;
+  max-width: 150px;
   flex: 0 0 auto;
 }
-
 /* 도감 내용 영역 */
 .pokedex-content {
   display: grid;
@@ -123,29 +173,26 @@ body {
 }
 
 .pokemon-card img {
+  image-rendering: pixelated;
   width: 90px;
   height: 90px;
 }
 
 .poke-num {
   font-weight: bold;
-  margin-bottom: 15px;
+
   color: white;
-  font-family: 'I-pixel-u', monospace;
-  font-size: 20px;
-  margin-top: 30px;
+  font-size: 15px;
 }
 
 .poke-name {
   color: white;
-  font-size: 18px;
-  font-family: 'I-pixel-u', monospace;
+  font-size: 15px;
 }
 
 .poke-types {
   color: white;
   margin-top: 4px;
-  font-family: 'I-pixel-u', monospace;
   font-size: 15px;
 }
 
@@ -180,8 +227,10 @@ body {
 }
 
 .pokemon-card.unrevealed .poke-num {
-  font-size: 90px;
+  font-size: 50px;
   color: #555;
+  margin-bottom: 15px;
+  margin-left: 5px;
 }
 
 /* 포켓볼 bounce 애니메이션 */
@@ -239,6 +288,7 @@ body {
 }
 
 .type-btn {
+  font-family: 'Galmuri9';
   padding: 8px;
   font-size: 14px;
   color: #fff;
@@ -247,7 +297,7 @@ body {
   cursor: pointer;
   transition: 0.2s;
 }
-@media (max-width: 480px) {
+@media (max-width: 505px) {
   .pokedex-header {
     flex-direction: column;
     align-items: center;
@@ -261,6 +311,45 @@ body {
   .logo {
     text-align: center;
     height: 100px;
+  }
+
+  @media (max-width: 505px) {
+    .search-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .input-group {
+      width: 100%;
+    }
+    .search-bar select {
+      width: 100%;
+      margin: 0;
+    }
+    .logo img {
+      width: 200px;
+      margin-left: 15px;
+    }
+  }
+  @media (max-width: 800px) {
+    .back-btn,
+    .toggle-sound {
+      position: absolute;
+      top: 50%;
+      translate: 0 -50%;
+      height: 36px;
+      aspect-ratio: 1 / 1;
+      background-size: cover;
+      z-index: 10;
+    }
+
+    .back-btn {
+      left: 8px;
+    }
+
+    .toggle-sound {
+      left: 50px;
+    }
   }
 }
 
@@ -327,7 +416,7 @@ body {
 /* 용쌤 (777) */
 .hidden-card-777 {
   border: 2px solid gold;
-  background: linear-gradient(135deg, #fff2ac, #ffe066);
+  background: linear-gradient(135deg, #fff2ac, #e46f01);
   box-shadow: 0 0 15px gold;
   animation: shineScale 1.5s infinite ease-in-out;
 }
@@ -347,7 +436,7 @@ body {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.08);
+    transform: scale(1.03);
   }
 }
 .hidden-card-777 .poke-name {

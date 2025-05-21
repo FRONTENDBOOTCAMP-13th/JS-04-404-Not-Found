@@ -3,21 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="preload"
+      as="font"
+      href="/public/fonts/Galmuri9.woff"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
     <link rel="stylesheet" href="/src/pages/dictionary/dictionary.css" />
-
-    <title>포켓몬 도감</title>
+    <title>POKEMON CARD COLLECTION</title>
   </head>
   <body>
     <div class="wrapper">
-      <div class="inner-980">
+      <div class="dictionary">
         <div class="pokedex">
           <div class="pokedex-header">
-            <div class="logo">
+            <!-- ST : 뒤로가기, 음소거 버튼-->
+            <button type="button" class="back-btn">
+              <span class="sr-only">뒤로가기</span>
+            </button>
+            <button type="button" class="toggle-sound">
+              <span class="sr-only"></span>
+            </button>
+            <!-- ED : 뒤로가기, 음소거 버튼-->
+            <a href="../town/town.html" class="logo">
               <img
                 src="/src/assets/dictionary/포켓몬로고.png"
                 alt="포켓몬로고"
               />
-            </div>
+            </a>
             <div class="pokeball">
               <img
                 src="/src/assets/dictionary/Pokebola-pokeball-png-0.png"
@@ -27,12 +41,14 @@
           </div>
 
           <div class="search-bar">
-            <input
+            <div class="input-group">
+              <input
               type="text"
               placeholder="포켓몬 이름, 번호 등을 검색하세요"
               id="search-input"
             />
-            <button class="search-btn">🔍</button>
+            <button class="search-btn" id="search-btn">🔍</button>
+            </div>
             <select id="view-filter">
               <option>내 도감</option>
               <option>획득한 포켓몬</option>

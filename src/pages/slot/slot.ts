@@ -37,6 +37,15 @@ import soundOff from '/src/assets/common/sound-off.png'; // sound-off 이미지
 import oneStar from '/src/assets/slot/star1.png';
 import twoStar from '/src/assets/slot/star2.png';
 import threeStar from '/src/assets/slot/star3.png';
+import card777 from '/src/assets/slot/777card.png';
+import card888 from '/src/assets/slot/888card.png';
+import card50 from '/src/assets/slot/card50.png';
+import card54 from '/src/assets/slot/card54.png';
+import card104 from '/src/assets/slot/card104.png';
+import card111 from '/src/assets/slot/card111.png';
+import card137 from '/src/assets/slot/card137.png';
+import card147 from '/src/assets/slot/card147.png';
+
 const apiKey = import.meta.env.VITE_POKEMONTCG_API_KEY; // 카드 api불러오기
 
 /* ───────────── 효과음 & 배경음악 초기화 ───────────── */
@@ -67,6 +76,15 @@ const pokeList: number[][] = [
   ],
   [144, 145, 146, 150, 151, 777, 888],
 ];
+/* ───────────── DOM 엘리먼트 정의 ───────────── */
+const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn'); // 슬롯 머신 버튼
+const slotNum = document.querySelectorAll('.slot-num'); // 슬롯머신 숫자 모든 li
+const pokeGetModal = document.getElementById('pokeGet');
+const cardGetBtn = document.getElementById('cardGetBtn'); //카드 획득하기 버튼
+const starBack = document.querySelector('#starBack'); // 포켓몬 카드배경
+const pokeName = document.querySelector('#pokeName'); // 포켓몬 카드이름
+const pokeCard = document.querySelector('#pokeCard');
+const mSlotBtn = document.querySelector<HTMLButtonElement>('#MslotBtn'); // 모바일버튼
 
 // ST : 뒤로가기, 음소거 버튼 ------------------
 const backBtn = document.querySelector('.back-btn') as HTMLElement;
@@ -132,15 +150,6 @@ window.addEventListener('resize', topBtnHover);
 topBtnHover();
 // ED : 뒤로가기, 음소거 버튼 ------------------
 
-/* ───────────── DOM 엘리먼트 정의 ───────────── */
-const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn'); // 슬롯 머신 버튼
-const slotNum = document.querySelectorAll('.slot-num'); // 슬롯머신 숫자 모든 li
-const pokeGetModal = document.getElementById('pokeGet');
-const cardGetBtn = document.getElementById('cardGetBtn'); //카드 획득하기 버튼
-const starBack = document.querySelector('#starBack'); // 포켓몬 카드배경
-const pokeName = document.querySelector('#pokeName'); // 포켓몬 카드이름
-const pokeCard = document.querySelector('#pokeCard');
-
 /* ───────────── 로컬스토리지 정의 ───────────── */
 // const slotPlay = localStorage.getItem('musicPlay');
 // console.log(musicPlay);
@@ -201,6 +210,9 @@ function btnEvent(btn: HTMLButtonElement) {
 /* ───────────── 버튼 이벤트 등록 ───────────── */
 if (slotbtn) {
   btnEvent(slotbtn);
+}
+if (mSlotBtn) {
+  btnEvent(mSlotBtn);
 }
 
 /* ───────────── 랜덤 숫자 생성기 ───────────── */
@@ -292,6 +304,10 @@ async function yourPokemon(num: number) {
 async function slotMachine() {
   const clickBtnTime = Date.now(); //버튼누를때 시간체크
   const entryLastSlot = localStorage.getItem('lastSlot');
+  if (slotbtn !== null && mSlotBtn !== null) {
+    btnNoneClick(slotbtn);
+    btnNoneClick(mSlotBtn);
+  }
 
   if (
     entryLastSlot === null ||
@@ -310,10 +326,15 @@ async function tomorryReturn() {
   return new Promise<void>(resolve => {
     alert('내일 다시 오려무나~');
     resolve();
+    if (slotbtn !== null && mSlotBtn !== null) {
+      btnCanClick(slotbtn);
+      btnCanClick(mSlotBtn);
+    }
   });
 }
 /* ───────────── 포켓몬 get 화면 띄우기 ───────────── */
 async function openGet(dogamNum: number) {
+  await delay(1000);
   await Promise.all([changePoke(dogamNum), starBackChange(dogamNum)]);
   if (pokeGetModal !== null) {
     await pokeGetModal.classList.remove('d-none');
@@ -346,11 +367,19 @@ async function changePoke(dogamNum: number) {
 }
 /* ───────────── 뽑은 포켓몬 한글이름 불러오기 ───────────── */
 async function getPokeKorName(pokeNum: number) {
-  const pokeData = await fetch(
-    `https://pokeapi.co/api/v2/pokemon-species/${pokeNum}`,
-  );
-  const pokeDataObj = await pokeData.json();
-  const thisPokeName = pokeDataObj.names[2].name;
+  let thisPokeName = '';
+  if (pokeNum === 777) {
+    thisPokeName = '슬비쌤';
+  } else if (pokeNum === 888) {
+    thisPokeName = '용쌤';
+  } else {
+    const pokeData = await fetch(
+      `https://pokeapi.co/api/v2/pokemon-species/${pokeNum}`,
+    );
+    const pokeDataObj = await pokeData.json();
+    thisPokeName = pokeDataObj.names[2].name;
+  }
+
   return thisPokeName;
 }
 
@@ -360,6 +389,11 @@ function closeGet() {
     pokeGetModal?.classList.add('d-none');
     pokeGetModal?.classList.remove('active');
     allowMusic(casinoMusic, true); // 배경음악 호출
+    if (slotbtn !== null && mSlotBtn !== null) {
+      btnCanClick(slotbtn);
+      btnCanClick(mSlotBtn);
+    }
+    dogamgetMusic.pause();
   });
 }
 
@@ -385,35 +419,66 @@ function closeGet() {
 //   return cardUrl;
 // }
 async function cardImg(dogamNum: number): Promise<string> {
-  const imgUrl = `https://api.pokemontcg.io/v2/cards?q=nationalPokedexNumbers:${dogamNum}`;
-  const res = await fetch(imgUrl, {
-    headers: {
-      'X-Api-Key': apiKey,
-    },
-  });
+  let cardUrl = '';
+  if (dogamNum === 777) {
+    cardUrl = card777;
+  } else if (dogamNum === 888) {
+    cardUrl = card888;
+  } else if (dogamNum === 50) {
+    cardUrl = card50;
+  } else if (dogamNum === 54) {
+    cardUrl = card54;
+  } else if (dogamNum === 104) {
+    cardUrl = card104;
+  } else if (dogamNum === 111) {
+    cardUrl = card111;
+  } else if (dogamNum === 137) {
+    cardUrl = card137;
+  } else if (dogamNum === 147) {
+    cardUrl = card147;
+  } else {
+    const imgUrl = `https://api.pokemontcg.io/v2/cards?q=nationalPokedexNumbers:${dogamNum}`;
+    const res = await fetch(imgUrl, {
+      headers: {
+        'X-Api-Key': apiKey,
+      },
+    });
 
-  const data = await res.json();
-  const cardVersion = data.data;
-
-  const rareCard = cardVersion.find(
-    (card: {
-      cardmarket?: object;
-      images: { large: string };
-      set: { name: string };
-      rarities?: string[];
+    const data = await res.json();
+    interface TCGCard {
       rarity?: string;
-    }) => card.rarity && card.rarity.toLowerCase().includes('rainbow'),
-  );
+      images?: {
+        large?: string;
+      };
+    }
 
-  const chooseCard = rareCard || cardVersion[cardVersion.length - 1];
-  const cardUrl = chooseCard.images.large;
+    const cardVersion: TCGCard[] = data.data;
 
-  await preloadImage(cardUrl);
+    // 1. EX 카드 우선 찾기
+    const exCard = cardVersion.find(card =>
+      card.rarity?.toLowerCase().includes('ex'),
+    );
+
+    // 2. 없으면 fallback으로 뒤에서 세 번째 카드 사용
+    const lastVersionIndex = Math.max(cardVersion.length - 4, 0);
+    // const lastVersionIndex = 3;
+    const fallbackCard = cardVersion[lastVersionIndex];
+
+    const chosenCard = exCard || fallbackCard;
+
+    if (chosenCard && chosenCard.images?.large) {
+      cardUrl = chosenCard.images.large;
+    } else {
+      console.warn('카드 이미지가 존재하지 않아요 껑!');
+      return '';
+    }
+  }
 
   if (pokeCard instanceof HTMLImageElement) {
     pokeCard.src = cardUrl;
   }
 
+  await preloadImage(cardUrl);
   return cardUrl;
 }
 
@@ -428,3 +493,63 @@ async function preloadImage(url: string): Promise<void> {
 }
 
 closeGet();
+
+/* ───────────── 클릭 막는 함수 ───────────── */
+function btnNoneClick(btn: HTMLButtonElement) {
+  btn.disabled = true;
+  btn.style.pointerEvents = 'none';
+}
+function btnCanClick(btn: HTMLButtonElement) {
+  btn.disabled = false;
+  btn.style.pointerEvents = 'auto';
+}
+
+/* ───────────── 카드 움직이는 함수 ───────────── */
+const shine = document.querySelector('.shine');
+const shine2 = document.querySelector('.shine2');
+const shadow = document.querySelector('.shadow');
+function cardanimation() {
+  if (
+    pokeCard instanceof HTMLElement &&
+    shine instanceof HTMLElement &&
+    shadow instanceof HTMLElement &&
+    shine2 instanceof HTMLElement
+  ) {
+    pokeCard?.addEventListener('mousemove', e => {
+      const rect = pokeCard.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      console.log('요소 내부 좌표: x', x);
+      console.log('요소 내부 좌표: y', y);
+      const rotateY = -(0.090645 * x - 10.16129);
+      const rotateX = 0.090645 * y - 10.16129;
+
+      const percentX = (x / rect.width) * 100;
+      const percentY = (y / rect.height) * 100;
+
+      const shadowX = -rotateY * 1.5; // 가로 그림자 (Y축 회전과 반대)
+      const shadowY = rotateX * 1.5; // 세로 그림자 (X축 회전과 같은 방향)
+
+      pokeCard.style.boxShadow = `${shadowX}px ${shadowY}px 20px rgba(0, 0, 0, 0.25)`;
+
+      const transformStyle = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      pokeCard.style.transform = transformStyle;
+      shine.style.transform = transformStyle;
+      shine2.style.transform = transformStyle;
+      shadow.style.transform = transformStyle;
+
+      shine.style.backgroundPosition = `${percentX}% ${percentY}%`;
+      shine2.style.backgroundPosition = `${percentX}% ${percentY}%`;
+      shadow.style.background = `radial-gradient(circle at ${percentX}% ${percentY}%, rgba(255, 255, 255, 0.3) 0%, transparent 40%)`;
+    });
+
+    pokeCard.addEventListener('mouseleave', () => {
+      pokeCard.style.transform = `rotateX(0deg) rotateY(0deg)`;
+      pokeCard.style.boxShadow = `0px 0px 15px rgba(0, 0, 0, 0.2)`;
+      shine.style.transform = `rotateX(0deg) rotateY(0deg)`;
+      shine2.style.transform = `rotateX(0deg) rotateY(0deg)`;
+      shadow.style.transform = `rotateX(0deg) rotateY(0deg)`;
+    });
+  }
+}
+cardanimation();
