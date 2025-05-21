@@ -18,6 +18,7 @@ const light = document.querySelector('.light');
 const pokedex = document.getElementById('pokedex');
 const viewFilter = document.getElementById('view-filter') as HTMLSelectElement;
 const searchInput = document.getElementById('search-input') as HTMLInputElement;
+const searchBtn = document.getElementById('search-btn') as HTMLButtonElement;
 
 // 포켓몬 타입 정의
 type Pokemon = {
@@ -30,7 +31,7 @@ type Pokemon = {
 
 let allPokemon: Pokemon[] = []; //도감 전체
 let ownedIds: number[] = []; // 로컬저장소에서 획득한 포켓몬 번호
-let currentList: Pokemon[] = []; // 현재 보여지는 화면 번호
+//let currentList: Pokemon[] = []; // 현재 보여지는 화면 번호
 
 // 도감 초기화 (모든 포켓몬 ??? 상태)
 const initPokedex = () => {
@@ -89,7 +90,7 @@ const fetchPokemon = async (id: number, revealed = true): Promise<Pokemon> => {
       name: '용쌤',
       imgUrl: '/public/images/용쌤이미지.png',
       number: '777',
-      types: ['땅'],
+      types: ['불꽃'],
       revealed,
     };
   }
@@ -99,7 +100,7 @@ const fetchPokemon = async (id: number, revealed = true): Promise<Pokemon> => {
       name: '슬비쌤',
       imgUrl: '/public/images/슬비쌤이미지.png',
       number: '888',
-      types: ['땅'],
+      types: ['비행'],
       revealed,
     };
   }
@@ -154,10 +155,10 @@ const renderPokemonCard = (pokemon: Pokemon) => {
 };
 
 // 포켓몬 리스트 렌더링
-const renderPokemonList = (list: Pokemon[], setCurrent = true) => {
+const renderPokemonList = (list: Pokemon[]) => {
   if (!pokedex) return;
   pokedex.innerHTML = '';
-  if (setCurrent) currentList = list; //  검색에서는 false로 넘김
+  //if (setCurrent) currentList = list; //  검색에서는 false로 넘김
   list.forEach(pokemon => renderPokemonCard(pokemon));
 };
 
@@ -216,7 +217,7 @@ viewFilter?.addEventListener('change', async () => {
       Array.from({ length: 151 }, (_, i) => fetchPokemon(i + 1, true)),
     );
     allPokemon = preview;
-    currentList = preview;
+    //currentList = preview;
     renderPokemonList(preview);
   } else if (selected === '내 도감') {
     initPokedex();
@@ -276,46 +277,60 @@ document.querySelectorAll('.type-btn').forEach(btn => {
     const filtered = baseList.filter(p => p.types.includes(selectedType));
 
     if (filtered.length === 0) {
-      renderPokemonList([], false);
+      renderPokemonList([]);
       const noResultDiv = document.createElement('div');
       noResultDiv.className = 'no-result';
       noResultDiv.textContent = '선택한 타입의 포켓몬이 없습니다.';
       pokedex?.appendChild(noResultDiv);
     } else {
-      renderPokemonList(filtered, false);
+      renderPokemonList(filtered);
     }
 
     typeModal?.classList.add('hidden');
   });
 });
 /////////////검색////////////
+const handleSearch = () => {
+  const keyword = searchInput.value.trim().toLowerCase();
+  const isFullView = viewFilter.value === '전체 포켓몬 보기';
+
+  const baseList = isFullView ? allPokemon : allPokemon.filter(p => p.revealed);
+
+  const filtered = baseList.filter(
+    p =>
+      p.name.toLowerCase().includes(keyword) ||
+      p.number === keyword.padStart(3, '0'),
+  );
+
+  if (filtered.length === 0) {
+    renderPokemonList([]);
+    const noResultDiv = document.createElement('div');
+    noResultDiv.className = 'no-result';
+    noResultDiv.textContent = '검색 결과가 없습니다.';
+    pokedex?.appendChild(noResultDiv);
+    alert(' 가챠랑 슬롯을 통해 다양한 포켓몬을 뽑아 보세요!');
+  } else {
+    renderPokemonList(filtered);
+  }
+};
+
 searchInput?.addEventListener('keydown', event => {
   if (event.key === 'Enter') {
-    const keyword = searchInput.value.trim().toLowerCase();
-
-    const isFullView = viewFilter.value === '전체 포켓몬 보기';
-    const baseList = isFullView ? currentList : allPokemon;
-
-    const filtered = baseList.filter(
-      p =>
-        (isFullView || p.revealed) &&
-        (p.name.toLowerCase().includes(keyword) ||
-          p.number === keyword.padStart(3, '0')),
-    );
-
-    if (filtered.length === 0) {
-      renderPokemonList([]); // 화면을 깔끔하게 비워주고
-      const noResultDiv = document.createElement('div');
-      noResultDiv.className = 'no-result';
-      noResultDiv.textContent = '검색 결과가 없습니다.';
-      pokedex?.appendChild(noResultDiv);
-
-      alert(' 가챠랑 슬롯을 통해 다양한 포켓몬을 뽑아 보세요!');
-    } else {
-      renderPokemonList(filtered, false);
-    }
+    handleSearch();
   }
 });
+
+searchBtn?.addEventListener('click', handleSearch);
+
+// Enter 키로 검색
+searchInput?.addEventListener('keydown', event => {
+  if (event.key === 'Enter') {
+    handleSearch();
+  }
+});
+
+// 🔍 버튼 클릭으로 검색
+searchBtn?.addEventListener('click', handleSearch);
 
 // 초기 실행
 initPokedex();
