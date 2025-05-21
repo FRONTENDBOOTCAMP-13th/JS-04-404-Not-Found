@@ -102,6 +102,48 @@ const pokeList: number[][] = [
   // [888],
   // [888],
 ];
+/* ───────────── 포켓몬 카드배경 객체 ───────────── */
+interface cardBackType {
+  [key: string]: string;
+}
+
+const typeBackObj: cardBackType = {
+  bug: bugImg,
+  dark: darkImg,
+  dragon: dragonImg,
+  electric: electricImg,
+  fairy: fairyImg,
+  fighting: fightingImg,
+  flying: flyingImg,
+  ghost: ghostImg,
+  grass: grassImg,
+  ground: groundImg,
+  ice: iceImg,
+  normal: normalImg,
+  poison: poisonImg,
+  psychic: psychicImg,
+  rock: rockImg,
+  steel: steelImg,
+  fire: fireImg,
+  water: waterImg,
+};
+/* ───────────── 미등록 카드 객체 ───────────── */
+interface specialCard {
+  [key: number]: string;
+}
+const specialCardMap: specialCard = {
+  777: card777,
+  888: card888,
+  50: card50,
+  54: card54,
+  104: card104,
+  111: card111,
+  137: card137,
+  147: card147,
+  27: card27,
+  28: card28,
+};
+
 /* ───────────── DOM 엘리먼트 정의 ───────────── */
 const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn'); // 슬롯 머신 버튼
 const slotNum = document.querySelectorAll('.slot-num'); // 슬롯머신 숫자 모든 li
@@ -176,10 +218,6 @@ window.addEventListener('resize', topBtnHover);
 // 초기 동작
 topBtnHover();
 // ED : 뒤로가기, 음소거 버튼 ------------------
-
-/* ───────────── 로컬스토리지 정의 ───────────── */
-// const slotPlay = localStorage.getItem('musicPlay');
-// console.log(musicPlay);
 
 /* ───────────── 오박사 목소리 재생 함수 ───────────── */
 async function slotMusicPlay() {
@@ -436,44 +474,7 @@ async function getPokeType(pokeNum: number) {
     }
   }
   if (cardBack) {
-    // 조건별 배경분리 .. 이렇게 한이유 : 타입스크립트 놈이 선언하고 안쓴다고 에러냄 ㅠ
-    if (thisPokeType === 'bug') {
-      cardBack.style.backgroundImage = `url(${bugImg})`;
-    } else if (thisPokeType === 'dark') {
-      cardBack.style.backgroundImage = `url(${darkImg})`;
-    } else if (thisPokeType === 'dragon') {
-      cardBack.style.backgroundImage = `url(${dragonImg})`;
-    } else if (thisPokeType === 'electric') {
-      cardBack.style.backgroundImage = `url(${electricImg})`;
-    } else if (thisPokeType === 'fairy') {
-      cardBack.style.backgroundImage = `url(${fairyImg})`;
-    } else if (thisPokeType === 'fighting') {
-      cardBack.style.backgroundImage = `url(${fightingImg})`;
-    } else if (thisPokeType === 'flying') {
-      cardBack.style.backgroundImage = `url(${flyingImg})`;
-    } else if (thisPokeType === 'ghost') {
-      cardBack.style.backgroundImage = `url(${ghostImg})`;
-    } else if (thisPokeType === 'grass') {
-      cardBack.style.backgroundImage = `url(${grassImg})`;
-    } else if (thisPokeType === 'ground') {
-      cardBack.style.backgroundImage = `url(${groundImg})`;
-    } else if (thisPokeType === 'ice') {
-      cardBack.style.backgroundImage = `url(${iceImg})`;
-    } else if (thisPokeType === 'normal') {
-      cardBack.style.backgroundImage = `url(${normalImg})`;
-    } else if (thisPokeType === 'poison') {
-      cardBack.style.backgroundImage = `url(${poisonImg})`;
-    } else if (thisPokeType === 'psychic') {
-      cardBack.style.backgroundImage = `url(${psychicImg})`;
-    } else if (thisPokeType === 'rock') {
-      cardBack.style.backgroundImage = `url(${rockImg})`;
-    } else if (thisPokeType === 'steel') {
-      cardBack.style.backgroundImage = `url(${steelImg})`;
-    } else if (thisPokeType === 'fire') {
-      cardBack.style.backgroundImage = `url(${fireImg})`;
-    } else if (thisPokeType === 'water') {
-      cardBack.style.backgroundImage = `url(${waterImg})`;
-    }
+    cardBack.style.backgroundImage = `url(${typeBackObj[thisPokeType]})`;
   }
   return thisPokeType;
 }
@@ -492,49 +493,12 @@ function closeGet() {
   });
 }
 
-/* ───────────── 도감번호에 맞는 카드 추출하기 ───────────── */
-// async function cardImg(dogamNum: number): Promise<string> {
-//   const imgUrl = `https://api.pokemontcg.io/v2/cards?q=nationalPokedexNumbers:${dogamNum}`;
-//   const res = await fetch(imgUrl, {
-//     headers: {
-//       'X-Api-Key': apiKey,
-//     },
-//   });
-
-//   const data = await res.json();
-//   const cardVersion = data.data;
-//   const lastVersionIndex = data.data.length - 1;
-//   const cardUrl = cardVersion[lastVersionIndex].images.large;
-//   await preloadImage(cardUrl);
-
-//   if (pokeCard instanceof HTMLImageElement) {
-//     pokeCard.src = cardUrl;
-//   }
-//   console.log(data.data);
-//   return cardUrl;
-// }
+/* ───────────── 카드이미지 호출 함수 ───────────── */
 async function cardImg(dogamNum: number): Promise<string> {
   let cardUrl = '';
-  if (dogamNum === 777) {
-    cardUrl = card777;
-  } else if (dogamNum === 888) {
-    cardUrl = card888;
-  } else if (dogamNum === 50) {
-    cardUrl = card50;
-  } else if (dogamNum === 54) {
-    cardUrl = card54;
-  } else if (dogamNum === 104) {
-    cardUrl = card104;
-  } else if (dogamNum === 111) {
-    cardUrl = card111;
-  } else if (dogamNum === 137) {
-    cardUrl = card137;
-  } else if (dogamNum === 147) {
-    cardUrl = card147;
-  } else if (dogamNum === 27) {
-    cardUrl = card27;
-  } else if (dogamNum === 28) {
-    cardUrl = card28;
+  if (dogamNum in specialCardMap) {
+    // 스페셜 카드에 포함된 경우(미등록카드) 여기서 찾고 아니면 else로 이동
+    cardUrl = specialCardMap[dogamNum];
   } else {
     const imgUrl = `https://api.pokemontcg.io/v2/cards?q=nationalPokedexNumbers:${dogamNum}`;
     const res = await fetch(imgUrl, {
@@ -572,7 +536,6 @@ async function cardImg(dogamNum: number): Promise<string> {
       return '';
     }
   }
-
   if (pokeCard instanceof HTMLImageElement) {
     pokeCard.src = cardUrl;
   }

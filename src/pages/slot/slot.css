@@ -110,7 +110,6 @@
     height: 100%;
     position: relative;
     perspective: 500px;
-    /* background-image: url('../../assets/slot/typeback/electric.png'); */
     background-repeat: no-repeat;
     background-position: 50% 40%;
     background-size: 50%;
@@ -143,10 +142,7 @@
       rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
   }
 
-  /* .poke-card:hover {
-    scale: 1.5;
-  } */
-  /* 반짝이는 무지개 필터 */
+  /* ST : 포켓몬카드 효과 */
   .shine {
     content: '';
     transform-origin: center center;
@@ -219,7 +215,7 @@
     pointer-events: none;
     transition: background-position 0.1s ease; /* 부드럽게 */
   }
-
+  /* ED : 포켓몬카드 효과 */
   .poke-name {
     color: white;
     top: 77.5%;
@@ -259,12 +255,12 @@
     display: block;
   }
   .shine {
-    display: block;
+    display: none;
   }
   .shine2 {
-    display: block;
+    display: none;
   }
   .shadow {
-    display: block;
+    display: none;
   }
 }
