@@ -98,20 +98,20 @@ const fetchPokemon = async (id: number, revealed = true): Promise<Pokemon> => {
   // 히든카드 예외 처리
   if (id === 777) {
     return {
-      name: '용쌤',
-      imgUrl: '/public/images/용쌤이미지.png',
+      name: '슬비쌤',
+      imgUrl: '/public/images/슬비쌤이미지.png',
       number: '777',
-      types: ['불꽃'],
+      types: ['비행'],
       revealed,
     };
   }
 
   if (id === 888) {
     return {
-      name: '슬비쌤',
-      imgUrl: '/public/images/슬비쌤이미지.png',
+      name: '용쌤',
+      imgUrl: '/public/images/용쌤이미지.png',
       number: '888',
-      types: ['비행'],
+      types: ['불꽃'],
       revealed,
     };
   }
@@ -200,8 +200,6 @@ const loadOwnedPokemon = async () => {
 
   // 히든카드 포함
   const fullIds = [...ids];
-  if (!fullIds.includes(777)) fullIds.push(777);
-  if (!fullIds.includes(888)) fullIds.push(888);
 
   await slotPokemon(fullIds);
 };
