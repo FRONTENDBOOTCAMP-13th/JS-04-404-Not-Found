@@ -97,10 +97,10 @@ const pokeList: number[][] = [
     76, 78, 91, 94, 97, 112, 113, 115, 130, 131, 132, 137, 139, 143, 149,
   ],
   [144, 145, 146, 150, 151, 777, 888],
-  // [888],
-  // [888],
-  // [888],
-  // [888],
+  // [104],
+  // [104],
+  // [104],
+  // [104],
 ];
 /* ───────────── 포켓몬 카드배경 객체 ───────────── */
 interface cardBackType {
@@ -157,16 +157,17 @@ const cardBack = document.querySelector<HTMLButtonElement>('#cardBack'); // 카�
 
 // ST : 뒤로가기, 음소거 버튼 ------------------
 const backBtn = document.querySelector('.back-btn') as HTMLElement;
-const toggleSoundBtn = document.querySelector('.toggle-sound') as HTMLElement;
+const toggleSoundBtn =
+  document.querySelector<HTMLButtonElement>('.toggle-sound');
 const toggleSoundText = document.querySelector(
   '.toggle-sound > span',
 ) as HTMLElement;
 
 // 버튼 및 span의 텍스트 초기화
-if (musicPlay() === 'true') {
+if (musicPlay() === 'true' && toggleSoundBtn) {
   toggleSoundBtn.style.backgroundImage = `url(${soundOn})`;
   toggleSoundText.innerHTML = '전체 소리 끄기 버튼';
-} else {
+} else if (toggleSoundBtn) {
   toggleSoundBtn.style.backgroundImage = `url(${soundOff})`;
   toggleSoundText.innerHTML = '전체 소리 켜기 버튼';
 }
@@ -177,39 +178,43 @@ backBtn.addEventListener('click', () => {
 });
 
 // 음소거/재생
-toggleSoundBtn.addEventListener('click', () => {
-  const soundState: string | null = musicPlay();
-  toggleSound(casinoMusic);
-  if (soundState === 'true') {
-    toggleSoundBtn.style.backgroundImage = `url(${soundOff})`;
-    toggleSoundText.innerHTML = '전체 소리 켜기 버튼';
-  } else {
-    toggleSoundBtn.style.backgroundImage = `url(${soundOn})`;
-    toggleSoundText.innerHTML = '전체 소리 끄기 버튼';
-  }
-});
+if (toggleSoundBtn) {
+  toggleSoundBtn.addEventListener('click', () => {
+    const soundState: string | null = musicPlay();
+    toggleSound(casinoMusic);
+    if (soundState === 'true') {
+      toggleSoundBtn.style.backgroundImage = `url(${soundOff})`;
+      toggleSoundText.innerHTML = '전체 소리 켜기 버튼';
+    } else {
+      toggleSoundBtn.style.backgroundImage = `url(${soundOn})`;
+      toggleSoundText.innerHTML = '전체 소리 끄기 버튼';
+    }
+  });
+}
 
 // 640기준으로 뒤로가기, 음소거/재생 마우스 이벤트 등록/제거
 function topBtnHover() {
   const winW: number = window.innerWidth;
-  if (winW > 640) {
-    backBtn.style.opacity = '0.7';
-    toggleSoundBtn.style.opacity = '0.7';
-    backBtn.addEventListener('mouseenter', () => {
-      backBtn.style.opacity = '1';
-    });
-    backBtn.addEventListener('mouseleave', () => {
+  if (toggleSoundBtn) {
+    if (winW > 640) {
       backBtn.style.opacity = '0.7';
-    });
-    toggleSoundBtn.addEventListener('mouseenter', () => {
-      toggleSoundBtn.style.opacity = '1';
-    });
-    toggleSoundBtn.addEventListener('mouseleave', () => {
       toggleSoundBtn.style.opacity = '0.7';
-    });
-  } else {
-    backBtn.style.opacity = '1';
-    toggleSoundBtn.style.opacity = '1';
+      backBtn.addEventListener('mouseenter', () => {
+        backBtn.style.opacity = '1';
+      });
+      backBtn.addEventListener('mouseleave', () => {
+        backBtn.style.opacity = '0.7';
+      });
+      toggleSoundBtn.addEventListener('mouseenter', () => {
+        toggleSoundBtn.style.opacity = '1';
+      });
+      toggleSoundBtn.addEventListener('mouseleave', () => {
+        toggleSoundBtn.style.opacity = '0.7';
+      });
+    } else {
+      backBtn.style.opacity = '1';
+      toggleSoundBtn.style.opacity = '1';
+    }
   }
 }
 
@@ -370,9 +375,10 @@ async function yourPokemon(num: number) {
 async function slotMachine() {
   const clickBtnTime = Date.now(); //버튼누를때 시간체크
   const entryLastSlot = localStorage.getItem('lastSlot');
-  if (slotbtn !== null && mSlotBtn !== null) {
+  if (slotbtn !== null && mSlotBtn !== null && toggleSoundBtn !== null) {
     btnNoneClick(slotbtn);
     btnNoneClick(mSlotBtn);
+    btnNoneClick(toggleSoundBtn);
   }
 
   if (
@@ -392,9 +398,10 @@ async function tomorryReturn() {
   return new Promise<void>(resolve => {
     alert('내일 다시 오려무나~');
     resolve();
-    if (slotbtn !== null && mSlotBtn !== null) {
+    if (slotbtn !== null && mSlotBtn !== null && toggleSoundBtn !== null) {
       btnCanClick(slotbtn);
       btnCanClick(mSlotBtn);
+      btnCanClick(toggleSoundBtn);
     }
   });
 }
@@ -486,9 +493,10 @@ function closeGet() {
     pokeGetModal?.classList.add('d-none');
     pokeGetModal?.classList.remove('active');
     allowMusic(casinoMusic, true); // 배경음악 호출
-    if (slotbtn !== null && mSlotBtn !== null) {
+    if (slotbtn !== null && mSlotBtn !== null && toggleSoundBtn !== null) {
       btnCanClick(slotbtn);
       btnCanClick(mSlotBtn);
+      btnCanClick(toggleSoundBtn);
     }
     dogamgetMusic.pause();
   });
