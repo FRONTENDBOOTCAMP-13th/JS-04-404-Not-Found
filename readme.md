@@ -19,12 +19,12 @@ https://pokemon-cc.netlify.app/
 
 ### 기능 소개 및 결과 화면
 
-<table>
+<table width = "100%">
   <tr>
-    <td width="300" align="center" valign="top">
+    <td width="300" align="center" valign="middle">
       <img src="/public/readme/game1.jpg" width="300" /><br />
     </td>
-    <td valign="top">
+    <td valign="middle">
       <ul>
         <li>최초 접속 시, 배경음악 재생 여부를 선택합니다.</li>
         <li>OK 버튼 클릭 시 음악과 함께 게임이 시작됩니다.</li>
@@ -32,12 +32,12 @@ https://pokemon-cc.netlify.app/
     </td>
   </tr>
 </table>
-<table>
+<table width = "100%">
   <tr>
-    <td width="300" align="center" valign="top">
+    <td width="300" align="center" valign="middle">
       <img src="/public/readme/game2.webp" width="300" /><br />
     </td>
-    <td valign="top">
+    <td valign="middle">
       <ul>
         <li>프로젝트의 첫 시작 페이지입니다.</li>
         <li>팀명과 팀원의 캐릭터, 역할을 확인할 수 있습니다.</li>
@@ -46,12 +46,12 @@ https://pokemon-cc.netlify.app/
   </tr>
 </table>
 
-<table>
+<table width = "100%">
   <tr>
-    <td width="300" align="center" valign="top">
+    <td width="300" align="center" valign="middle">
       <img src="/public/readme/game3.webp" width="300" /><br />
     </td>
-    <td valign="top">
+    <td valign="middle">
       <ul>
         <li>게임 인트로 화면이 시작됩니다.</li>
         <li>Press Start 버튼으로 게임 시작</li>
