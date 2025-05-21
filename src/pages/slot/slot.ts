@@ -37,6 +37,7 @@ import soundOff from '/src/assets/common/sound-off.png'; // sound-off 이미지
 import oneStar from '/src/assets/slot/star1.png';
 import twoStar from '/src/assets/slot/star2.png';
 import threeStar from '/src/assets/slot/star3.png';
+// 미획득 카드 모음
 import card777 from '/src/assets/slot/777card.png';
 import card888 from '/src/assets/slot/888card.png';
 import card50 from '/src/assets/slot/card50.png';
@@ -45,6 +46,27 @@ import card104 from '/src/assets/slot/card104.png';
 import card111 from '/src/assets/slot/card111.png';
 import card137 from '/src/assets/slot/card137.png';
 import card147 from '/src/assets/slot/card147.png';
+import card27 from '/src/assets/slot/card27.jpg';
+import card28 from '/src/assets/slot/card28.jpg';
+// 타입별 배경이미지
+import bugImg from '/src/assets/slot/typeback/bug.png';
+import darkImg from '/src/assets/slot/typeback/dark.png';
+import dragonImg from '/src/assets/slot/typeback/dragon.png';
+import electricImg from '/src/assets/slot/typeback/electric.png';
+import fairyImg from '/src/assets/slot/typeback/fairy.png';
+import fightingImg from '/src/assets/slot/typeback/fighting.png';
+import flyingImg from '/src/assets/slot/typeback/flying.png';
+import ghostImg from '/src/assets/slot/typeback/ghost.png';
+import grassImg from '/src/assets/slot/typeback/grass.png';
+import groundImg from '/src/assets/slot/typeback/ground.png';
+import iceImg from '/src/assets/slot/typeback/ice.png';
+import normalImg from '/src/assets/slot/typeback/normal.png';
+import poisonImg from '/src/assets/slot/typeback/poison.png';
+import psychicImg from '/src/assets/slot/typeback/psychic.png';
+import rockImg from '/src/assets/slot/typeback/rock.png';
+import steelImg from '/src/assets/slot/typeback/steel.png';
+import waterImg from '/src/assets/slot/typeback/water.png';
+import fireImg from '/src/assets/slot/typeback/fire.png';
 
 const apiKey = import.meta.env.VITE_POKEMONTCG_API_KEY; // 카드 api불러오기
 
@@ -75,6 +97,10 @@ const pokeList: number[][] = [
     76, 78, 91, 94, 97, 112, 113, 115, 130, 131, 132, 137, 139, 143, 149,
   ],
   [144, 145, 146, 150, 151, 777, 888],
+  // [888],
+  // [888],
+  // [888],
+  // [888],
 ];
 /* ───────────── DOM 엘리먼트 정의 ───────────── */
 const slotbtn = document.querySelector<HTMLButtonElement>('#slotBtn'); // 슬롯 머신 버튼
@@ -85,6 +111,7 @@ const starBack = document.querySelector('#starBack'); // 포켓몬 카드배경
 const pokeName = document.querySelector('#pokeName'); // 포켓몬 카드이름
 const pokeCard = document.querySelector('#pokeCard');
 const mSlotBtn = document.querySelector<HTMLButtonElement>('#MslotBtn'); // 모바일버튼
+const cardBack = document.querySelector<HTMLButtonElement>('#cardBack'); // 카드배경이미지
 
 // ST : 뒤로가기, 음소거 버튼 ------------------
 const backBtn = document.querySelector('.back-btn') as HTMLElement;
@@ -379,8 +406,76 @@ async function getPokeKorName(pokeNum: number) {
     const pokeDataObj = await pokeData.json();
     thisPokeName = pokeDataObj.names[2].name;
   }
+  getPokeType(pokeNum);
 
   return thisPokeName;
+}
+
+/* ───────────── 뽑은 포켓몬 타입불러오기 ───────────── */
+async function getPokeType(pokeNum: number) {
+  let thisPokeType = '';
+  if (pokeNum === 777) {
+    thisPokeType = 'flying';
+  } else if (pokeNum === 888) {
+    thisPokeType = 'fire';
+  } else {
+    const typeData = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${pokeNum}`,
+    );
+    const typeDataObj = await typeData.json();
+    thisPokeType = typeDataObj.types[0].type.name;
+    const lastTypeIndex = typeDataObj.types.length - 1;
+    const lastType = typeDataObj.types[lastTypeIndex].type.name;
+    const realType = typeDataObj.types[0].type.name;
+    console.log(lastType);
+    console.log(realType);
+    if (realType === 'normal') {
+      thisPokeType = lastType;
+    } else {
+      thisPokeType = realType;
+    }
+  }
+  if (cardBack) {
+    // 조건별 배경분리 .. 이렇게 한이유 : 타입스크립트 놈이 선언하고 안쓴다고 에러냄 ㅠ
+    if (thisPokeType === 'bug') {
+      cardBack.style.backgroundImage = `url(${bugImg})`;
+    } else if (thisPokeType === 'dark') {
+      cardBack.style.backgroundImage = `url(${darkImg})`;
+    } else if (thisPokeType === 'dragon') {
+      cardBack.style.backgroundImage = `url(${dragonImg})`;
+    } else if (thisPokeType === 'electric') {
+      cardBack.style.backgroundImage = `url(${electricImg})`;
+    } else if (thisPokeType === 'fairy') {
+      cardBack.style.backgroundImage = `url(${fairyImg})`;
+    } else if (thisPokeType === 'fighting') {
+      cardBack.style.backgroundImage = `url(${fightingImg})`;
+    } else if (thisPokeType === 'flying') {
+      cardBack.style.backgroundImage = `url(${flyingImg})`;
+    } else if (thisPokeType === 'ghost') {
+      cardBack.style.backgroundImage = `url(${ghostImg})`;
+    } else if (thisPokeType === 'grass') {
+      cardBack.style.backgroundImage = `url(${grassImg})`;
+    } else if (thisPokeType === 'ground') {
+      cardBack.style.backgroundImage = `url(${groundImg})`;
+    } else if (thisPokeType === 'ice') {
+      cardBack.style.backgroundImage = `url(${iceImg})`;
+    } else if (thisPokeType === 'normal') {
+      cardBack.style.backgroundImage = `url(${normalImg})`;
+    } else if (thisPokeType === 'poison') {
+      cardBack.style.backgroundImage = `url(${poisonImg})`;
+    } else if (thisPokeType === 'psychic') {
+      cardBack.style.backgroundImage = `url(${psychicImg})`;
+    } else if (thisPokeType === 'rock') {
+      cardBack.style.backgroundImage = `url(${rockImg})`;
+    } else if (thisPokeType === 'steel') {
+      cardBack.style.backgroundImage = `url(${steelImg})`;
+    } else if (thisPokeType === 'fire') {
+      cardBack.style.backgroundImage = `url(${fireImg})`;
+    } else if (thisPokeType === 'water') {
+      cardBack.style.backgroundImage = `url(${waterImg})`;
+    }
+  }
+  return thisPokeType;
 }
 
 /* ───────────── 포켓몬 get 화면 닫기버튼 ───────────── */
@@ -436,6 +531,10 @@ async function cardImg(dogamNum: number): Promise<string> {
     cardUrl = card137;
   } else if (dogamNum === 147) {
     cardUrl = card147;
+  } else if (dogamNum === 27) {
+    cardUrl = card27;
+  } else if (dogamNum === 28) {
+    cardUrl = card28;
   } else {
     const imgUrl = `https://api.pokemontcg.io/v2/cards?q=nationalPokedexNumbers:${dogamNum}`;
     const res = await fetch(imgUrl, {
@@ -519,8 +618,6 @@ function cardanimation() {
       const rect = pokeCard.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      console.log('요소 내부 좌표: x', x);
-      console.log('요소 내부 좌표: y', y);
       const rotateY = -(0.090645 * x - 10.16129);
       const rotateX = 0.090645 * y - 10.16129;
 

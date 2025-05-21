@@ -110,6 +110,10 @@
     height: 100%;
     position: relative;
     perspective: 500px;
+    /* background-image: url('../../assets/slot/typeback/electric.png'); */
+    background-repeat: no-repeat;
+    background-position: 50% 40%;
+    background-size: 50%;
   }
   .card-ab {
     position: absolute;
