@@ -448,3 +448,23 @@ body {
   color: #540033;
   font-weight: bold;
 }
+#card-modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#card-modal img {
+  max-width: 400px;
+  max-height: 90vh;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+}
+
+.hidden {
+  display: none !important;
+}

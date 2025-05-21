@@ -494,6 +494,29 @@ function closeGet() {
   });
 }
 
+/* ───────────── 도감번호에 맞는 카드 추출하기 ───────────── */
+// async function cardImg(dogamNum: number): Promise<string> {
+//   const imgUrl = `https://api.pokemontcg.io/v2/cards?q=nationalPokedexNumbers:${dogamNum}`;
+//   const res = await fetch(imgUrl, {
+//     headers: {
+//       'X-Api-Key': apiKey,
+//     },
+//   });
+
+//   const data = await res.json();
+//   const cardVersion = data.data;
+//   const lastVersionIndex = data.data.length - 1;
+//   const cardUrl = cardVersion[lastVersionIndex].images.large;
+//   await preloadImage(cardUrl);
+
+//   if (pokeCard instanceof HTMLImageElement) {
+//     pokeCard.src = cardUrl;
+//   }
+//   console.log(data.data);
+//   return cardUrl;
+// }
+export async function cardImg(dogamNum: number): Promise<string> {
+
 /* ───────────── 카드이미지 호출 함수 ───────────── */
 async function cardImg(dogamNum: number): Promise<string> {
   let cardUrl = '';
