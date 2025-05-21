@@ -613,7 +613,7 @@ class MonsterBallScene {
         // 애니메이션 완료 후 카드 표시 (추가된 부분)
         console.log('애니메이션 완료: 카드 표시 시작');
         showPokeCard();
-      }, 800); // 애니메이션 길이에 맞게 조정
+      }, 300); // 애니메이션 길이에 맞게 조정
     } else {
       // 애니메이션이 없는 경우 수동으로 열기
       this.animateOpen();
