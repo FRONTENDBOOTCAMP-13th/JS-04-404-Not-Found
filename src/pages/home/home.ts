@@ -13,33 +13,35 @@ homeMusic.volume = 0.5;
 allowMusic(homeMusic, true);
 
 // 마우스 올리고 내렸을 때 동작하는 함수
-const pressStart = document.querySelector('.press-start');
-function mouseEnter() {
-  pressStart?.classList.add('active'); // before 보이게
+const pressStart = document.querySelector('.press-start') as HTMLElement;
+const help = document.querySelector('.help') as HTMLElement;
+
+pressStart.addEventListener('mouseenter', () => {
   allowMusic(selectMusic, false); // 효과음 1회
-}
-function mouseLeave() {
-  pressStart?.classList.remove('active'); // before 보이지 않게
-}
+});
+
+help.addEventListener('mouseenter', () => {
+  allowMusic(selectMusic, false); // 효과음 1회
+});
 
 // 640기준으로 마우스 이벤트 등록/제거
-function startHover() {
-  const winW: number = window.innerWidth;
-  if (winW > 640) {
-    pressStart?.classList.remove('active');
-    pressStart?.addEventListener('mouseenter', mouseEnter);
-    pressStart?.addEventListener('mouseleave', mouseLeave);
-  } else {
-    pressStart?.removeEventListener('mouseenter', mouseEnter);
-    pressStart?.removeEventListener('mouseleave', mouseLeave);
-    pressStart?.classList.add('active');
-  }
-}
+// function startHover() {
+//   const winW: number = window.innerWidth;
+//   if (winW > 640) {
+//     pressStart?.classList.remove('active');
+//     pressStart?.addEventListener('mouseenter', mouseEnter);
+//     pressStart?.addEventListener('mouseleave', mouseLeave);
+//   } else {
+//     pressStart?.removeEventListener('mouseenter', mouseEnter);
+//     pressStart?.removeEventListener('mouseleave', mouseLeave);
+//     pressStart?.classList.add('active');
+//   }
+// }
 
-// 리사이즈 이벤트로 브라우저 사이즈 달라질 때마다 이벤트동작
-window.addEventListener('resize', startHover);
-// 초기 동작
-startHover();
+// // 리사이즈 이벤트로 브라우저 사이즈 달라질 때마다 이벤트동작
+// window.addEventListener('resize', startHover);
+// // 초기 동작
+// startHover();
 
 // 클릭 이벤트 - 로컬 스토리지에서 userName 있는지 확인 후 각자 페이지로 이동
 pressStart?.addEventListener('click', () => {
