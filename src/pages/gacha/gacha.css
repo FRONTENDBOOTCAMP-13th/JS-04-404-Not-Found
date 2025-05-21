@@ -43,10 +43,14 @@
   width: 980px;
   height: 980px;
   max-height: 100%;
+  perspective: 500px;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  background-repeat: no-repeat;
+  background-position: 50% 40%;
+  background-size: 50%;
 }
 .card-ab {
   position: absolute;

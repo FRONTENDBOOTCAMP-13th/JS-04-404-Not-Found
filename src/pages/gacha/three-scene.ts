@@ -605,15 +605,11 @@ class MonsterBallScene {
       // 열림 애니메이션 재생
       this.animations.open.reset().play();
 
-      // 애니메이션 완료 후 상태 업데이트 (시간 조정)
-      setTimeout(() => {
-        this.isOpen = true;
-        this.isAnimating = false;
-
-        // 애니메이션 완료 후 카드 표시 (추가된 부분)
-        console.log('애니메이션 완료: 카드 표시 시작');
-        showPokeCard();
-      }, 300); // 애니메이션 길이에 맞게 조정
+      // 수정할 코드:
+      this.isOpen = true;
+      this.isAnimating = false;
+      console.log('애니메이션 완료: 카드 표시 시작');
+      showPokeCard();
     } else {
       // 애니메이션이 없는 경우 수동으로 열기
       this.animateOpen();
@@ -673,7 +669,7 @@ class MonsterBallScene {
         setTimeout(() => {
           console.log('카드 표시 시작');
           showPokeCard();
-        }, 300); // 애니메이션과 카드 표시 사이에 시간 간격 추가
+        }, 100); // 애니메이션과 카드 표시 사이에 시간 간격 추가
       }
     };
 
