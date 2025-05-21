@@ -33,26 +33,44 @@
   .btn-area .press-start {
     position: relative;
     font-size: min(4.4vw, 4.4vh);
+    color: var(--color-roulette-red);
+  }
+  .btn-area .press-start:hover {
     color: var(--color-text-red);
   }
-  .btn-area .press-start.active::before {
+
+  .btn-area .press-start:hover::before {
     content: '';
     position: absolute;
     top: 50%;
     left: -8%;
     width: 4.5%;
     height: 18%;
-
     transform: translateY(-25%);
     background: url('../../assets/home/red-select-icon.png') no-repeat center;
     background-size: 80%;
   }
 
   .btn-area .help {
+    position: relative;
     margin-top: -5px;
     font-size: min(2.8vw, 2.8vh);
     color: var(--color-light-gray);
     width: fit-content;
+  }
+  .btn-area .help:hover {
+    color: var(--color-medium-gray);
+  }
+  .btn-area .help:hover::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -31%;
+    width: 18%;
+    height: 27.5%;
+    transform: translateY(-25%);
+    background: url('../../assets/home/gray-select-icon.png') no-repeat center;
+    background-size: 80%;
   }
 
   .github-link {
@@ -60,5 +78,19 @@
     margin-top: 7.5%;
     font-size: min(1.8vw, 1.8vh);
     color: var(--color-medium-gray);
+  }
+
+  @media (max-width: 640px) {
+    .btn-area .press-start {
+      color: var(--color-text-red);
+    }
+    .btn-area .help {
+      color: var(--color-medium-gray);
+    }
+
+    .btn-area .press-start:hover::before,
+    .btn-area .help:hover::before {
+      content: none;
+    }
   }
 }
