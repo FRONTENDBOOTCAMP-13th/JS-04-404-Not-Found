@@ -418,7 +418,7 @@ function closeGet() {
 //   console.log(data.data);
 //   return cardUrl;
 // }
-async function cardImg(dogamNum: number): Promise<string> {
+export async function cardImg(dogamNum: number): Promise<string> {
   let cardUrl = '';
   if (dogamNum === 777) {
     cardUrl = card777;
