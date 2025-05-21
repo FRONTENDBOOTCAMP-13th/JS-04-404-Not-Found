@@ -495,7 +495,7 @@ function closeGet() {
 }
 
 /* ───────────── 카드이미지 호출 함수 ───────────── */
-async function cardImg(dogamNum: number): Promise<string> {
+export async function cardImg(dogamNum: number): Promise<string> {
   let cardUrl = '';
   if (dogamNum in specialCardMap) {
     // 스페셜 카드에 포함된 경우(미등록카드) 여기서 찾고 아니면 else로 이동

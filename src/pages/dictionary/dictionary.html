@@ -50,11 +50,11 @@
   </div>
   </div>
 
+
   <div id="type-modal" class="modal hidden">
     <div class="modal-content type-modal">
       <button id="close-type-modal" class="modal-close"></button>
       <h3>앗..야생의 포켓몬이 나타났다..!</h3>
-
       <div class="type-grid">
         <button class="type-btn" data-type="노말">노말</button>
         <button class="type-btn" data-type="불꽃">불꽃</button>
@@ -75,7 +75,12 @@
         <button class="type-btn" data-type="페어리">페어리</button>
       </div>
     </div>
+    <script type="module" src="/src/pages/dictionary/dictionary.ts"></script>
+    <!--  카드 이미지 모달 -->
+    <div id="card-modal" class="hidden card-modal">
+      <div class="card-modal-content">
+        <img id="card-image" src="" alt="카드 이미지" />
+      </div>
   </div>
-  <script type="module" src="/src/pages/dictionary/dictionary.ts"></script>
-</body>
-</html>
+    </body>
+  </html>

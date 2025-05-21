@@ -5,6 +5,7 @@ import { musicPlay } from '../../common/local-storage.ts'; // 현재 로컬스�
 import { toggleSound } from '../../common/toggle-sound.ts'; // 음악 켜기 / 끄기 기능
 import { allowMusic } from '../../common/music.ts';
 import dictionaryMusicSrc from '/src/assets/music/dictionary-music.mp3';
+import { cardImg } from '../slot/slot';
 
 // town-music 오디오 객체 생성 및 음악 재생
 const dictionaryMusic = new Audio(dictionaryMusicSrc);
@@ -19,6 +20,16 @@ const pokedex = document.getElementById('pokedex');
 const viewFilter = document.getElementById('view-filter') as HTMLSelectElement;
 const searchInput = document.getElementById('search-input') as HTMLInputElement;
 const searchBtn = document.getElementById('search-btn') as HTMLButtonElement;
+const cardModal = document.getElementById('card-modal');
+const cardModalImg = document.getElementById('card-image') as HTMLImageElement;
+
+cardModal?.addEventListener('click', e => {
+  // .card-modal-content 외부 클릭 시만 닫기
+  const isOutside = !(e.target as HTMLElement).closest('.card-modal-content');
+  if (isOutside) {
+    cardModal.classList.add('hidden');
+  }
+});
 
 // 포켓몬 타입 정의
 type Pokemon = {
@@ -150,6 +161,14 @@ const renderPokemonCard = (pokemon: Pokemon) => {
         <span class="poke-types">(${pokemon.types.join(', ')})</span>
       </div>
     `;
+    card.addEventListener('click', async () => {
+      const number = Number(pokemon.number);
+      const cardUrl = await cardImg(number);
+      if (cardUrl) {
+        cardModalImg.src = cardUrl;
+        cardModal?.classList.remove('hidden');
+      }
+    });
   }
   pokedex?.appendChild(card);
 };
@@ -201,6 +220,10 @@ const slotPokemon = async (ids: number[]) => {
   savePokedex();
   renderPokemonList(allPokemon);
 };
+const showMyPokedex = async () => {
+  initPokedex();
+  await loadOwnedPokemon();
+};
 
 //////////////// 이벤트 처리 //////////////////
 
@@ -220,8 +243,7 @@ viewFilter?.addEventListener('change', async () => {
     //currentList = preview;
     renderPokemonList(preview);
   } else if (selected === '내 도감') {
-    initPokedex();
-    loadOwnedPokemon();
+    await showMyPokedex();
   } else if (selected === '획득한 포켓몬') {
     const stored = localStorage.getItem('myPokemon');
     const parsed = stored ? JSON.parse(stored) : [];
@@ -329,7 +351,7 @@ searchInput?.addEventListener('keydown', event => {
   }
 });
 
-// 🔍 버튼 클릭으로 검색
+//  버튼 클릭으로 검색
 searchBtn?.addEventListener('click', handleSearch);
 
 // 초기 실행
