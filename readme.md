@@ -21,7 +21,7 @@ https://pokemon-cc.netlify.app/
 
 <table>
   <tr>
-    <td width="160" align="center" valign="top">
+    <td width="300" align="center" valign="top">
       <img src="/public/readme/game1.jpg" width="300" /><br />
     </td>
     <td valign="top">
@@ -34,7 +34,7 @@ https://pokemon-cc.netlify.app/
 </table>
 <table>
   <tr>
-    <td width="160" align="center" valign="top">
+    <td width="300" align="center" valign="top">
       <img src="/public/readme/game2.webp" width="300" /><br />
     </td>
     <td valign="top">
@@ -48,7 +48,7 @@ https://pokemon-cc.netlify.app/
 
 <table>
   <tr>
-    <td width="160" align="center" valign="top">
+    <td width="300" align="center" valign="top">
       <img src="/public/readme/game3.webp" width="300" /><br />
     </td>
     <td valign="top">
