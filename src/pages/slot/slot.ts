@@ -494,31 +494,8 @@ function closeGet() {
   });
 }
 
-/* ───────────── 도감번호에 맞는 카드 추출하기 ───────────── */
-// async function cardImg(dogamNum: number): Promise<string> {
-//   const imgUrl = `https://api.pokemontcg.io/v2/cards?q=nationalPokedexNumbers:${dogamNum}`;
-//   const res = await fetch(imgUrl, {
-//     headers: {
-//       'X-Api-Key': apiKey,
-//     },
-//   });
-
-//   const data = await res.json();
-//   const cardVersion = data.data;
-//   const lastVersionIndex = data.data.length - 1;
-//   const cardUrl = cardVersion[lastVersionIndex].images.large;
-//   await preloadImage(cardUrl);
-
-//   if (pokeCard instanceof HTMLImageElement) {
-//     pokeCard.src = cardUrl;
-//   }
-//   console.log(data.data);
-//   return cardUrl;
-// }
-export async function cardImg(dogamNum: number): Promise<string> {
-
 /* ───────────── 카드이미지 호출 함수 ───────────── */
-async function cardImg(dogamNum: number): Promise<string> {
+export async function cardImg(dogamNum: number): Promise<string> {
   let cardUrl = '';
   if (dogamNum in specialCardMap) {
     // 스페셜 카드에 포함된 경우(미등록카드) 여기서 찾고 아니면 else로 이동
