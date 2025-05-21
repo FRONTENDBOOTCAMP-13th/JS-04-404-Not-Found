@@ -40,9 +40,13 @@
   pointer-events: auto;
 }
 .card-wrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
+  width: 980px;
+  height: 980px;
+  max-height: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 .card-ab {
   position: absolute;
@@ -83,6 +87,79 @@
   top: 90%;
   padding: 8px 30px;
   border: 6px double #000;
+}
+
+.shine {
+  content: '';
+  transform-origin: center center;
+  transform: scale(1);
+  position: absolute;
+  top: 25%;
+  left: 35%;
+  width: 30%;
+  aspect-ratio: 400/556;
+  z-index: 9999999999999;
+  border-radius: 5%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 0, 255, 0.4) 25%,
+    rgba(0, 255, 255, 0.4) 50%,
+    rgba(255, 255, 0, 0.4) 75%,
+    rgba(255, 255, 255, 0.5) 100%
+  );
+  background-size: 150% 150%;
+  mix-blend-mode: overlay;
+  opacity: 0.5;
+  pointer-events: none;
+  transition: background-position 0.1s ease; /* 부드럽게 */
+}
+.shine2 {
+  content: '';
+  transform-origin: center center;
+  transform: scale(1);
+  position: absolute;
+  top: 25%;
+  left: 35%;
+  width: 30%;
+  aspect-ratio: 400/556;
+  z-index: 9999999999999;
+  border-radius: 5%;
+  background: linear-gradient(
+    145deg,
+    transparent 50%,
+    rgba(255, 219, 112, 0.25) 55%,
+    rgba(132, 50, 255, 0.25) 60%,
+    transparent 65%
+  );
+  background-size: 200% 200%;
+  filter: brightness(1.5) opacity(0.8);
+  mix-blend-mode: screen;
+  opacity: 0.5;
+  pointer-events: none;
+  transition: background-position 0.1s ease; /* 부드럽게 */
+}
+.shadow {
+  content: '';
+  transform-origin: center center;
+  transform: scale(1);
+  position: absolute;
+  top: 25%;
+  left: 35%;
+  width: 30%;
+  aspect-ratio: 400/556;
+  z-index: 999999999999999999;
+  border-radius: 5%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 255, 255, 0.3) 0%,
+    transparent 20%
+  );
+  background-size: 100% 100%;
+  mix-blend-mode: screen;
+  opacity: 0.8;
+  pointer-events: none;
+  transition: background-position 0.1s ease; /* 부드럽게 */
 }
 
 .gacha {
@@ -259,7 +336,8 @@
   background: red;
   position: absolute;
   left: 10%;
-  bottom: 30%;
+  bottom: 25%;
+  max-width: 100%;
   display: none;
 }
 .joystick-right {
@@ -268,15 +346,17 @@
   background: green;
   position: absolute;
   left: 30%;
-  bottom: 30%;
+  bottom: 25%;
+  max-width: 100%;
   display: none;
 }
 .a-button {
-  width: 10%;
-  height: 5%;
+  width: 15%;
+  height: 8%;
   background: gold;
   position: absolute;
-  right: 10%;
-  bottom: 30%;
+  right: 17%;
+  bottom: 24%;
+  max-width: 100%;
   display: none;
 }
