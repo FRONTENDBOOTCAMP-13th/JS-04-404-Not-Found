@@ -37,6 +37,7 @@ import soundOff from '/src/assets/common/sound-off.png'; // sound-off 이미지
 import oneStar from '/src/assets/slot/star1.png';
 import twoStar from '/src/assets/slot/star2.png';
 import threeStar from '/src/assets/slot/star3.png';
+import noSlotMusicMp3 from '/src/assets/music/noslotmusic.mp3';
 // 미획득 카드 모음
 import card777 from '/src/assets/slot/777card.png';
 import card888 from '/src/assets/slot/888card.png';
@@ -75,6 +76,8 @@ const slotMusic = new Audio(slotMusicMp3); // 슬롯이 돌아갈때 효과음
 const slotBtnMusic = new Audio(slotBtnMusicMp3); // 버튼 눌렀을때 효과음
 const dogamgetMusic = new Audio(dogamgetMusicMp3); // 도감번호 받았을때 나오는 효과음
 dogamgetMusic.volume = 0.3; // 해당음원 Sound 볼륨 조절
+const noSlotMusic = new Audio(noSlotMusicMp3); // 오늘은 못할때 나오는 효과음
+noSlotMusic.volume = 0.3; // 해당음원 Sound 볼륨 조절
 
 const casinoMusic = new Audio(casinoMp3); // 전체배경 효과음
 casinoMusic.volume = 0.3; // 해당음원 Sound 볼륨 조절
@@ -154,6 +157,8 @@ const pokeName = document.querySelector('#pokeName'); // 포켓몬 카드이름
 const pokeCard = document.querySelector('#pokeCard');
 const mSlotBtn = document.querySelector<HTMLButtonElement>('#MslotBtn'); // 모바일버튼
 const cardBack = document.querySelector<HTMLButtonElement>('#cardBack'); // 카드배경이미지
+const noSlotModal = document.querySelector<HTMLElement>('#noSlotModal'); // 내일 다시오려무나 팝업
+const noSlotBtn = document.querySelector<HTMLButtonElement>('#noSlotBtn'); // 내일 다시오려무나 팝업 닫기버튼
 
 // ST : 뒤로가기, 음소거 버튼 ------------------
 const backBtn = document.querySelector('.back-btn') as HTMLElement;
@@ -390,20 +395,36 @@ async function slotMachine() {
     openGet(dogamNum);
   } else {
     await tomorryReturn();
-    allowMusic(casinoMusic, true); // 배경음악 호출
   }
 }
 /* ───────────── 다시오려무나 팝업창 ───────────── */
 async function tomorryReturn() {
   return new Promise<void>(resolve => {
-    alert('내일 다시 오려무나~');
+    if (noSlotModal) {
+      noSlotModal.classList.remove('d-none');
+      allowMusic(noSlotMusic, false);
+    }
+    noSlotClose();
     resolve();
     if (slotbtn !== null && mSlotBtn !== null && toggleSoundBtn !== null) {
+      btnNoneClick(slotbtn);
+      btnNoneClick(mSlotBtn);
+      btnNoneClick(toggleSoundBtn);
+    }
+  });
+}
+/* ───────────── 다시오려무나 닫는 함수 ───────────── */
+function noSlotClose() {
+  if (noSlotBtn && noSlotModal && slotbtn && mSlotBtn && toggleSoundBtn) {
+    noSlotBtn.addEventListener('click', () => {
+      noSlotModal.classList.add('d-none');
+      allowMusic(casinoMusic, true); // 배경음악 호출
+      noSlotMusic.pause();
       btnCanClick(slotbtn);
       btnCanClick(mSlotBtn);
       btnCanClick(toggleSoundBtn);
-    }
-  });
+    });
+  }
 }
 /* ───────────── 포켓몬 get 화면 띄우기 ───────────── */
 async function openGet(dogamNum: number) {
