@@ -2,8 +2,8 @@
 
 // 필요한 import
 // pokecard.ts 파일 상단에 추가
-import { allowMusic } from '../../common/music.ts';
-import { musicPlay } from '../../common/local-storage.ts';
+// import { allowMusic } from '../../common/music.ts';
+// import { musicPlay } from '../../common/local-storage.ts';
 import dogamgetMusicMp3 from '/src/assets/music/dogamget.mp3';
 import oneStar from '/src/assets/slot/star1.png';
 import twoStar from '/src/assets/slot/star2.png';
