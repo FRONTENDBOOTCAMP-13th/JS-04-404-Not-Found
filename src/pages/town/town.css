@@ -9,6 +9,7 @@
     left: 50%;
     translate: -50% -50%;
     width: 45px;
+    width: min(45px, 4.4vw, 4.4vh);
     aspect-ratio: 1/1;
     background: url(../../assets/town/front.png) no-repeat center;
     background-size: cover;
