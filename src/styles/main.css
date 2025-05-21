@@ -74,7 +74,10 @@
     gap: 20px;
   }
   .intro-slide .swiper-slide img {
-    width: 25%;
+    width: 20%;
+  }
+  #maradoji {
+    width: 14%;
   }
   .intro-slide .swiper-slide h2 {
     color: var(--color-text-red);
