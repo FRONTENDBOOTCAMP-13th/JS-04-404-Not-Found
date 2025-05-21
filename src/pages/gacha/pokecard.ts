@@ -16,6 +16,78 @@ import card104 from '/src/assets/slot/card104.png';
 import card111 from '/src/assets/slot/card111.png';
 import card137 from '/src/assets/slot/card137.png';
 import card147 from '/src/assets/slot/card147.png';
+// pokecard.ts 파일 상단에 타입별 배경이미지 import 추가
+import bugImg from '/src/assets/slot/typeback/bug.png';
+import darkImg from '/src/assets/slot/typeback/dark.png';
+import dragonImg from '/src/assets/slot/typeback/dragon.png';
+import electricImg from '/src/assets/slot/typeback/electric.png';
+import fairyImg from '/src/assets/slot/typeback/fairy.png';
+import fightingImg from '/src/assets/slot/typeback/fighting.png';
+import flyingImg from '/src/assets/slot/typeback/flying.png';
+import ghostImg from '/src/assets/slot/typeback/ghost.png';
+import grassImg from '/src/assets/slot/typeback/grass.png';
+import groundImg from '/src/assets/slot/typeback/ground.png';
+import iceImg from '/src/assets/slot/typeback/ice.png';
+import normalImg from '/src/assets/slot/typeback/normal.png';
+import poisonImg from '/src/assets/slot/typeback/poison.png';
+import psychicImg from '/src/assets/slot/typeback/psychic.png';
+import rockImg from '/src/assets/slot/typeback/rock.png';
+import steelImg from '/src/assets/slot/typeback/steel.png';
+import waterImg from '/src/assets/slot/typeback/water.png';
+import fireImg from '/src/assets/slot/typeback/fire.png';
+
+// 미획득 카드 이미지 추가
+import card27 from '/src/assets/slot/card27.jpg'; // 추가된 카드
+import card28 from '/src/assets/slot/card28.jpg'; // 추가된 카드
+
+// 포켓몬 카드배경 타입 인터페이스 추가
+interface cardBackType {
+  [key: string]: string;
+}
+
+// 타입별 배경 매핑 객체 추가
+const typeBackObj: cardBackType = {
+  bug: bugImg,
+  dark: darkImg,
+  dragon: dragonImg,
+  electric: electricImg,
+  fairy: fairyImg,
+  fighting: fightingImg,
+  flying: flyingImg,
+  ghost: ghostImg,
+  grass: grassImg,
+  ground: groundImg,
+  ice: iceImg,
+  normal: normalImg,
+  poison: poisonImg,
+  psychic: psychicImg,
+  rock: rockImg,
+  steel: steelImg,
+  fire: fireImg,
+  water: waterImg,
+};
+
+// 미등록 카드 객체 인터페이스 추가
+interface specialCard {
+  [key: number]: string;
+}
+
+// 미등록 카드 매핑 객체 추가
+const specialCardMap: specialCard = {
+  777: card777,
+  888: card888,
+  50: card50,
+  54: card54,
+  104: card104,
+  111: card111,
+  137: card137,
+  147: card147,
+  27: card27,
+  28: card28,
+};
+
+// DOM 요소 참조 변수에 추가
+let cardBack: HTMLElement | null = null;
 
 // DOM 요소에 애니메이션 관련 요소 추가
 let shine: HTMLElement | null = null;
@@ -64,27 +136,28 @@ export function initCardElements() {
   starBack = document.querySelector('#starBack') as HTMLImageElement;
   pokeName = document.querySelector('#pokeName') as HTMLElement;
   pokeCard = document.querySelector('#pokeCard') as HTMLImageElement;
-  
+  cardBack = document.querySelector('#cardBack') as HTMLElement; // 카드 배경 요소 추가
+
   // 효과 요소 초기화
   shine = document.querySelector('.shine') as HTMLElement;
   shine2 = document.querySelector('.shine2') as HTMLElement;
   shadow = document.querySelector('.shadow') as HTMLElement;
-  
+
   // 효과 요소의 위치 조정 (카드와 일치시키기)
   if (shine && shine2 && shadow && pokeCard) {
     // 효과 요소들의 위치를 카드와 맞추기
     shine.style.top = '46%';
-    shine.style.left = '50%'; 
+    shine.style.left = '50%';
     shine.style.transform = 'translate(-50%, -50%)';
-    
+
     shine2.style.top = '46%';
     shine2.style.left = '50%';
     shine2.style.transform = 'translate(-50%, -50%)';
-    
+
     shadow.style.top = '46%';
     shadow.style.left = '50%';
     shadow.style.transform = 'translate(-50%, -50%)';
-    
+
     // card-ab 클래스 추가 (공통 포지셔닝)
     shine.classList.add('card-ab');
     shine2.classList.add('card-ab');
@@ -93,6 +166,51 @@ export function initCardElements() {
 
   // 닫기 버튼 이벤트 리스너 추가
   closeGet();
+}
+
+// 뽑은 포켓몬 타입 불러오기 함수 추가
+async function getPokeType(pokeNum: number) {
+  let thisPokeType = '';
+
+  // 특별 케이스 처리
+  if (pokeNum === 777) {
+    thisPokeType = 'flying';
+  } else if (pokeNum === 888) {
+    thisPokeType = 'fire';
+  } else {
+    try {
+      const typeData = await fetch(
+        `https://pokeapi.co/api/v2/pokemon/${pokeNum}`,
+      );
+      const typeDataObj = await typeData.json();
+
+      // 타입이 여러 개인 경우 처리 (normal이 아닌 타입 우선 사용)
+      const lastTypeIndex = typeDataObj.types.length - 1;
+      const lastType = typeDataObj.types[lastTypeIndex].type.name;
+      const realType = typeDataObj.types[0].type.name;
+
+      if (realType === 'normal' && typeDataObj.types.length > 1) {
+        thisPokeType = lastType;
+      } else {
+        thisPokeType = realType;
+      }
+    } catch (error) {
+      console.error('포켓몬 타입 가져오기 오류:', error);
+      thisPokeType = 'normal'; // 오류 시 기본 타입
+    }
+  }
+
+  // 타입 배경 이미지 미리 로드
+  if (typeBackObj[thisPokeType]) {
+    await preloadImage(typeBackObj[thisPokeType]);
+  }
+
+  // 카드 배경 이미지 설정
+  if (cardBack) {
+    cardBack.style.backgroundImage = `url(${typeBackObj[thisPokeType]})`;
+  }
+
+  return thisPokeType;
 }
 
 // 딜레이 함수
@@ -181,11 +299,11 @@ function setupCardAnimation() {
 // 마우스 이동 핸들러 수정
 function handleMouseMove(e: MouseEvent) {
   if (!pokeCard || !shine || !shine2 || !shadow) return;
-  
+
   const rect = pokeCard.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
-  
+
   const rotateY = -(0.090645 * x - 10.16129);
   const rotateX = 0.090645 * y - 10.16129;
 
@@ -201,7 +319,7 @@ function handleMouseMove(e: MouseEvent) {
   // 기존 transform 유지하면서 회전만 추가
   const baseTransform = 'translate(-50%, -50%)';
   const rotateTransform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-  
+
   pokeCard.style.transform = `${baseTransform} ${rotateTransform}`;
   shine.style.transform = `${baseTransform} ${rotateTransform}`;
   shine2.style.transform = `${baseTransform} ${rotateTransform}`;
@@ -215,10 +333,10 @@ function handleMouseMove(e: MouseEvent) {
 // 마우스 떠남 핸들러 수정
 function handleMouseLeave() {
   if (!pokeCard || !shine || !shine2 || !shadow) return;
-  
+
   // 기본 transform(translate) 유지
   const baseTransform = 'translate(-50%, -50%)';
-  
+
   pokeCard.style.transform = baseTransform;
   pokeCard.style.boxShadow = `0px 0px 15px rgba(0, 0, 0, 0.2)`;
   shine.style.transform = baseTransform;
@@ -254,6 +372,7 @@ export async function showPokeCard() {
       changePoke(dogamNum),
       starBackChange(dogamNum),
       cardImg(dogamNum),
+      getPokeType(dogamNum), // 포켓몬 타입 가져와서 배경 설정
     ]);
 
     console.log('카드 준비 완료, 모달 표시 시작');
@@ -264,12 +383,12 @@ export async function showPokeCard() {
     pokeGetModal.classList.add('active');
 
     // 음소거 상태 확인 후 효과음 재생
-    if (musicPlay() === 'true') {
-      console.log('효과음 재생 시작');
-      allowMusic(dogamgetMusic, false);
-    } else {
-      console.log('음소거 상태로 효과음 재생 안함');
-    }
+    // if (musicPlay() === 'true') {
+    //   console.log('효과음 재생 시작');
+    //   allowMusic(dogamgetMusic, false);
+    // } else {
+    //   console.log('음소거 상태로 효과음 재생 안함');
+    // }
 
     // 카드 애니메이션 설정 호출 추가
     setupCardAnimation();
@@ -391,23 +510,12 @@ async function getPokeKorName(pokeNum: number) {
 // 카드 이미지 가져오기
 async function cardImg(dogamNum: number): Promise<string> {
   let cardUrl = '';
-  if (dogamNum === 777) {
-    cardUrl = card777;
-  } else if (dogamNum === 888) {
-    cardUrl = card888;
-  } else if (dogamNum === 50) {
-    cardUrl = card50;
-  } else if (dogamNum === 54) {
-    cardUrl = card54;
-  } else if (dogamNum === 104) {
-    cardUrl = card104;
-  } else if (dogamNum === 111) {
-    cardUrl = card111;
-  } else if (dogamNum === 137) {
-    cardUrl = card137;
-  } else if (dogamNum === 147) {
-    cardUrl = card147;
+  
+  // 스페셜 카드 맵에 있는지 확인 (if-else 체인 대신 객체 사용)
+  if (dogamNum in specialCardMap) {
+    cardUrl = specialCardMap[dogamNum];
   } else {
+    // API 호출 코드는 그대로 유지
     const imgUrl = `https://api.pokemontcg.io/v2/cards?q=nationalPokedexNumbers:${dogamNum}`;
     const res = await fetch(imgUrl, {
       headers: {
@@ -432,7 +540,6 @@ async function cardImg(dogamNum: number): Promise<string> {
 
     // 2. 없으면 fallback으로 뒤에서 세 번째 카드 사용
     const lastVersionIndex = Math.max(cardVersion.length - 4, 0);
-    // const lastVersionIndex = 3;
     const fallbackCard = cardVersion[lastVersionIndex];
 
     const chosenCard = exCard || fallbackCard;
