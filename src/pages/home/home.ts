@@ -24,25 +24,6 @@ help.addEventListener('mouseenter', () => {
   allowMusic(selectMusic, false); // 효과음 1회
 });
 
-// 640기준으로 마우스 이벤트 등록/제거
-// function startHover() {
-//   const winW: number = window.innerWidth;
-//   if (winW > 640) {
-//     pressStart?.classList.remove('active');
-//     pressStart?.addEventListener('mouseenter', mouseEnter);
-//     pressStart?.addEventListener('mouseleave', mouseLeave);
-//   } else {
-//     pressStart?.removeEventListener('mouseenter', mouseEnter);
-//     pressStart?.removeEventListener('mouseleave', mouseLeave);
-//     pressStart?.classList.add('active');
-//   }
-// }
-
-// // 리사이즈 이벤트로 브라우저 사이즈 달라질 때마다 이벤트동작
-// window.addEventListener('resize', startHover);
-// // 초기 동작
-// startHover();
-
 // 클릭 이벤트 - 로컬 스토리지에서 userName 있는지 확인 후 각자 페이지로 이동
 pressStart?.addEventListener('click', () => {
   if (userName() !== null && userName() !== '') {

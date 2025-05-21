@@ -499,5 +499,13 @@ window.addEventListener('pageshow', event => {
     updateUserTitle();
     updateUserBadge();
   }
+
+  if (musicPlay() === 'true') {
+    toggleSoundBtn.style.backgroundImage = `url(${soundOn})`;
+    toggleSoundText.innerHTML = '전체 소리 끄기 버튼';
+  } else {
+    toggleSoundBtn.style.backgroundImage = `url(${soundOff})`;
+    toggleSoundText.innerHTML = '전체 소리 켜기 버튼';
+  }
 });
 // ED : 뒤로가기에서 업데이트 해야할 동작 ------------------
