@@ -404,7 +404,7 @@ async function tomorryReturn() {
       noSlotModal.classList.remove('d-none');
       allowMusic(noSlotMusic, false);
     }
-    noSlotClose();
+
     resolve();
     if (slotbtn !== null && mSlotBtn !== null && toggleSoundBtn !== null) {
       btnNoneClick(slotbtn);
@@ -426,6 +426,7 @@ function noSlotClose() {
     });
   }
 }
+noSlotClose();
 /* ───────────── 포켓몬 get 화면 띄우기 ───────────── */
 async function openGet(dogamNum: number) {
   await delay(1000);
