@@ -16,22 +16,19 @@ import rightRed from '../../assets/town/right.png';
 import leftRed from '../../assets/town/left.png';
 
 // ST: 캐릭터 움직임
-
 const red = document.querySelector('.red-character') as HTMLElement; // 캐릭터 요소
-const redH = red.clientHeight; // 캐릭터 요소 높이
-const redW = red.clientWidth; // 캐릭터 요소 너비
-console.log(redH, redW);
+const redH: number = red.clientHeight; // 캐릭터 요소 높이
+const redW: number = red.clientWidth; // 캐릭터 요소 너비
 
-const townImg = document.querySelector('.town'); // 맵 전체 요소
-const townH = townImg?.clientHeight as number; // 맵 높이
-const townW = townImg?.clientWidth as number; // 맵 너비
-console.log(townH, townW);
+const townImg = document.querySelector('.town') as HTMLElement; // 맵 전체 요소
+const townH: number = townImg.clientHeight; // 맵 높이
+const townW: number = townImg.clientWidth; // 맵 너비
 
-// area 정보 파싱
+// area 정보 파싱 (원본 좌표 저장)
 const areaElements = Array.from(
   document.querySelectorAll('area'),
 ) as HTMLAreaElement[];
-const areaRects = areaElements
+const areaRectsRaw = areaElements
   .map(area => {
     const coords = area.coords.split(',').map(Number);
     // shape이 rect일 때만 처리
@@ -40,10 +37,11 @@ const areaRects = areaElements
       return {
         element: area,
         href: area.href,
-        left: Math.min(x1, x2),
-        top: Math.min(y1, y2),
-        right: Math.max(x1, x2),
-        bottom: Math.max(y1, y2),
+        id: area.id,
+        x1,
+        y1,
+        x2,
+        y2,
       };
     }
     return null;
@@ -51,18 +49,16 @@ const areaRects = areaElements
   .filter(Boolean) as Array<{
   element: HTMLAreaElement;
   href: string;
-  left: number;
-  top: number;
-  right: number;
-  bottom: number;
+  id: string;
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
 }>;
 
-let currentDirection = ''; // 현재 방향 상태 저장
-let currentTop = parseInt(getComputedStyle(red).top, 10); // 위에서부터의 현재 위치
-let currentLeft = parseInt(getComputedStyle(red).left, 10); // 왼쪽에서부터의 현재 위치
-// console.log(currentTop, currentLeft);
-
-const moveAmount = townH / 98; // 이동시킬 픽셀 단위
+// 이미지맵 원본 크기 (html에서 확인 필요, 예: 980px)
+const TOWN_IMG_ORIGINAL_WIDTH: number = 980;
+const TOWN_IMG_ORIGINAL_HEIGHT: number = 980;
 
 // red의 중심 좌표 구하기
 function getRedCenter() {
@@ -72,21 +68,23 @@ function getRedCenter() {
   };
 }
 
-// red가 area와 겹치는지 체크
+// red가 area와 겹치는지 체크 (동적으로 좌표 변환)
 function checkAreaCollision() {
   const { x, y } = getRedCenter();
-  for (const area of areaRects) {
-    if (
-      x >= area.left &&
-      x <= area.right &&
-      y >= area.top &&
-      y <= area.bottom
-    ) {
+  // 실제 이미지 크기
+  const img = document.querySelector('.town-img') as HTMLImageElement;
+  const scaleX: number = img.width / TOWN_IMG_ORIGINAL_WIDTH;
+  const scaleY: number = img.height / TOWN_IMG_ORIGINAL_HEIGHT;
+
+  for (const area of areaRectsRaw) {
+    // 현재 이미지 크기에 맞게 좌표 변환
+    const left: number = Math.min(area.x1, area.x2) * scaleX + img.offsetLeft;
+    const right: number = Math.max(area.x1, area.x2) * scaleX + img.offsetLeft;
+    const top: number = Math.min(area.y1, area.y2) * scaleY + img.offsetTop;
+    const bottom: number = Math.max(area.y1, area.y2) * scaleY + img.offsetTop;
+    if (x >= left && x <= right && y >= top && y <= bottom) {
       // userInfo 영역이면 모달 오픈
-      if (
-        area.element.id === 'userInfo' ||
-        (area.href && area.href.endsWith('#'))
-      ) {
+      if (area.id === 'userInfo' || (area.href && area.href.endsWith('#'))) {
         if (userInfoModal && userInfoModal.classList.contains('d-none')) {
           openModal(userInfoModal);
         }
@@ -102,17 +100,23 @@ function checkAreaCollision() {
   return false;
 }
 
+let currentDirection: string = ''; // 현재 방향 상태 저장
+let currentTop: number = parseInt(getComputedStyle(red).top, 10); // 위에서부터의 현재 위치
+let currentLeft: number = parseInt(getComputedStyle(red).left, 10); // 왼쪽에서부터의 현재 위치
+
+const moveAmount: number = townH / 98; // 이동시킬 픽셀 단위
+const prevTop: number = currentTop;
+const prevLeft: number = currentLeft;
+
 window.addEventListener('keydown', e => {
   // 이동 전 위치 저장
-  const prevTop = currentTop;
-  const prevLeft = currentLeft;
   switch (e.key) {
     case 'ArrowUp':
-      if (currentTop <= redH / 2) return;
       if (currentDirection !== 'up') {
         red.style.background = `url(${backRed}) no-repeat center / cover`;
         currentDirection = 'up';
       }
+      if (currentTop <= redH / 2) return;
       currentTop -= moveAmount;
       red.style.top = `${currentTop}px`;
       // area 충돌 시 이동 취소
@@ -120,22 +124,20 @@ window.addEventListener('keydown', e => {
         currentTop = prevTop;
         red.style.top = `${currentTop}px`;
       }
-      console.log(currentTop, currentLeft);
       break;
 
     case 'ArrowDown':
-      if (townH - currentTop < redH / 2) return;
       if (currentDirection !== 'down') {
         red.style.background = `url(${frontRed}) no-repeat center / cover`;
         currentDirection = 'down';
       }
+      if (townH - currentTop <= redH / 2) return;
       currentTop += moveAmount;
       red.style.top = `${currentTop}px`;
       if (checkAreaCollision()) {
         currentTop = prevTop;
         red.style.top = `${currentTop}px`;
       }
-      console.log(currentTop, currentLeft);
       break;
 
     case 'ArrowRight':
@@ -143,6 +145,7 @@ window.addEventListener('keydown', e => {
         red.style.background = `url(${rightRed}) no-repeat center / cover`;
         currentDirection = 'right';
       }
+      if (townW - currentLeft <= redW / 2) return;
       currentLeft += moveAmount;
       red.style.left = `${currentLeft}px`;
       if (checkAreaCollision()) {
@@ -152,11 +155,11 @@ window.addEventListener('keydown', e => {
       break;
 
     case 'ArrowLeft':
-      if (currentLeft <= 0) return;
       if (currentDirection !== 'left') {
         red.style.background = `url(${leftRed}) no-repeat center / cover`;
         currentDirection = 'left';
       }
+      if (currentLeft <= redW / 2) return;
       currentLeft -= moveAmount;
       red.style.left = `${currentLeft}px`;
       if (checkAreaCollision()) {
@@ -166,6 +169,110 @@ window.addEventListener('keydown', e => {
       break;
   }
 });
+
+// 모바일 버튼
+const moLeft = document.querySelector('.left-arrow') as HTMLElement;
+const moRight = document.querySelector('.right-arrow') as HTMLElement;
+const moUp = document.querySelector('.up-arrow') as HTMLElement;
+const moDown = document.querySelector('.down-arrow') as HTMLElement;
+
+function moveRed(direction: 'up' | 'down' | 'left' | 'right') {
+  switch (direction) {
+    case 'up':
+      if (currentDirection !== 'up') {
+        red.style.background = `url(${backRed}) no-repeat center / cover`;
+        currentDirection = 'up';
+      }
+      if (currentTop <= redH / 2) return;
+      currentTop -= moveAmount;
+      red.style.top = `${currentTop}px`;
+      if (checkAreaCollision()) {
+        currentTop += moveAmount;
+        red.style.top = `${currentTop}px`;
+      }
+      break;
+    case 'down':
+      if (currentDirection !== 'down') {
+        red.style.background = `url(${frontRed}) no-repeat center / cover`;
+        currentDirection = 'down';
+      }
+      if (townH - currentTop <= redH / 2) return;
+      currentTop += moveAmount;
+      red.style.top = `${currentTop}px`;
+      if (checkAreaCollision()) {
+        currentTop -= moveAmount;
+        red.style.top = `${currentTop}px`;
+      }
+      break;
+    case 'right':
+      if (currentDirection !== 'right') {
+        red.style.background = `url(${rightRed}) no-repeat center / cover`;
+        currentDirection = 'right';
+      }
+      if (townW - currentLeft <= redW / 2) return;
+      currentLeft += moveAmount;
+      red.style.left = `${currentLeft}px`;
+      if (checkAreaCollision()) {
+        currentLeft -= moveAmount;
+        red.style.left = `${currentLeft}px`;
+      }
+      break;
+    case 'left':
+      if (currentDirection !== 'left') {
+        red.style.background = `url(${leftRed}) no-repeat center / cover`;
+        currentDirection = 'left';
+      }
+      if (currentLeft <= redW / 2) return;
+      currentLeft -= moveAmount;
+      red.style.left = `${currentLeft}px`;
+      if (checkAreaCollision()) {
+        currentLeft += moveAmount;
+        red.style.left = `${currentLeft}px`;
+      }
+      break;
+  }
+}
+
+// ** 모바일 움직임 **
+// 반복 이동을 위한 interval id
+let moveInterval: number | null = null;
+const MOVE_INTERVAL_MS: number = 50; // 반복 이동 간격(ms)
+function startMove(direction: 'up' | 'down' | 'left' | 'right') {
+  if (moveInterval !== null) return;
+  moveRed(direction); // 최초 1회 이동
+  moveInterval = window.setInterval(() => moveRed(direction), MOVE_INTERVAL_MS);
+}
+function stopMove() {
+  if (moveInterval !== null) {
+    clearInterval(moveInterval);
+    moveInterval = null;
+  }
+}
+
+moUp.addEventListener('touchstart', e => {
+  e.preventDefault();
+  startMove('up');
+});
+moUp.addEventListener('touchend', stopMove);
+
+moDown.addEventListener('touchstart', e => {
+  e.preventDefault();
+  startMove('down');
+});
+moDown.addEventListener('touchend', stopMove);
+
+moLeft.addEventListener('touchstart', e => {
+  e.preventDefault();
+  startMove('left');
+});
+moLeft.addEventListener('touchend', stopMove);
+
+moRight.addEventListener('touchstart', e => {
+  e.preventDefault();
+  startMove('right');
+});
+moRight.addEventListener('touchend', stopMove);
+
 // ED: 캐릭터 움직임
 
 // 페이지가 이동될 때 userInfoModal 닫기
@@ -174,7 +281,7 @@ window.addEventListener('beforeunload', () => {
 });
 
 // town-music 오디오 객체 생성 및 음악 재생
-const townMusic = new Audio(townMusicSrc);
+const townMusic: HTMLAudioElement = new Audio(townMusicSrc);
 townMusic.volume = 0.3;
 allowMusic(townMusic, true);
 

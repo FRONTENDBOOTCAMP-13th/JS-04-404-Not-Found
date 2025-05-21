@@ -1,4 +1,50 @@
 /* ST : 마을 페이지 */
+.wrapper {
+  position: relative;
+
+  .mo-arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 21.8%;
+    aspect-ratio: 1/1;
+    translate: -166% 155%;
+    z-index: 1;
+
+    button {
+      position: absolute;
+      width: 31%;
+      aspect-ratio: 1/1;
+    }
+
+    .left-arrow {
+      top: 50%;
+      left: 0;
+      translate: 0 -50%;
+    }
+    .right-arrow {
+      top: 50%;
+      right: 0;
+      translate: 0 -50%;
+    }
+    .up-arrow {
+      top: 0;
+      left: 50%;
+      translate: -50% 0;
+    }
+    .down-arrow {
+      bottom: 0;
+      left: 50%;
+      translate: -50% 0;
+    }
+  }
+  @media (min-width: 640px) {
+    .mo-arrow {
+      display: none;
+    }
+  }
+}
+
 .town {
   position: relative;
 
