@@ -19,6 +19,23 @@ https://pokemon-cc.netlify.app/
 
 ### 기능 소개 및 결과 화면
 
+<table style="width: 100%; table-layout: fixed;">
+  <tr>
+    <td style="width: 50%; text-align: center;">
+      <img src="/public/readme/game1.jpg" alt="게임화면1" style="width: 90%; height: auto;" />
+      <p style="font-size: 14px; margin-top: 8px;">
+        최초 접속시, 배경음악 재생여부를 선택합니다. OK 클릭 시 음악과 함께 게임이 시작됩니다.
+      </p>
+    </td>
+    <td style="width: 50%; text-align: center;">
+      <img src="/public/readme/game2.webp" alt="게임화면2" style="width: 90%; height: auto;" />
+      <p style="font-size: 14px; margin-top: 8px;">
+        프로젝트의 첫 시작 페이지입니다. 팀명과 팀원의 캐릭터, 역할을 확인할 수 있습니다.
+      </p>
+    </td>
+  </tr>
+</table>
+
 | 화면                                                                                                       | 기능설명                                                                                     |
 | ---------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
 | ![게임화면](/public/readme/game1.jpg)                                                                      | ![게임화면](/public/readme/game2.webp)                                                       |
