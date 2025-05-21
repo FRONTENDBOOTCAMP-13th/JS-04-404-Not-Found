@@ -346,6 +346,7 @@ async function dogamNumMake() {
 
   const dogamNum = dogamArr[Math.floor(Math.random() * dogamArr.length)];
   addPokeNums(dogamNum); // 도감 번호 추가
+  getPokeType(dogamNum);
   return dogamNum;
 }
 /* ───────────── 최종 도감 번호 슬롯 반영 함수 ───────────── */
@@ -444,7 +445,6 @@ async function getPokeKorName(pokeNum: number) {
     const pokeDataObj = await pokeData.json();
     thisPokeName = pokeDataObj.names[2].name;
   }
-  getPokeType(pokeNum);
 
   return thisPokeName;
 }
@@ -473,6 +473,7 @@ async function getPokeType(pokeNum: number) {
       thisPokeType = realType;
     }
   }
+  preloadImage(typeBackObj[thisPokeType]);
   if (cardBack) {
     cardBack.style.backgroundImage = `url(${typeBackObj[thisPokeType]})`;
   }
