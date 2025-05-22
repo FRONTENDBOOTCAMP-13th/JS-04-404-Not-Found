@@ -55,15 +55,38 @@
             </select>
           </div>
           <div class="pokedex-content-wrapper">
-            <div class="pokedex-content" id="pokedex"></div>
             <div class="pokeball">
               <img
                 src="/src/assets/dictionary/Pokebola-pokeball-png-0.png"
                 alt="포켓볼 상세조회"
               />
             </div>
+            <div class="pokedex-content" id="pokedex"></div>
           </div>
         </div>
+        <!--ST: 안내창-->
+        <div id="notice-modal" class="modal hidden">
+          <div class="notice-modal-content">
+            <img
+              src="/src/assets/dictionary/notice.png"
+              alt="획득한 포켓몬이 없구나! 게임을 통해 얻어보렴~"
+              class="notice-img"
+            />
+            <div class="notice-buttons">
+              <button type="button" id="notice-slot-btn">
+                <img src="/src/assets/dictionary/notice-slot.png" alt="슬롯" />
+              </button>
+              <button type="button" id="notice-gacha-btn">
+                <img src="/src/assets/dictionary/notice-gacha.png" alt="가챠" />
+              </button>
+              <button type="button" id="notice-close-btn" class="right-button">
+                <img src="/src/assets/dictionary/notice-close.png" alt="닫기" />
+              </button>
+            </div>
+            <!-- 버튼 -->
+          </div>
+        </div>
+        <!--ED: 안내창-->
       </div>
     </div>
 
@@ -98,39 +121,6 @@
     <div id="card-modal" class="hidden card-modal">
       <div class="card-modal-content">
         <img id="card-image" src="" alt="카드 이미지" />
-      </div>
-    </div>
-
-    <!--안내창-->
-    <div id="notice-modal" class="modal hidden">
-      <div class="notice-modal-content">
-        <img
-          src="/src/assets/dictionary/notice.png"
-          alt="검색 결과 없음 이미지"
-        />
-
-        <!-- 버튼 -->
-        <div class="notice-buttons">
-          <div class="left-buttons">
-            <img
-              id="notice-slot-btn"
-              src="/src/assets/dictionary/notice-slot.png"
-              alt="슬롯 이동"
-            />
-            <img
-              id="notice-gacha-btn"
-              src="/src/assets/dictionary/notice-gacha.png"
-              alt="가챠 이동"
-            />
-          </div>
-          <div class="right-button">
-            <img
-              id="notice-close-btn"
-              src="/src/assets/dictionary/notice-close.png"
-              alt="닫기"
-            />
-          </div>
-        </div>
       </div>
     </div>
 
