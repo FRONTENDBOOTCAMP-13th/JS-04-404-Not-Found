@@ -80,6 +80,8 @@
     5vw,
     5vh
   ); /* 부모 사이즈 및 화면 사이즈 대비 폰트 사이즈 조절 */
+  white-space: nowrap;
+  max-height: 100%;
 }
 .get-btn {
   font-size: min(
@@ -88,9 +90,10 @@
   ); /* 부모 사이즈 및 화면 사이즈 대비 폰트 사이즈 조절 */
   color: white;
   background: var(--color-button-blue);
-  top: 90%;
+  bottom: 1%;
   padding: 8px 30px;
   border: 6px double #000;
+  z-index: 9999;
 }
 
 .shine {
@@ -164,6 +167,16 @@
   opacity: 0.8;
   pointer-events: none;
   transition: background-position 0.1s ease; /* 부드럽게 */
+}
+
+/* 640px 이하에서 카드 크기 조정 */
+@media (max-width: 640px) {
+  .card-wrapper {
+    transform: translate(-50%, -50%) scale(0.6);
+  }
+  .get-btn{
+    transform: translate(-50%, -50%) scale(2);
+  }
 }
 
 .gacha {

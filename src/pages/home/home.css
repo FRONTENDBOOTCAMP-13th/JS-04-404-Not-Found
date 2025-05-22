@@ -65,7 +65,7 @@
 
 .big-star {
     position: absolute;
-    left: 80vw; 
+    left: 100vw; 
     /* 초기 위치를 우측 밖으로 설정 */
     top: -10vw;
     z-index: 100;

@@ -1,122 +1,86 @@
 <!doctype html>
 <html lang="ko-KR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>POKEMON CARD COLLECTION</title>
-    <link
-      rel="shortcut icon"
-      href="/public/favicon/ball.ico"
-      type="image/x-icon"
-    />
-    <link rel="stylesheet" href="/src/styles/reset.css" />
-    <link rel="stylesheet" href="/src/style.css" />
-    <link rel="stylesheet" href="/src/pages/gacha/gacha.css" />
-    <script type="module" src="./three-scene.ts"></script>
-    <script type="module" src="./gacha.ts"></script>
-    <script type="module" src="./pokecard.ts"></script>
-  </head>
-  <body>
-    <div class="three-test" id="three-scene">
-      <!-- <div class="pop-close"></div> -->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>POKEMON CARD COLLECTION</title>
+  <link rel="shortcut icon" href="/public/favicon/ball.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="/src/styles/reset.css" />
+  <link rel="stylesheet" href="/src/style.css" />
+  <link rel="stylesheet" href="/src/pages/gacha/gacha.css" />
+  <script type="module" src="./three-scene.ts"></script>
+  <script type="module" src="./gacha.ts"></script>
+  <script type="module" src="./pokecard.ts"></script>
+</head>
+<body>
+  <div class="three-test" id="three-scene">
+    <!-- <div class="pop-close"></div> -->
+  </div>
+
+  <div class="poke-get" id="pokeGet">
+    <div id="cardBack" class="card-wrapper">
+      <div class="shine"></div>
+      <div class="shine2"></div>
+      <div class="shadow"></div>
+      <img id="pokeCard" class="poke-card card-ab" src="" alt="" />
+      <img id="starBack" class="star-back card-ab" src="" alt="" />
+      <p id="pokeName" class="poke-name card-ab"></p>
+      <button id="cardGetBtn" class="get-btn card-ab" type="menu">
+        <span>획득하기</span>
+      </button>
     </div>
+  </div>
 
-    <div class="poke-get" id="pokeGet">
-      <div id="cardBack" class="card-wrapper">
-        <div class="shine"></div>
-        <div class="shine2"></div>
-        <div class="shadow"></div>
-        <img id="pokeCard" class="poke-card card-ab" src="" alt="" />
-        <img id="starBack" class="star-back card-ab" src="" alt="" />
-        <p id="pokeName" class="poke-name card-ab"></p>
-        <button id="cardGetBtn" class="card-ab get-btn" type="menu">
-          <span>획득하기</span>
-        </button>
-      </div>
-    </div>
+  <div class="wrapper">
+    <div class="inner-980 gacha">
+      <div class="gacha-base">
+        <img class="event-none gacha-bg" src="../../assets/gacha/gacha-bg.png" alt="몬스터볼 페이지 배경" />
 
-    <div class="wrapper">
-      <div class="inner-980 gacha">
-        <div class="gacha-base">
-          <img
-            class="event-none gacha-bg"
-            src="../../assets/gacha/gacha-bg.png"
-            alt="몬스터볼 페이지 배경"
-          />
+        <img class="event-none gacha-text-w gacha-move" src="../../assets/gacha/gacha-text-w.png" alt="" />
+        <img class="event-none gacha-text-y gacha-move" src="../../assets/gacha/gacha-text-y.png" alt="" />
 
-          <img
-            class="event-none gacha-text-w gacha-move"
-            src="../../assets/gacha/gacha-text-w.png"
-            alt=""
-          />
-          <img
-            class="event-none gacha-text-y gacha-move"
-            src="../../assets/gacha/gacha-text-y.png"
-            alt=""
-          />
+        <img class="event-none monster-ball gacha-move" src="../../assets/gacha/monsterBalls.png" alt="" />
 
-          <img
-            class="event-none monster-ball gacha-move"
-            src="../../assets/gacha/monsterBalls.png"
-            alt=""
-          />
+        <!-- 안내문구 -->
+        <p class="help-text">Move the arrow keyboard</p>
 
-          <!-- 안내문구 -->
-          <p class="help-text">Move the arrow keyboard</p>
-
-          <!-- 집게 -->
-          <div class="claw-box small-claw">
-            <img
-              class="claw-body-01"
-              src="../../assets/gacha/gacha-claw-bottom.png"
-              alt=""
-            />
-            <img
-              class="claw-line"
-              src="../../assets/gacha/gacha-claw-line.png"
-              alt=""
-            />
-            <div class="claw-up-box">
-              <img
-                class="claw"
-                src="../../assets/gacha/gacha-claw.png"
-                alt=""
-              />
-              <img
-                class="claw-open"
-                src="../../assets/gacha/gacha-claw-open.png"
-                alt=""
-              />
-              <img class="claw-ball" src="../../assets/gacha/ball.png" alt="" />
-            </div>
+        <!-- 집게 -->
+        <div class="claw-box small-claw">
+          <img class="claw-body-01" src="../../assets/gacha/gacha-claw-bottom.png" alt="" />
+          <img class="claw-line" src="../../assets/gacha/gacha-claw-line.png" alt="" />
+          <div class="claw-up-box">
+            <img class="claw" src="../../assets/gacha/gacha-claw.png" alt="" />
+            <img class="claw-open" src="../../assets/gacha/gacha-claw-open.png" alt="" />
+            <img class="claw-ball" src="../../assets/gacha/ball.png" alt="" />
           </div>
-
-          <!-- ST : 뒤로가기, 음소거 버튼-->
-          <button type="button" class="back-btn">
-            <span class="sr-only">뒤로가기</span>
-          </button>
-          <button type="button" class="toggle-sound">
-            <span class="sr-only"></span>
-          </button>
-          <!-- ED : 뒤로가기, 음소거 버튼-->
         </div>
+
+        <!-- ST : 뒤로가기, 음소거 버튼-->
+        <button type="button" class="back-btn">
+          <span class="sr-only">뒤로가기</span>
+        </button>
+        <button type="button" class="toggle-sound">
+          <span class="sr-only"></span>
+        </button>
+        <!-- ED : 뒤로가기, 음소거 버튼-->
       </div>
-      <div class="joystick-wrap">
-        <div class="joystick-left"></div>
-        <div class="joystick-right"></div>
-      </div>
-      <div class="a-button"></div>
     </div>
+    <div class="joystick-wrap">
+      <div class="joystick-left"></div>
+      <div class="joystick-right"></div>
+    </div>
+    <div class="a-button"></div>
+  </div>
 
-    <script type="module">
-      import { initCardElements } from './pokecard.ts';
+  <script type="module">
+    import { initCardElements } from './pokecard.ts';
 
-      // 페이지 로드 시 초기화
-      window.addEventListener('load', () => {
-        console.log('포켓몬 카드 요소 초기화 시작');
-        initCardElements();
-        console.log('포켓몬 카드 요소 초기화 완료');
-      });
-    </script>
-  </body>
+    // 페이지 로드 시 초기화
+    window.addEventListener('load', () => {
+      console.log('포켓몬 카드 요소 초기화 시작');
+      initCardElements();
+      console.log('포켓몬 카드 요소 초기화 완료');
+    });
+  </script>
+</body>
 </html>

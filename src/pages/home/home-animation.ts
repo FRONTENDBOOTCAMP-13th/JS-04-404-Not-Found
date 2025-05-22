@@ -3,6 +3,11 @@
 let homeMusic: HTMLAudioElement | null = null; // 홈 음악 객체를 전역으로 관리
 let introMusic: HTMLAudioElement | null = null; // 인트로 음악 객체 추가
 
+// 음소거 상태 확인 함수 추가
+function isMusicEnabled(): boolean {
+  return localStorage.getItem('musicPlay') === 'true';
+}
+
 // 음악 초기화 함수 (자동재생 안함)
 export function initHomeMusic(): HTMLAudioElement {
   if (!homeMusic) {
@@ -23,9 +28,10 @@ function initIntroMusic(): HTMLAudioElement {
   return introMusic;
 }
 
-// 음악 재생 함수
+// 음악 재생 함수 - 음소거 상태 확인 추가
 export function playHomeMusic(): void {
-  if (homeMusic) {
+  if (homeMusic && isMusicEnabled()) {
+    // 음소거 상태 확인 추가
     homeMusic.play().catch(error => {
       console.warn('홈 음악 재생 실패:', error);
     });
@@ -60,11 +66,14 @@ export function startIntroAnimation(): void {
 
   if (!introAnimation) return;
 
-  // 인트로 음악 초기화 및 재생 (13번 요구사항)
+  // 인트로 음악 초기화 및 재생 (13번 요구사항) - 음소거 상태 확인 추가
   const introMusicObj = initIntroMusic();
-  introMusicObj.play().catch(error => {
-    console.warn('인트로 음악 재생 실패:', error);
-  });
+  if (isMusicEnabled()) {
+    // 음소거 상태 확인 추가
+    introMusicObj.play().catch(error => {
+      console.warn('인트로 음악 재생 실패:', error);
+    });
+  }
 
   // 홈 화면 요소들 초기 상태 설정 (14-15번 요구사항)
   if (projectLogo) {
@@ -120,17 +129,20 @@ export function startIntroAnimation(): void {
       // ballCanvas도 즉시 표시 (수정사항 2번)
       if (ballCanvas) ballCanvas.style.opacity = '1';
 
-      // 홈 음악 재생 시작
+      // 홈 음악 재생 시작 - 음소거 상태 확인 추가
       playHomeMusic();
     });
   }
 
   // 1. skip버튼이 혼자 계속 투명도 0에서 1초 깜빡임(1초간격으로)
   if (skip) {
-    // 1초 동안은 원래 색상 유지, 그 후에 필터 반전 (수정사항 1번)
+    // 초기 상태: invert(0) 설정
+    skip.style.filter = 'invert(0)';
+
+    // 1초 후에 invert(1)로 변경
     setTimeout(() => {
       skip.style.filter = 'invert(1)'; // 1초 후에 검은 배경에서도 보이게
-    }, 1000);
+    }, 4000);
 
     let skipBlinking = true;
     const skipInterval = setInterval(() => {
@@ -170,7 +182,7 @@ export function startIntroAnimation(): void {
   setTimeout(() => {
     if (bigStar) {
       bigStar.style.transition = 'transform 1s ease-in-out';
-      bigStar.style.transform = 'translate(-110vw, 80vh) rotate(720deg)'; //  대각선으로 사라짐
+      bigStar.style.transform = 'translate(-120vw, 105vh) rotate(720deg)'; //  대각선으로 사라짐
     }
   }, 5000); // 4초 + 1초
 
@@ -179,6 +191,7 @@ export function startIntroAnimation(): void {
     if (gameFreakStar) {
       // 3단계로 나타나는 효과
       gameFreakStar.style.opacity = '0.3';
+      bigStar.style.opacity = '0';
       setTimeout(() => {
         if (gameFreakStar) gameFreakStar.style.opacity = '0';
       }, 500);
@@ -306,7 +319,7 @@ export function startIntroAnimation(): void {
         'transform 1.5s cubic-bezier(.51,-0.21,.25,1.22)';
       projectLogo.style.transform = 'translateY(0)';
     }
-    // home 음악 재생
+    // home 음악 재생 - 음소거 상태 확인 추가
     playHomeMusic();
   }, 21000); // intro-animation 사라진 후
 
