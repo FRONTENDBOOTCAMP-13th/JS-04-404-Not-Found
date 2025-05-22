@@ -36,12 +36,17 @@ npm run preview
 npm run dev
 ```
 
-### 프로젝트 목적
+### 🎯 프로젝트 목적
 
 - JavaScript 학습 합니다.
 - 추억의 포켓몬 게임을 경험 합니다.
 - Gacha 와 Slot 미니 게임을 통해, 포켓몬 카드를 수집합니다.
 - 수집한 포켓몬을 도감에서 확인하고, 그 외 포켓몬 타입별 분류하여 포켓몬 정보를 수집합니다.
+
+### 개발 기간
+
+- 프로젝트 시작일 : 2025-05-09
+- 프로젝트 마감일 : 2025-05-22
 
 ### 프로젝트 환경
 
@@ -58,15 +63,11 @@ npm run dev
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 
-### 프로젝트 전체 구조 흐름도
+## 🔀 프로젝트 전체 구조 흐름도
 
-1. 인트로 → BGM 설정
-2. 이름 입력 및 저장 → 메인화면 진입
-3. 게임(슬롯머신) → 포켓몬 카드 뽑기
-4. 게임(몬스터볼 가챠) → 포켓몬 카드 뽑기
-5. 도감 페이지 → 소지/비소지 및 타입 필터링
+![유저플로우](/public/readme/userflow.jpg)
 
-### 주요기능 소개
+## 🕹️ 주요기능 소개
 
 - 사용자의 정보(이름) 및 플레이 정보(수집한 포켓몬) 을 로컬스토리지에 저장하여 관리합니다.
 - Poke Api, Pokemon Card Api를 활용하여, 포켓몬 카드 및 도감번호, 이름 등 의 데이터를 불러옵니다.
