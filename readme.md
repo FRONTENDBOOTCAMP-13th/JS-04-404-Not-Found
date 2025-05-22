@@ -204,7 +204,7 @@ npm run dev
 - 404 Not Found 팀은 404에러 와 같이 빅 이슈에도 즐겁게 작업하자는 가치관을 지녔습니다.
 - 부족한 부분은 서로 도우며, 각자의 장점을 살려 작업 및 역할 분배를 하였습니다.
 
-<table width="100%" style="table-layout: fixed; border-collapse: collapse;">
+<table width="1200" style="table-layout: fixed; border-collapse: collapse;">
   <tr>
     <!-- 이름 -->
     <td align="center"><strong style="font-size: 18px;">한길</strong></td>
@@ -216,16 +216,16 @@ npm run dev
   <tr>
     <!-- 이미지 -->
     <td align="center">
-      <img src="/public/readme/hangil.png" width="150" style="border-radius: 10px;" />
+      <img src="/public/readme/hangil.png" width="300" style="border-radius: 10px;" />
     </td>
     <td align="center">
-      <img src="/public/readme/hangil.png" width="150" style="border-radius: 10px;" />
+      <img src="/public/readme/hangil.png" width="300" style="border-radius: 10px;" />
     </td>
     <td align="center">
-      <img src="/public/readme/hangil.png" width="150" style="border-radius: 10px;" />
+      <img src="/public/readme/hangil.png" width="300" style="border-radius: 10px;" />
     </td>
     <td align="center">
-      <img src="/public/readme/hangil.png" width="150" style="border-radius: 10px;" />
+      <img src="/public/readme/hangil.png" width="300" style="border-radius: 10px;" />
     </td>
   </tr>
 
