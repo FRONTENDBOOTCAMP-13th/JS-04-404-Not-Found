@@ -179,7 +179,7 @@ if (musicPlay() === 'true' && toggleSoundBtn) {
 
 // 뒤로가기
 backBtn.addEventListener('click', () => {
-  window.history.back();
+  window.location.href = '../town/town.html';
 });
 
 // 음소거/재생

@@ -27,7 +27,7 @@ if (backBtn && toggleSoundBtn && toggleSoundText) {
 
   // 뒤로가기
   backBtn.addEventListener('click', () => {
-    window.history.back();
+    window.location.href = '../town/town.html';
   });
 
   // 음소거/재생 이벤트 핸들러 수정
