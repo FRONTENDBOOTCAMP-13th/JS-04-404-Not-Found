@@ -221,13 +221,12 @@ npm run dev
     <td width="300" align="center" valign="middle">
       <p>임한길</p>
     </td>
-  <tr>
     <td width="300" align="center" valign="middle">
       <img src="/public/readme/game5.webp" width="300" /><br />
     </td>
     <td width="800" valign="middle">
       <ul>
-        <li>배경에서 캐릭터가 돌아다니는 기능/li>
+        <li>배경에서 캐릭터가 돌아다니는 기능</li>
         <li>캐릭터가 건물에 닿았을때, 모달이나 해당 페이지로 이동하는 기능</li>
       </ul>
     </td>
