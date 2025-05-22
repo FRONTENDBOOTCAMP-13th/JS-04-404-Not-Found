@@ -212,6 +212,30 @@ npm run dev
 
 # 도감부분 ui완료되면 잊지말고 도감부분 주요 기능 삽입하기.
 
+## 개발 비하인드
+
+### 🧪 고난이도 기능 도전
+
+<table width = "100%">
+  <tr>
+    <td width="300" align="center" valign="middle">
+      <p>임한길</p>
+    </td>
+  <tr>
+    <td width="300" align="center" valign="middle">
+      <img src="/public/readme/game5.webp" width="300" /><br />
+    </td>
+    <td width="800" valign="middle">
+      <ul>
+        <li>배경에서 캐릭터가 돌아다니는 기능/li>
+        <li>캐릭터가 건물에 닿았을때, 모달이나 해당 페이지로 이동하는 기능</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+### 🧪 트러블슈팅 사례
+
 ## 👪 제작 Team 소개
 
 ![팀로고](/public/readme/teamlogo.png)
