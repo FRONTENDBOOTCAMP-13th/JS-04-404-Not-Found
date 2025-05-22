@@ -1,16 +1,16 @@
 import '../../common/total-time.ts'; // 누적 플레이 타임
 
 import { allowMusic } from '../../common/music.ts';
-import homeMusicSrc from '/src/assets/music/home-music.mp3';
-import selectMusicSrc from '/src/assets/music/select-music.mp3';
+// import homeMusicSrc from '/src/assets/music/home-music.mp3'; // 주석 처리 - 이제 home-animation.ts에서 관리
+import selectMusicSrc from '/src/assets/music/intro-music.mp3';
 import { userName } from '../../common/local-storage.ts';
 import pokeBall from '../../assets/home/ball.png';
 
-// home-music 오디오 객체 생성 및 음악 재생
+// home-music 오디오 객체 생성 및 음악 재생 - 자동재생 제거 (요구사항 6번)
 const selectMusic = new Audio(selectMusicSrc);
-const homeMusic = new Audio(homeMusicSrc);
-homeMusic.volume = 0.5;
-allowMusic(homeMusic, true);
+// const homeMusic = new Audio(homeMusicSrc); // 주석 처리 - home-animation.ts에서 관리
+// homeMusic.volume = 0.5; // 주석 처리
+// allowMusic(homeMusic, true); // 주석 처리 - 자동재생 제거
 
 // 마우스 올리고 내렸을 때 동작하는 함수
 const pressStart = document.querySelector('.press-start') as HTMLElement;
