@@ -216,25 +216,25 @@ npm run dev
   <!-- 이미지 (Row 2) -->
 <tr>
   <td align="center" valign="top">
-    <img src="/public/readme/hangil.png" width="300" style="border-radius: 10px; display: block;" />
+    <img src="/public/readme/hangil.png" width="100" style="border-radius: 10px; display: block;" />
   </td>
   <td align="center" valign="top">
-    <img src="/public/readme/hangil.png" width="300" style="border-radius: 10px; display: block;" />
+    <img src="/public/readme/hangil.png" width="100" style="border-radius: 10px; display: block;" />
   </td>
   <td align="center" valign="top">
-    <img src="/public/readme/hangil.png" width="300" style="border-radius: 10px; display: block;" />
+    <img src="/public/readme/hangil.png" width="100" style="border-radius: 10px; display: block;" />
   </td>
   <td align="center" valign="top">
-    <img src="/public/readme/hangil.png" width="300" style="border-radius: 10px; display: block;" />
+    <img src="/public/readme/hangil.png" width="100" style="border-radius: 10px; display: block;" />
   </td>
 </tr>
 
   <!-- 포지션 (Row 3) -->
   <tr>
-    <td align="center"><div style="font-size: 16px; font-weight: bold;">프론트엔드 개발자 🧑‍💻</div></td>
-    <td align="center"><div style="font-size: 16px; font-weight: bold;">디자이너 🎨</div></td>
-    <td align="center"><div style="font-size: 16px; font-weight: bold;">백엔드 개발자 ⚙️</div></td>
-    <td align="center"><div style="font-size: 16px; font-weight: bold;">기획자 📝</div></td>
+    <td align="center"><div>프론트엔드 개발자 🧑‍💻</div></td>
+    <td align="center"><div>디자이너 🎨</div></td>
+    <td align="center"><div>백엔드 개발자 ⚙️</div></td>
+    <td align="center"><div>기획자 📝</div></td>
   </tr>
 
   <!-- 특기 설명 (Row 4) -->
