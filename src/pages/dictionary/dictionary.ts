@@ -5,7 +5,7 @@ import { musicPlay } from '../../common/local-storage.ts'; // 현재 로컬스�
 import { toggleSound } from '../../common/toggle-sound.ts'; // 음악 켜기 / 끄기 기능
 import { allowMusic } from '../../common/music.ts';
 import dictionaryMusicSrc from '/src/assets/music/dictionary-music.mp3';
-import { cardImg } from '../slot/slot';
+import { cardImg } from '../../common/card';
 import seulImg from '../../../public/images/seulImg.png';
 import yongImg from '../../../public/images/yongImg.png';
 
@@ -410,10 +410,10 @@ toggleSoundBtn.addEventListener('click', () => {
   const soundState: string | null = musicPlay();
   toggleSound(dictionaryMusic);
   if (soundState === 'true') {
-    toggleSoundBtn.style.backgroundImage = `url(${soundOn})`;
+    toggleSoundBtn.style.backgroundImage = `url(${soundOff})`;
     toggleSoundText.innerHTML = '전체 소리 켜기 버튼';
   } else {
-    toggleSoundBtn.style.backgroundImage = `url(${soundOff})`;
+    toggleSoundBtn.style.backgroundImage = `url(${soundOn})`;
     toggleSoundText.innerHTML = '전체 소리 끄기 버튼';
   }
 });
