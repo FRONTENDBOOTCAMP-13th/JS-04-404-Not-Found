@@ -207,10 +207,10 @@ npm run dev
 <table width="1200" style="table-layout: fixed; border-collapse: collapse;">
   <!-- 이름 + GitHub 링크 (Row 1) -->
   <tr>
-    <td align="center"><a href="https://github.com/ggungdev" target="_blank"><strong style="font-size: 18px;">한길</strong></a></td>
-    <td align="center"><a href="https://github.com/charizard" target="_blank"><strong style="font-size: 18px;">리자몽</strong></a></td>
-    <td align="center"><a href="https://github.com/pikachu" target="_blank"><strong style="font-size: 18px;">피카츄</strong></a></td>
-    <td align="center"><a href="https://github.com/psyduck" target="_blank"><strong style="font-size: 18px;">고라파덕</strong></a></td>
+    <td align="center"><a href="https://github.com/onewayay" target="_blank"><strong>임한길</strong></a></td>
+    <td align="center"><a href="https://github.com/InHwanGil" target="_blank"><strong >길인환</strong></a></td>
+    <td align="center"><a href="https://github.com/fipark" target="_blank"><strong>박준환</strong></a></td>
+    <td align="center"><a href="https://github.com/chaeeun-nim" target="_blank"><strong >송채은</strong></a></td>
   </tr>
 
   <!-- 이미지 (Row 2) -->
@@ -219,52 +219,52 @@ npm run dev
     <img src="/public/readme/hangil.png"  width="800"/>
   </td>
   <td align="center" valign="top" width="200">
-    <img src="/public/readme/hangil.png"  width="800"/>
+    <img src="/public/readme/inhwan.png"  width="800"/>
   </td>
   <td align="center" valign="top" width="200">
-    <img src="/public/readme/hangil.png"  width="800"/>
+    <img src="/public/readme/junhwan.png"  width="800"/>
   </td>
   <td align="center" valign="top" width="200">
-    <img src="/public/readme/hangil.png"  width="800"/>
+    <img src="/public/readme/chaeeun.png"  width="800"/>
   </td>
 </tr>
 
   <!-- 포지션 (Row 3) -->
   <tr>
-    <td align="center"><div>프론트엔드 개발자 🧑‍💻</div></td>
-    <td align="center"><div>디자이너 🎨</div></td>
-    <td align="center"><div>백엔드 개발자 ⚙️</div></td>
-    <td align="center"><div>기획자 📝</div></td>
+    <td align="center"><div>Team Leader / PM</div></td>
+    <td align="center"><div>Designer / Developer</div></td>
+    <td align="center"><div>Scrum Master / PL</div></td>
+    <td align="center"><div>CD / Developer</div></td>
   </tr>
 
   <!-- 특기 설명 (Row 4) -->
   <tr>
     <td align="left" style="font-size: 13px; padding-left: 16px;">
       <ul>
-        <li>TypeScript 능숙</li>
-        <li>UI/UX 감각 뛰어남</li>
-        <li>코드리뷰 왕</li>
+        <li>메타몽처럼 다재다능함</li>
+        <li>리더쉽이 뛰어남</li>
+        <li>언변이 화려함</li>
       </ul>
     </td>
     <td align="left" style="font-size: 13px; padding-left: 16px;">
       <ul>
+        <li>윈디처럼 카리스마 있음</li>
         <li>감각적인 UI 제작</li>
-        <li>피그마 마스터</li>
-        <li>콘셉트 일관성 유지</li>
+        <li>미적 감각이 뛰어남</li>
       </ul>
     </td>
     <td align="left" style="font-size: 13px; padding-left: 16px;">
       <ul>
+        <li>모래두지 처럼 신중함</li>
         <li>API 설계 능숙</li>
-        <li>DB 정규화 고수</li>
-        <li>에러 핸들링 철저</li>
+        <li>데이터 필터링 고수</li>
       </ul>
     </td>
     <td align="left" style="font-size: 13px; padding-left: 16px;">
       <ul>
-        <li>플로우차트 설계</li>
-        <li>요구사항 도출 명확</li>
-        <li>일정관리 만렙</li>
+        <li>야돈처럼 생각이 많음</li>
+        <li>놀라운 아이디어 제공</li>
+        <li>문서작성을 좋아함</li>
       </ul>
     </td>
   </tr>
