@@ -144,33 +144,64 @@ const numBalls: number = 10; // 생성할 공 수
 
 // 이미지 로드 완료 시 실행
 ballImage.onload = (): void => {
+  const winW: number = window.innerWidth;
+
   for (let i = 0; i < numBalls; i++) {
-    const radius: number = 40 + Math.random() * 30; // 40~70px 사이 크기
-    let x: number, y: number, dx: number, dy: number;
-    let overlapping: boolean = false;
-    const rotationSpeed: number = (Math.random() - 0.5) * 0.05; // -0.025 ~ 0.025 회전 속도
+    if (winW > 640) {
+      const radius: number = 40 + Math.random() * 30; // 40~70px 사이 크기
+      let x: number, y: number, dx: number, dy: number;
+      let overlapping: boolean = false;
+      const rotationSpeed: number = (Math.random() - 0.5) * 0.05; // -0.025 ~ 0.025 회전 속도
 
-    // 겹치지 않는 위치 찾기
-    do {
-      overlapping = false;
-      x = Math.random() * (canvas.width - radius * 2) + radius;
-      y = Math.random() * (canvas.height - radius * 2) + radius;
-      dx = (Math.random() - 0.5) * 4; // 속도 -2 ~ 2
-      dy = (Math.random() - 0.5) * 4;
+      // 겹치지 않는 위치 찾기
+      do {
+        overlapping = false;
+        x = Math.random() * (canvas.width - radius * 2) + radius;
+        y = Math.random() * (canvas.height - radius * 2) + radius;
+        dx = (Math.random() - 0.5) * 4; // 속도 -2 ~ 2
+        dy = (Math.random() - 0.5) * 4;
 
-      for (let j = 0; j < balls.length; j++) {
-        const other = balls[j];
-        const distX = x - other.x;
-        const distY = y - other.y;
-        const distance = Math.sqrt(distX * distX + distY * distY);
-        if (distance < radius + other.radius) {
-          overlapping = true;
-          break;
+        for (let j = 0; j < balls.length; j++) {
+          const other = balls[j];
+          const distX = x - other.x;
+          const distY = y - other.y;
+          const distance = Math.sqrt(distX * distX + distY * distY);
+          if (distance < radius + other.radius) {
+            overlapping = true;
+            break;
+          }
         }
-      }
-    } while (overlapping);
+      } while (overlapping);
 
-    balls.push(new Ball(x, y, radius, dx, dy, ballImage, rotationSpeed));
+      balls.push(new Ball(x, y, radius, dx, dy, ballImage, rotationSpeed));
+    } else {
+      const radius: number = 10 + Math.random() * 20; // 10~30px 사이 크기
+      let x: number, y: number, dx: number, dy: number;
+      let overlapping: boolean = false;
+      const rotationSpeed: number = (Math.random() - 0.5) * 0.05; // -0.025 ~ 0.025 회전 속도
+
+      // 겹치지 않는 위치 찾기
+      do {
+        overlapping = false;
+        x = Math.random() * (canvas.width - radius * 2) + radius;
+        y = Math.random() * (canvas.height - radius * 2) + radius;
+        dx = (Math.random() - 0.5) * 4; // 속도 -2 ~ 2
+        dy = (Math.random() - 0.5) * 4;
+
+        for (let j = 0; j < balls.length; j++) {
+          const other = balls[j];
+          const distX = x - other.x;
+          const distY = y - other.y;
+          const distance = Math.sqrt(distX * distX + distY * distY);
+          if (distance < radius + other.radius) {
+            overlapping = true;
+            break;
+          }
+        }
+      } while (overlapping);
+
+      balls.push(new Ball(x, y, radius, dx, dy, ballImage, rotationSpeed));
+    }
   }
 
   // 애니메이션 시작
