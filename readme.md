@@ -40,7 +40,6 @@ npm run dev
 ### 프로젝트 환경
 
 ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
-![Perplexity](https://img.shields.io/badge/perplexity-000000?style=for-the-badge&logo=perplexity&logoColor=088F8F)
 ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
 ![Prettier](https://img.shields.io/badge/prettier-%23F7B93E.svg?style=for-the-badge&logo=prettier&logoColor=black)
@@ -201,3 +200,49 @@ npm run dev
 ## 제작 Team 소개
 
 ![팀로고](/public/readme/teamlogo.png)
+
+- 404 Not Found 팀은 404에러 와 같이 빅 이슈에도 즐겁게 작업하자는 가치관을 지녔습니다.
+- 부족한 부분은 서로 도우며, 각자의 장점을 살려 작업 및 역할 분배를 하였습니다.
+
+<table width="100%" style="table-layout: fixed; border-collapse: collapse;">
+  <tr>
+    <td width="50%" valign="top" align="center" style="padding: 10px;">
+      <img src="/public/readme/hangil.png" width="180" style="border-radius: 8px;" /><br />
+      <strong>이름:</strong> 껑껑이<br />
+      <ul style="list-style: none; padding-left: 0; margin-top: 8px; text-align: left;">
+        <li><strong>역할:</strong> 프론트엔드 🧑‍💻</li>
+        <li><strong>특장점:</strong> TypeScript 야무짐</li>
+        <li><strong>GitHub:</strong> <a href="https://github.com/ggungdev" target="_blank">ggungdev</a></li>
+      </ul>
+    </td>
+    <td width="50%" valign="top" align="center" style="padding: 10px;">
+      <img src="/public/readme/hangil.png" width="180" style="border-radius: 8px;" /><br />
+      <strong>이름:</strong> 리자몽<br />
+      <ul style="list-style: none; padding-left: 0; margin-top: 8px; text-align: left;">
+        <li><strong>역할:</strong> 디자이너 🎨</li>
+        <li><strong>특장점:</strong> 감각적 UI 구성</li>
+        <li><strong>GitHub:</strong> <a href="https://github.com/charizard">charizard</a></li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top" align="center" style="padding: 10px;">
+      <img src="/public/readme/hangil.png" width="180" style="border-radius: 8px;" /><br />
+      <strong>이름:</strong> 피카츄<br />
+      <ul style="list-style: none; padding-left: 0; margin-top: 8px; text-align: left;">
+        <li><strong>역할:</strong> 백엔드 ⚙️</li>
+        <li><strong>특장점:</strong> API 마스터</li>
+        <li><strong>GitHub:</strong> <a href="https://github.com/pikachu">pikachu</a></li>
+      </ul>
+    </td>
+    <td width="50%" valign="top" align="center" style="padding: 10px;">
+      <img src="/public/readme/hangil.png" width="180" style="border-radius: 8px;" /><br />
+      <strong>이름:</strong> 고라파덕<br />
+      <ul style="list-style: none; padding-left: 0; margin-top: 8px; text-align: left;">
+        <li><strong>역할:</strong> 기획자 📝</li>
+        <li><strong>특장점:</strong> 흐름정리 능력자</li>
+        <li><strong>GitHub:</strong> <a href="https://github.com/psyduck">psyduck</a></li>
+      </ul>
+    </td>
+  </tr>
+</table>
