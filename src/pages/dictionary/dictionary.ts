@@ -24,6 +24,7 @@ const searchInput = document.getElementById('search-input') as HTMLInputElement;
 const searchBtn = document.getElementById('search-btn') as HTMLButtonElement;
 const cardModal = document.getElementById('card-modal');
 const cardModalImg = document.getElementById('card-image') as HTMLImageElement;
+const loadingImg = document.getElementById('loading-image') as HTMLImageElement;
 
 cardModal?.addEventListener('click', e => {
   // .card-modal-content 외부 클릭 시만 닫기
@@ -167,11 +168,18 @@ const renderPokemonCard = (pokemon: Pokemon) => {
     `;
     card.addEventListener('click', async () => {
       const number = Number(pokemon.number);
+      cardModal?.classList.remove('hidden');
+
+      // 로딩 중 표시
+      cardModalImg.classList.add('hidden');
+      loadingImg.classList.remove('hidden');
+
       const cardUrl = await cardImg(number);
-      if (cardUrl) {
-        cardModalImg.src = cardUrl;
-        cardModal?.classList.remove('hidden');
-      }
+
+      // 로딩 끝나면 교체
+      loadingImg.classList.add('hidden');
+      cardModalImg.src = cardUrl;
+      cardModalImg.classList.remove('hidden');
     });
   }
   pokedex?.appendChild(card);
