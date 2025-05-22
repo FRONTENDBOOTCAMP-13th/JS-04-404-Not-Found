@@ -175,6 +175,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .poke-img {
@@ -242,6 +243,7 @@ body {
   font-size: 20px;
   justify-content: center;
   align-items: center;
+  cursor: auto;
 }
 
 .pokemon-card.unrevealed .poke-num {
