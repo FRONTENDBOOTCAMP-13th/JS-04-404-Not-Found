@@ -2,7 +2,7 @@
 import { allowMusic } from '../../common/music.ts';
 // gacha.ts 파일 상단에 추가
 import { musicPlay } from '../../common/local-storage.ts';
-import { toggleSound } from '../../common/toggle-sound.ts';
+// import { toggleSound } from '../../common/toggle-sound.ts';
 // 이미지 import 추가
 import soundOn from '/src/assets/common/sound-on.png';
 import soundOff from '/src/assets/common/sound-off.png';
@@ -27,24 +27,55 @@ if (backBtn && toggleSoundBtn && toggleSoundText) {
 
   // 뒤로가기
   backBtn.addEventListener('click', () => {
-    window.history.back();
+    window.location.href = '../town/town.html';
   });
 
-  // 음소거/재생
+  // 음소거/재생 이벤트 핸들러 수정
   toggleSoundBtn.addEventListener('click', () => {
     const soundState: string | null = musicPlay();
 
-    // null 체크 추가
-    if (bgmAudio) {
-      toggleSound(bgmAudio); // null이 아닐 때만 호출
-    }
-
+    // 중요: soundState는 토글 전의 상태
     if (soundState === 'true') {
+      // 소리가 켜진 상태에서 끄는 경우
+      // 로컬 스토리지 상태 변경
+      localStorage.setItem('musicPlay', 'false');
+
       toggleSoundBtn.style.backgroundImage = `url(${soundOff})`;
       toggleSoundText.innerHTML = '전체 소리 켜기 버튼';
+
+      // 모든 오디오 일시 정지
+      if (bgmAudio) {
+        bgmAudio.pause();
+      }
+      if (effectAudio) {
+        effectAudio.pause();
+        effectAudio.currentTime = 0;
+      }
     } else {
+      // 소리가 꺼진 상태에서 켜는 경우
+      // 로컬 스토리지 상태 변경
+      localStorage.setItem('musicPlay', 'true');
+
       toggleSoundBtn.style.backgroundImage = `url(${soundOn})`;
       toggleSoundText.innerHTML = '전체 소리 끄기 버튼';
+
+      // 집게 동작 중인 경우 효과음만 재생, 그렇지 않으면 배경음악 재생
+      if (isGrabbing) {
+        // 집게 동작 중일 때는 효과음만 재생
+        if (effectAudio && effectAudio.paused) {
+          effectAudio.currentTime = 0;
+          effectAudio.play().catch(error => {
+            console.warn('효과음 재생 오류:', error);
+          });
+        }
+      } else {
+        // 집게 동작 중이 아닐 때는 배경음악 재생
+        if (bgmAudio) {
+          bgmAudio.play().catch(error => {
+            console.warn('배경음악 재생 오류:', error);
+          });
+        }
+      }
     }
   });
 
@@ -154,12 +185,15 @@ const pauseBGM = (): void => {
   }
 };
 
-// 효과음 재생 함수
+// 효과음 재생 함수 수정
 const playEffectSound = (): void => {
   if (effectAudio) {
-    // 효과음 재생 전 처음으로 되돌림 (이미 재생 중인 경우 대비)
-    effectAudio.currentTime = 0;
-    allowMusic(effectAudio, false); // 반복 없이 한 번만 재생
+    // 현재 음소거 상태인지 확인 후 재생
+    if (musicPlay() === 'true') {
+      // 소리가 켜진 상태일 때만 재생
+      effectAudio.currentTime = 0;
+      allowMusic(effectAudio, false); // 반복 없이 한 번만 재생
+    }
   }
 };
 
@@ -171,10 +205,26 @@ const stopEffectSound = (): void => {
   }
 };
 
+// 음소거 버튼 상태 업데이트 함수 추가
+const updateSoundButtonState = (): void => {
+  if (toggleSoundBtn && toggleSoundText) {
+    const currentSoundState = musicPlay();
+    if (currentSoundState === 'true') {
+      toggleSoundBtn.style.backgroundImage = `url(${soundOn})`;
+      toggleSoundText.innerHTML = '전체 소리 끄기 버튼';
+    } else {
+      toggleSoundBtn.style.backgroundImage = `url(${soundOff})`;
+      toggleSoundText.innerHTML = '전체 소리 켜기 버튼';
+    }
+  }
+};
+
 // 문서가 로드된 후 초기화
 document.addEventListener('DOMContentLoaded', () => {
   // 오디오 초기화
   initAudio();
+  // 음소거 버튼 상태 초기화 (버튼이 이미 초기화되었을 수 있으므로 다시 확인)
+  updateSoundButtonState();
 
   // three-test 요소 스타일 확인 및 설정
   if (threeTest) {
@@ -339,20 +389,6 @@ const updateControlMethod = (): void => {
   isMobileView = window.innerWidth <= 640;
 };
 
-// 모바일 컨트롤러 요소 초기 설정
-const updateMobileControlsVisibility = (): void => {
-  // 모바일 화면 여부 확인
-  const isMobile = window.innerWidth <= 640;
-
-  // 모바일 컨트롤러 요소 표시/숨김 설정
-  if (joystickLeft) joystickLeft.style.display = isMobile ? 'block' : 'none';
-  if (joystickRight) joystickRight.style.display = isMobile ? 'block' : 'none';
-  if (aButton) aButton.style.display = isMobile ? 'block' : 'none';
-};
-
-// 초기 컨트롤러 표시 상태 설정
-updateMobileControlsVisibility();
-
 // 윈도우 크기 변경 이벤트에 컨트롤러 표시 업데이트 추가
 window.addEventListener('resize', () => {
   // 기존 코드 유지...
@@ -370,9 +406,6 @@ window.addEventListener('resize', () => {
 
   // 조작 방식 업데이트
   updateControlMethod();
-
-  // 모바일 컨트롤러 표시 상태 업데이트 추가
-  updateMobileControlsVisibility();
 });
 
 // 모든 타이머 초기화 및 상태 완전 리셋 함수 - 브라우저 창 초기화 등에 사용
@@ -639,7 +672,30 @@ const grabAction = (): void => {
 
   // BGM 일시 정지 및 효과음 재생
   pauseBGM();
-  playEffectSound();
+
+  // 음소거 상태일 때는 효과음도 재생하지 않음
+  if (musicPlay() === 'true') {
+    playEffectSound();
+
+    // 효과음 상태 모니터링 추가
+    const soundCheckInterval = setInterval(() => {
+      // 음소거 상태가 변경되었는지 확인
+      if (musicPlay() !== 'true' && effectAudio && !effectAudio.paused) {
+        // 음소거 상태로 변경된 경우 효과음 중지
+        effectAudio.pause();
+        effectAudio.currentTime = 0;
+        clearInterval(soundCheckInterval);
+      }
+    }, 100);
+
+    // 모든 타이머가 끝난 후에는 인터벌 제거
+    const clearSoundCheckTimer = setTimeout(() => {
+      clearInterval(soundCheckInterval);
+    }, 4500); // 모든 애니메이션이 완료되는 시간보다 약간 더 길게 설정
+
+    // 타이머 목록에 추가
+    grabTimers.push(clearSoundCheckTimer);
+  }
 
   // 동작 시작 시간 기록
   // grabStartTime = performance.now();
@@ -769,11 +825,15 @@ document.addEventListener('click', () => {
   hideHelpText();
 });
 
-// gacha.ts 파일 하단에 추가
-// 배경음악 재시작 이벤트 리스너
+// 배경음악 재시작 이벤트 리스너 수정
 window.addEventListener('restartBackgroundMusic', () => {
-  // 0.5초 후에 배경음악 재시작
-  setTimeout(() => {
-    startBGM();
-  }, 500);
+  // 음소거 버튼 상태 업데이트 (페이지 간 이동 후)
+  updateSoundButtonState();
+
+  // 현재 음소거 상태가 아닐 때만 배경음악 재생
+  if (musicPlay() === 'true' && !isGrabbing) {
+    setTimeout(() => {
+      startBGM();
+    }, 500);
+  }
 });

@@ -1,48 +1,61 @@
 <!doctype html>
 <html lang="ko-KR">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="" href="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="preload"
-      as="font"
-      href="/public/fonts/Galmuri9.woff"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="/src/style.css" />
-    <link rel="stylesheet" href="./home.css" />
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="" href="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preload" as="font" href="/public/fonts/Galmuri9.woff" crossorigin="anonymous" />
+  <link rel="shortcut icon" href="/public/favicon/ball.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="/src/style.css" />
+  <link rel="stylesheet" href="./home.css" />
 
-    <script type="module" src="./home.ts"></script>
+  <script type="module" src="./home-animation.ts"></script>
+  <script type="module" src="./home.ts"></script>
 
-    <title>POKEMON CARD COLLECTION</title>
-  </head>
-  <body>
-    <div class="wrapper">
-      <!-- ST: Home -->
-      <div class="home inner-980">
-        <canvas id="ballCanvas"></canvas>
-        <h1 class="project-logo">
-          <img src="../../assets/home/project_logo.png" alt="POKEMON TM" />
-          <p class="sub-pixel">CARD COLLECTION</p>
-        </h1>
+  <title>POKEMON CARD COLLECTION</title>
+</head>
+<body>
 
-        <div class="btn-area">
-          <button type="button" class="eng-pixel press-start">
-            PRESS START
-          </button>
-          <a href="#" target="_self" class="eng-pixel help">HELP</a>
-        </div>
-        <a
-          href="https://github.com/FRONTENDBOOTCAMP-13th/JS-04-404-Not-Found"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="404 NOT FOUND 팀 깃허브 페이지 새창열림"
-          class="eng-pixel github-link"
-          >404 NOT FOUND || GIT HUB</a
-        >
+  <div class="intro-animation">
+    <div class="intro-inner">
+      <img src="../../assets/home/skip.png" alt="" class="skip" />
+      <div class="intro-text">
+        <img src="../../assets/home/intro-text.png" alt="" />
       </div>
-      <!-- ED: Home -->
+      <img src="../../assets/home/big-star.png" alt="" class="big-star" />
+      <img src="../../assets/home/game_freak.png" alt="" class="game-freak" />
+      <img src="../../assets/home/game_freak_star.png" alt="" class="game-freak" />
+      <div class="pokemon-field">
+        <div class="left-pokemon">
+          <img src="../../assets/home/left-pokemon.png" alt="" class="" />
+        </div>
+        <div class="right-pokemon">
+          <img src="../../assets/home/right-pokemon.png" alt="" class="" />
+        </div>
+      </div>
     </div>
-  </body>
+  </div>
+
+  <div class="wrapper">
+    <!-- ST: Home -->
+    <div class="home inner-980">
+      <canvas id="ballCanvas"></canvas>
+      <h1 class="project-logo">
+        <img src="../../assets/home/project_logo.png" alt="POKEMON TM" />
+        <p class="sub-pixel">CARD COLLECTION</p>
+      </h1>
+
+      <div class="btn-area">
+        <button type="button" class="eng-pixel press-start">
+          PRESS START
+        </button>
+        <a href="https://github.com/FRONTENDBOOTCAMP-13th/JS-04-404-Not-Found/wiki/How-Use-Project" target="_blank"
+          title="404 NOT FOUND 팀 깃허브 > How Use Project 페이지 새창열림" class="eng-pixel help">HELP</a>
+      </div>
+      <a href="https://github.com/FRONTENDBOOTCAMP-13th/JS-04-404-Not-Found" target="_blank" rel="noopener noreferrer"
+        title="404 NOT FOUND 팀 깃허브 페이지 새창열림" class="eng-pixel github-link">404 NOT FOUND || GIT HUB</a>
+    </div>
+    <!-- ED: Home -->
+  </div>
+</body>
 </html>

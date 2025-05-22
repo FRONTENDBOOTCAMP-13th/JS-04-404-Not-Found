@@ -9,6 +9,11 @@
       href="/public/fonts/Galmuri9.woff"
       crossorigin="anonymous"
     />
+    <link
+      rel="shortcut icon"
+      href="/public/favicon/ball.ico"
+      type="image/x-icon"
+    />
     <link rel="stylesheet" href="/src/style.css" />
     <link rel="stylesheet" href="./slot.css" />
     <script type="module" src="./slot.ts"></script>
@@ -18,6 +23,18 @@
   <body>
     <div class="wrapper">
       <div class="inner-980 slot">
+        <!-- ST : 내일 다시오렴 팝업-->
+        <div class="no-slot d-none" id="noSlotModal">
+          <img
+            class="doctor-img"
+            src="../../assets/slot/dortoro.png"
+            alt="내일 다시오렴"
+          />
+          <button type="button" id="noSlotBtn" class="no-slot-btn">
+            <img src="../../assets/slot/closenoslot.png" alt="닫기" />
+          </button>
+        </div>
+        <!-- ED : 내일 다시 오렴 팝업-->
         <!-- ST : 뒤로가기, 음소거 버튼-->
         <button type="button" class="back-btn">
           <span class="sr-only">뒤로가기</span>
@@ -26,12 +43,15 @@
           <span class="sr-only"></span>
         </button>
         <!-- ED : 뒤로가기, 음소거 버튼-->
+
         <!-- ST : 카드 획득 화면-->
         <div class="poke-get" id="pokeGet">
-          <div class="card-wrapper">
+          <div id="cardBack" class="card-wrapper">
+            <!-- ST :포켓몬 카드 효과-->
             <div class="shine"></div>
             <div class="shine2"></div>
             <div class="shadow"></div>
+            <!-- ED : 포켓몬 카드 효과-->
             <img id="pokeCard" class="poke-card card-ab" src="" alt="" />
             <img id="starBack" class="star-back card-ab" src="" alt="" />
             <p id="pokeName" class="poke-name card-ab"></p>
@@ -41,6 +61,7 @@
           </div>
         </div>
         <!-- ED : 카드 획득 화면-->
+
         <!-- ST : 슬롯버튼-->
         <button class="slot-btn" id="slotBtn">
           <img
@@ -67,6 +88,7 @@
         </ul>
         <!-- ED: 슬롯숫자 -->
       </div>
+
       <button id="MslotBtn" type="button" class="a-button"></button>
     </div>
   </body>

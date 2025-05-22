@@ -64,25 +64,31 @@
     position: relative;
     width: 100%;
     margin: 0 auto;
-    margin-top: 5%;
+    margin-top: 7%;
     overflow: hidden;
   }
   .intro-slide .swiper-slide {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 45px;
+    gap: 4.5%;
   }
   .intro-slide .swiper-slide img {
-    width: 25%;
+    width: 20%;
+  }
+  #maradoji {
+    width: 14%;
   }
   .intro-slide .swiper-slide h2 {
     color: var(--color-text-red);
-    font-size: min(2.5vw, 2.5vh);
+    font-size: min(2.8vw, 2.8vh);
+    text-align: left;
   }
   .intro-slide .swiper-slide h2 strong {
     display: block;
-    margin-top: -10%;
+    margin-top: -5%;
+    font-size: min(2.3vw, 2.3vh);
     color: var(--color-medium-gray);
   }
 
@@ -106,7 +112,7 @@
   }
 
   .start-btn {
-    margin-top: 5%;
+    margin-top: 8%;
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -123,7 +129,7 @@
 
   /* footer */
   footer {
-    margin-top: 3.5%;
+    margin-top: 4.5%;
   }
   footer small {
     font-size: min(0.9vw, 0.9vh);

@@ -1,7 +1,148 @@
+.intro-animation {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    /* 애니메이션 진행을 위한 초기 투명도 설정 */
+    opacity: 1;
+    /* 초기에는 트랜지션 없음 - 나중에 Script에서 필요시 설정 */
+}
+
+.intro-inner {
+    width: 980px;
+    height: 980px;
+    margin: 0 auto;
+    height: min(980px, 100vw, 100vh);
+    aspect-ratio: 1 / 1;
+    background: #000;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: grayscale(1);
+}
+
+.skip {
+    width: 10%;
+    position: absolute;
+    right: 3%;
+    top: 3%;
+    z-index: 99999;
+    cursor: pointer; /* 클릭 가능 표시 */
+    opacity: 0; /* 초기 투명도 설정 */
+    filter: invert(0);
+}
+
+.intro-text {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1; /* 배경은 항상 보임 */
+    /* 트랜지션 제거 - 요구사항 1번 */
+}
+
+.intro-text img {
+    width: 100%;
+    opacity: 0; 
+    /* 초기에는 숨김 */
+    /* 트랜지션 제거 - 요구사항 1번 */
+}
+
+.big-star {
+    position: absolute;
+    left: 80vw; 
+    /* 초기 위치를 우측 밖으로 설정 */
+    top: -10vw;
+    z-index: 100;
+    filter: grayscale(0.35);
+    width: 50%; 
+    /* 크기 조정 */
+    height: auto;
+}
+
+.game-freak {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    max-height: 100%;
+    opacity: 0; 
+    /* 초기에는 숨김 */
+    transition: opacity 0.3s ease; 
+    /* 나타날/사라질 때 트랜지션 */
+}
+
+/* game-freak-star 전용 스타일 - 실제로는 두 번째 .game-freak 요소 */
+.game-freak:nth-child(2) {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 11; /* game-freak보다 위에 */
+    max-height: 100%;
+    opacity: 0; /* 초기에는 숨김 */
+    /* transition 제거 - JavaScript에서 단계별 제어 */
+}
+
+.pokemon-field {
+    width: 100%;
+    height: calc(100% - 44.44%);
+    position: relative;
+    background: #fff;
+}
+
+.left-pokemon {
+    width: 30%;
+    position: absolute;
+    left: 15%;
+    bottom: 0;
+    filter: brightness(1.1);
+    transform: translateX(-200%); /* 초기에는 왼쪽 밖으로 */
+    transition: transform 2s ease-out; /* 부드러운 이동 */
+    overflow: hidden;
+}
+
+.right-pokemon {
+    width: 30%;
+    position: absolute;
+    right: 15%;
+    bottom: 0;
+    filter: brightness(1.1);
+    transform: translateX(200%); /* 초기에는 오른쪽 밖으로 */
+    transition: transform 2s ease-out; /* 부드러운 이동 */
+    overflow: hidden;
+}
+
+.right-pokemon img {
+    width: 100%;
+    transform: translateY(0%); /* 초기 위치 */
+    transition: transform 0.5s ease; /* 점프 애니메이션용 */
+}
+
 .home {
   position: relative;
   padding-block: min(10%, 10vh);
   text-align: center;
+  background: #fff;
+  overflow: hidden;
 
   canvas {
     position: absolute;
@@ -10,7 +151,7 @@
     width: 100%;
     height: 100%;
     background-color: #fff;
-    z-index: -1;
+    
   }
 
   .project-logo img {
@@ -33,26 +174,44 @@
   .btn-area .press-start {
     position: relative;
     font-size: min(4.4vw, 4.4vh);
+    color: var(--color-roulette-red);
+  }
+  .btn-area .press-start:hover {
     color: var(--color-text-red);
   }
-  .btn-area .press-start.active::before {
+
+  .btn-area .press-start:hover::before {
     content: '';
     position: absolute;
     top: 50%;
     left: -8%;
     width: 4.5%;
     height: 18%;
-
     transform: translateY(-25%);
     background: url('../../assets/home/red-select-icon.png') no-repeat center;
     background-size: 80%;
   }
 
   .btn-area .help {
+    position: relative;
     margin-top: -5px;
     font-size: min(2.8vw, 2.8vh);
     color: var(--color-light-gray);
     width: fit-content;
+  }
+  .btn-area .help:hover {
+    color: var(--color-medium-gray);
+  }
+  .btn-area .help:hover::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -31%;
+    width: 18%;
+    height: 27.5%;
+    transform: translateY(-25%);
+    background: url('../../assets/home/gray-select-icon.png') no-repeat center;
+    background-size: 80%;
   }
 
   .github-link {
@@ -60,5 +219,21 @@
     margin-top: 7.5%;
     font-size: min(1.8vw, 1.8vh);
     color: var(--color-medium-gray);
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 640px) {
+    .btn-area .press-start {
+      color: var(--color-text-red);
+    }
+    .btn-area .help {
+      color: var(--color-medium-gray);
+    }
+
+    .btn-area .press-start:hover::before,
+    .btn-area .help:hover::before {
+      content: none;
+    }
   }
 }

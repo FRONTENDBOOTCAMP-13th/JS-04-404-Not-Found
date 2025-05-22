@@ -15,6 +15,7 @@ body {
 }
 
 .dictionary {
+  position: relative;
   margin: 0 auto;
   width: 100%;
   max-width: 980px;
@@ -26,7 +27,6 @@ body {
   padding: 20px;
   box-sizing: border-box;
   color: #ffffff;
-  font-family: 'pixeled';
 }
 
 /* 도감 전체 영역 */
@@ -41,14 +41,14 @@ body {
 /* 도감 헤더 */
 .pokedex-header {
   position: relative; /* 중앙 정렬 및 포지셔닝 기준 */
-  height: 115px;
+  text-align: center;
   margin-bottom: 40px;
 }
 
 /* ST: 뒤로가기, 음소거 버튼 */
 .back-btn {
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 0;
   height: 51%;
   aspect-ratio: 1/1;
@@ -59,8 +59,8 @@ body {
 }
 .toggle-sound {
   position: absolute;
-  top: 50%;
-  left: 15%;
+  top: 55%;
+  right: 0;
   height: 51%;
   aspect-ratio: 1/1;
   translate: 0 -50%;
@@ -72,32 +72,14 @@ body {
 
 /* 로고는 정중앙 고정 */
 .logo {
-  position: absolute;
-  left: 52%;
-  transform: translateX(-50%);
-  font-family: 'Pixeled';
-  font-size: 24px;
-}
-
-/* 포켓볼은 오른쪽 끝에 배치 */
-.pokeball {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.pokeball img {
-  width: 50px;
-  height: 50px;
-  animation: bounce-vertical 1.2s ease-in-out infinite;
+  display: inline-block;
 }
 
 /* 검색창 */
 /* 기존 유지 */
 .search-bar {
   display: flex;
-  gap: 5px;
+  gap: 10px;
   margin-bottom: 20px;
   width: 100%;
   height: auto;
@@ -105,15 +87,14 @@ body {
 
 /* input + 버튼 묶는 그룹 */
 .input-group {
-  display: flex;
+  position: relative;
   flex: 1;
-  gap: 5px;
 }
 
-/* input은 넓게 */
+/* input은 넓게 + 오른쪽 버튼 공간 확보 */
 .input-group input {
-  flex: 1;
-  padding: 5px 10px;
+  width: 100%;
+  padding: 10px 45px 10px 10px; /* 오른쪽 여백 추가 */
   border: none;
   border-radius: 5px;
   color: #000;
@@ -122,14 +103,18 @@ body {
   height: 60px;
 }
 
-/* 버튼 */
+/* 버튼을 input 내부 오른쪽에 겹치게 */
 .input-group button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   font-size: 24px;
-  background: #ff3334;
-  color: white;
+  background: none;
+  color: #ff3334;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
+  padding: 0;
 }
 
 /* select 유지 */
@@ -140,21 +125,42 @@ body {
   border-radius: 4px;
   font-size: 20px;
   width: auto;
-  min-width: 100px;
-  max-width: 150px;
+  height: 60px;
+
   flex: 0 0 auto;
 }
 /* 도감 내용 영역 */
+.pokedex-content-wrapper {
+  position: relative;
+  flex: 1;
+  padding: 10px;
+  border: 9px solid #000;
+  border-radius: 4px;
+  background-color: white;
+  overflow-y: auto;
+}
+
+/* 포켓볼은 우측 하단에 배치 */
+.pokeball {
+  position: sticky;
+  right: 0;
+  top: 100%;
+}
+
+.pokeball > img {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 50px;
+  height: 50px;
+  animation: bounce-vertical 1.2s ease-in-out infinite;
+  cursor: pointer;
+}
+
 .pokedex-content {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 10px;
-  padding: 10px;
-  background-color: white;
-  overflow-y: auto;
-  flex: 1;
-  border: 9px solid #000;
-  border-radius: 4px;
 }
 
 /* 포켓몬 카드 */
@@ -163,37 +169,50 @@ body {
   border-radius: 8px;
   border: 2px solid #000;
   text-align: center;
-  padding: 10px;
-  font-family: 'Pixeled';
+  padding: 15px;
   height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+  cursor: pointer;
 }
 
-.pokemon-card img {
-  image-rendering: pixelated;
+.poke-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 90px;
   height: 90px;
 }
 
-.poke-num {
-  font-weight: bold;
+.poke-img img {
+  scale: 1.4;
+}
+.hidden-card-777 .poke-img img,
+.hidden-card-888 .poke-img img {
+  scale: 1;
+}
 
+.poke-num {
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
   color: white;
-  font-size: 15px;
 }
 
 .poke-name {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 18px;
   color: white;
-  font-size: 15px;
 }
 
 .poke-types {
   color: white;
-  margin-top: 4px;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .pokemon-card.empty {
@@ -224,13 +243,13 @@ body {
   font-size: 20px;
   justify-content: center;
   align-items: center;
+  cursor: auto;
 }
 
 .pokemon-card.unrevealed .poke-num {
-  font-size: 50px;
+  font-size: 60px;
   color: #555;
-  margin-bottom: 15px;
-  margin-left: 5px;
+  margin-bottom: 5px;
 }
 
 /* 포켓볼 bounce 애니메이션 */
@@ -297,60 +316,90 @@ body {
   cursor: pointer;
   transition: 0.2s;
 }
-@media (max-width: 505px) {
+
+@media (max-width: 640px) {
   .pokedex-header {
+    margin-bottom: 20px;
+  }
+
+  .back-btn,
+  .toggle-sound {
+    position: absolute;
+    top: 55%;
+    translate: 0 -50%;
+    height: 40px;
+    aspect-ratio: 1 / 1;
+    background-size: cover;
+    z-index: 10;
+  }
+  .logo img {
+    width: 200px;
+  }
+
+  .search-bar {
+    display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 10px;
+  }
+  .input-group {
+    width: 100%;
+  }
+  .input-group input {
+    height: 45px;
+    font-size: 16px;
+  }
+
+  .search-bar select {
+    height: 45px;
+    font-size: 16px;
   }
 
   .pokeball img {
     width: 40px;
     height: 40px;
   }
-
-  .logo {
-    text-align: center;
-    height: 100px;
+  .pokedex-content {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
 
-  @media (max-width: 505px) {
-    .search-bar {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .input-group {
-      width: 100%;
-    }
-    .search-bar select {
-      width: 100%;
-      margin: 0;
-    }
-    .logo img {
-      width: 200px;
-      margin-left: 15px;
-    }
+  .pokemon-card {
+    height: 170px;
+    padding: 5px;
   }
-  @media (max-width: 800px) {
-    .back-btn,
-    .toggle-sound {
-      position: absolute;
-      top: 50%;
-      translate: 0 -50%;
-      height: 36px;
-      aspect-ratio: 1 / 1;
-      background-size: cover;
-      z-index: 10;
-    }
 
-    .back-btn {
-      left: 8px;
-    }
-
-    .toggle-sound {
-      left: 50px;
-    }
+  .poke-img {
+    width: 75px;
+    height: 75px;
   }
+
+  .poke-img img {
+    scale: 1.2;
+  }
+
+  .poke-num {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+  }
+
+  .poke-name {
+    margin-top: 6px;
+    gap: 4px;
+    font-size: 14px;
+    color: white;
+  }
+
+  .poke-types {
+    color: white;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  /* .logo {
+    width: 160px;
+  } */
 }
 
 /* 타입별 색상 */
@@ -413,16 +462,16 @@ body {
   color: #000;
 }
 
-/* 용쌤 (777) */
-.hidden-card-777 {
+/* 용쌤 (888) */
+.hidden-card-888 {
   border: 2px solid gold;
   background: linear-gradient(135deg, #fff2ac, #e46f01);
   box-shadow: 0 0 15px gold;
   animation: shineScale 1.5s infinite ease-in-out;
 }
 
-/* 슬비쌤 (888) */
-.hidden-card-888 {
+/* 슬비쌤 (777) */
+.hidden-card-777 {
   border: 2px solid hotpink;
   background: linear-gradient(135deg, #ffc1e3, #ff66b2);
   box-shadow: 0 0 15px deeppink;
@@ -447,4 +496,101 @@ body {
 .hidden-card-888 .poke-name {
   color: #540033;
   font-weight: bold;
+}
+#card-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+}
+
+.card-modal-content {
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#card-image {
+  max-width: 100%;
+  max-height: 100%;
+  width: 400px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+}
+
+.hidden {
+  display: none !important;
+}
+.modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#notice-modal {
+  position: absolute;
+}
+.notice-modal-content {
+  position: relative; /* 기준점 */
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notice-modal-content .notice-img {
+  width: 60%;
+  display: block;
+}
+
+.notice-buttons {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% 200%;
+  width: 46%;
+  height: 85px;
+}
+
+.notice-buttons button {
+  position: absolute;
+
+  cursor: pointer;
+  width: 16%;
+}
+
+.notice-buttons button:nth-child(1) {
+  left: 0;
+  bottom: 20%;
+}
+.notice-buttons button:nth-child(2) {
+  left: 20%;
+  bottom: 20%;
+}
+
+.right-button {
+  right: 0;
+  bottom: 0;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 980px) {
+  .notice-buttons {
+    height: 8.5vw;
+  }
 }

@@ -1,48 +1,31 @@
 import '../../common/total-time.ts'; // 누적 플레이 타임
 
 import { allowMusic } from '../../common/music.ts';
-import homeMusicSrc from '/src/assets/music/home-music.mp3';
-import selectMusicSrc from '/src/assets/music/select-music.mp3';
+// import homeMusicSrc from '/src/assets/music/home-music.mp3'; // 주석 처리 - 이제 home-animation.ts에서 관리
+import selectMusicSrc from '/src/assets/music/intro-music.mp3';
 import { userName } from '../../common/local-storage.ts';
 import pokeBall from '../../assets/home/ball.png';
 
-// home-music 오디오 객체 생성 및 음악 재생
+// home-music 오디오 객체 생성 및 음악 재생 - 자동재생 제거 (요구사항 6번)
 const selectMusic = new Audio(selectMusicSrc);
-const homeMusic = new Audio(homeMusicSrc);
-homeMusic.volume = 0.5;
-allowMusic(homeMusic, true);
+// const homeMusic = new Audio(homeMusicSrc); // 주석 처리 - home-animation.ts에서 관리
+// homeMusic.volume = 0.5; // 주석 처리
+// allowMusic(homeMusic, true); // 주석 처리 - 자동재생 제거
 
 // 마우스 올리고 내렸을 때 동작하는 함수
-const pressStart = document.querySelector('.press-start');
-function mouseEnter() {
-  pressStart?.classList.add('active'); // before 보이게
+const pressStart = document.querySelector('.press-start') as HTMLElement;
+const help = document.querySelector('.help') as HTMLElement;
+
+pressStart.addEventListener('mouseenter', () => {
   allowMusic(selectMusic, false); // 효과음 1회
-}
-function mouseLeave() {
-  pressStart?.classList.remove('active'); // before 보이지 않게
-}
+});
 
-// 640기준으로 마우스 이벤트 등록/제거
-function startHover() {
-  const winW: number = window.innerWidth;
-  if (winW > 640) {
-    pressStart?.classList.remove('active');
-    pressStart?.addEventListener('mouseenter', mouseEnter);
-    pressStart?.addEventListener('mouseleave', mouseLeave);
-  } else {
-    pressStart?.removeEventListener('mouseenter', mouseEnter);
-    pressStart?.removeEventListener('mouseleave', mouseLeave);
-    pressStart?.classList.add('active');
-  }
-}
-
-// 리사이즈 이벤트로 브라우저 사이즈 달라질 때마다 이벤트동작
-window.addEventListener('resize', startHover);
-// 초기 동작
-startHover();
+help.addEventListener('mouseenter', () => {
+  allowMusic(selectMusic, false); // 효과음 1회
+});
 
 // 클릭 이벤트 - 로컬 스토리지에서 userName 있는지 확인 후 각자 페이지로 이동
-pressStart?.addEventListener('click', () => {
+pressStart.addEventListener('click', () => {
   if (userName() !== null && userName() !== '') {
     window.location.href = '/src/pages/town/town.html';
   } else {

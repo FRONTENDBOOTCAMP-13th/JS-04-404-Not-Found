@@ -9,6 +9,11 @@
       href="/public/fonts/Galmuri9.woff"
       crossorigin="anonymous"
     />
+    <link
+      rel="shortcut icon"
+      href="/public/favicon/ball.ico"
+      type="image/x-icon"
+    />
     <link rel="stylesheet" href="/src/style.css" />
     <link rel="stylesheet" href="/src/pages/dictionary/dictionary.css" />
     <title>POKEMON CARD COLLECTION</title>
@@ -32,43 +37,64 @@
                 alt="포켓몬로고"
               />
             </a>
+          </div>
+
+          <div class="search-bar">
+            <div class="input-group">
+              <input
+                type="text"
+                placeholder="포켓몬 이름, 번호 등을 검색하세요"
+                id="search-input"
+              />
+              <button class="search-btn" id="search-btn">🔍</button>
+            </div>
+            <select id="view-filter">
+              <option>내 도감</option>
+              <option>획득한 포켓몬</option>
+              <option>미획득한 포켓몬</option>
+            </select>
+          </div>
+          <div class="pokedex-content-wrapper">
             <div class="pokeball">
               <img
                 src="/src/assets/dictionary/Pokebola-pokeball-png-0.png"
                 alt="포켓볼 상세조회"
               />
             </div>
-          </div>
-
-          <div class="search-bar">
-            <div class="input-group">
-              <input
-              type="text"
-              placeholder="포켓몬 이름, 번호 등을 검색하세요"
-              id="search-input"
-            />
-            <button class="search-btn" id="search-btn">🔍</button>
-            </div>
-            <select id="view-filter">
-              <option>내 도감</option>
-              <option>획득한 포켓몬</option>
-              <option>미획득한 포켓몬</option>
-              <option>전체 포켓몬 보기</option>
-            </select>
-          </div>
-
-          <div class="pokedex-content" id="pokedex"></div>
-
+            <div class="pokedex-content" id="pokedex"></div>
           </div>
         </div>
+        <!--ST: 안내창-->
+        <div id="notice-modal" class="modal hidden">
+          <div class="notice-modal-content">
+            <img
+              src="/src/assets/dictionary/notice.png"
+              alt="획득한 포켓몬이 없구나! 게임을 통해 얻어보렴~"
+              class="notice-img"
+            />
+            <div class="notice-buttons">
+              <button type="button" id="notice-slot-btn">
+                <img src="/src/assets/dictionary/notice-slot.png" alt="슬롯" />
+              </button>
+              <button type="button" id="notice-gacha-btn">
+                <img src="/src/assets/dictionary/notice-gacha.png" alt="가챠" />
+              </button>
+              <button type="button" id="notice-close-btn" class="right-button">
+                <img src="/src/assets/dictionary/notice-close.png" alt="닫기" />
+              </button>
+            </div>
+            <!-- 버튼 -->
+          </div>
+        </div>
+        <!--ED: 안내창-->
       </div>
     </div>
 
+    <!-- 타입 선택 모달 -->
     <div id="type-modal" class="modal hidden">
       <div class="modal-content type-modal">
         <button id="close-type-modal" class="modal-close"></button>
         <h3>앗..야생의 포켓몬이 나타났다..!</h3>
-
         <div class="type-grid">
           <button class="type-btn" data-type="노말">노말</button>
           <button class="type-btn" data-type="불꽃">불꽃</button>
@@ -90,6 +116,15 @@
         </div>
       </div>
     </div>
+
+    <!-- 카드 이미지 모달 -->
+    <div id="card-modal" class="hidden card-modal">
+      <div class="card-modal-content">
+        <img id="card-image" src="" alt="카드 이미지" />
+      </div>
+    </div>
+
+    <!-- JavaScript 모듈 로딩 -->
     <script type="module" src="/src/pages/dictionary/dictionary.ts"></script>
   </body>
 </html>
