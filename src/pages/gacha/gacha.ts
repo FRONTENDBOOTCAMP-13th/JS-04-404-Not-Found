@@ -223,10 +223,6 @@ const updateSoundButtonState = (): void => {
 document.addEventListener('DOMContentLoaded', () => {
   // 오디오 초기화
   initAudio();
-
-  // 초기 컨트롤러 위치 설정
-  maintainControllerPositions();
-
   // 음소거 버튼 상태 초기화 (버튼이 이미 초기화되었을 수 있으므로 다시 확인)
   updateSoundButtonState();
 
@@ -270,14 +266,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 500);
     });
   }
-
-  // 창 크기 변경 시마다 위치 재계산을 위한 추가 처리
-  window.addEventListener('orientationchange', () => {
-    // 방향 변경 시 약간의 지연 후 위치 재계산 (레이아웃 안정화를 위해)
-    setTimeout(() => {
-      maintainControllerPositions();
-    }, 300);
-  });
 });
 
 // text-y 요소 선택 및 깜빡임 효과
@@ -401,94 +389,6 @@ const updateControlMethod = (): void => {
   isMobileView = window.innerWidth <= 640;
 };
 
-// 컨트롤러 위치 관리 함수
-const maintainControllerPositions = (): void => {
-  // 모바일 화면일 때만 작동
-  if (window.innerWidth <= 640) {
-    // 게임보이 이미지(wrapper) 기준점 가져오기
-    const wrapper = document.querySelector('.wrapper') as HTMLElement | null;
-    if (!wrapper) return;
-    
-    // 컨트롤러 요소 선택
-    const leftJoystick = document.querySelector('.joystick-left') as HTMLElement | null;
-    const rightJoystick = document.querySelector('.joystick-right') as HTMLElement | null;
-    const aButton = document.querySelector('.a-button') as HTMLElement | null;
-    
-    // 화면 크기에 따른 거리 비율 계산
-    const maxWidth = 640;
-    const minWidth = 150;
-    const currentWidth = window.innerWidth;
-    
-    // 브라우저 크기에 따른 선형 보간 계산 (640px->150px)
-    const ratio = Math.max(0, Math.min(1, (maxWidth - currentWidth) / (maxWidth - minWidth)));
-    
-    // 좌우 버튼 계산
-    // 높이: 5%(640px) -> 1%(150px)
-    const joystickHeight = 5 - (ratio * 4);
-    // 하단 위치: 25%(640px) -> 44.2%(150px)
-    const joystickBottom = 25 + (ratio * 19.2);
-    
-    // A버튼 계산
-    // 높이: 8%(640px) -> 2%(150px)
-    const aButtonHeight = 8 - (ratio * 6);
-    // 하단 위치: 25%(640px) -> 44%(150px)
-    const aButtonBottom = 24 + (ratio * 19);
-    
-    // wrapper를 positioning context로 설정
-    wrapper.style.position = 'relative';
-    
-    if (leftJoystick) {
-      leftJoystick.style.display = 'block';
-      leftJoystick.style.position = 'absolute';
-      leftJoystick.style.width = '10%';
-      leftJoystick.style.height = `${joystickHeight}%`;
-      leftJoystick.style.left = '10%';
-      leftJoystick.style.bottom = `${joystickBottom}%`;
-      leftJoystick.style.opacity = '0';
-      leftJoystick.style.zIndex = '1000';
-    }
-    
-    if (rightJoystick) {
-      rightJoystick.style.display = 'block';
-      rightJoystick.style.position = 'absolute';
-      rightJoystick.style.width = '10%';
-      rightJoystick.style.height = `${joystickHeight}%`;
-      rightJoystick.style.left = '30%';
-      rightJoystick.style.bottom = `${joystickBottom}%`;
-      rightJoystick.style.opacity = '0';
-      rightJoystick.style.zIndex = '1000';
-    }
-    
-    if (aButton) {
-      aButton.style.display = 'block';
-      aButton.style.position = 'absolute';
-      aButton.style.width = '15%';
-      aButton.style.height = `${aButtonHeight}%`;
-      aButton.style.right = '17%';
-      aButton.style.bottom = `${aButtonBottom}%`;
-      aButton.style.borderRadius = '50%';
-      aButton.style.opacity = '0';
-      aButton.style.zIndex = '1000';
-    }
-    
-    // 디버깅용 콘솔 로그
-    // console.log(`Window Width: ${currentWidth}px, Joystick Bottom: ${joystickBottom.toFixed(1)}%, A-Button Bottom: ${aButtonBottom.toFixed(1)}%`);
-  } else {
-    // 모바일이 아닐 때는 컨트롤러 숨기기
-    const controllers = document.querySelectorAll('.joystick-left, .joystick-right, .a-button');
-    controllers.forEach((controller) => {
-      (controller as HTMLElement).style.display = 'none';
-    });
-  }
-};
-// 모바일 컨트롤러 요소 초기 설정
-const updateMobileControlsVisibility = (): void => {
-  maintainControllerPositions();
-};
-
-// 초기 컨트롤러 표시 상태 설정
-updateMobileControlsVisibility();
-
 // 윈도우 크기 변경 이벤트에 컨트롤러 표시 업데이트 추가
 window.addEventListener('resize', () => {
   // 기존 코드 유지...
@@ -506,10 +406,6 @@ window.addEventListener('resize', () => {
 
   // 조작 방식 업데이트
   updateControlMethod();
-
-  // 모바일 컨트롤러 표시 상태 업데이트 추가
-  maintainControllerPositions();
-
 });
 
 // 모든 타이머 초기화 및 상태 완전 리셋 함수 - 브라우저 창 초기화 등에 사용
