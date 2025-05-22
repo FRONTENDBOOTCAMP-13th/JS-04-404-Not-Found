@@ -205,67 +205,59 @@ npm run dev
 - 부족한 부분은 서로 도우며, 각자의 장점을 살려 작업 및 역할 분배를 하였습니다.
 
 <table width="1200" style="table-layout: fixed; border-collapse: collapse;">
+  <!-- 이름 + GitHub 링크 (Row 1) -->
   <tr>
-    <!-- 이름 -->
-    <td align="center"><strong style="font-size: 18px;">한길</strong></td>
-    <td align="center"><strong style="font-size: 18px;">리자몽</strong></td>
-    <td align="center"><strong style="font-size: 18px;">피카츄</strong></td>
-    <td align="center"><strong style="font-size: 18px;">고라파덕</strong></td>
+    <td align="center"><a href="https://github.com/ggungdev" target="_blank"><strong style="font-size: 18px;">한길</strong></a></td>
+    <td align="center"><a href="https://github.com/charizard" target="_blank"><strong style="font-size: 18px;">리자몽</strong></a></td>
+    <td align="center"><a href="https://github.com/pikachu" target="_blank"><strong style="font-size: 18px;">피카츄</strong></a></td>
+    <td align="center"><a href="https://github.com/psyduck" target="_blank"><strong style="font-size: 18px;">고라파덕</strong></a></td>
   </tr>
 
+  <!-- 이미지 (Row 2) -->
   <tr>
-    <!-- 이미지 -->
-    <td align="center">
-      <img src="/public/readme/hangil.png" width="300" style="border-radius: 10px;" />
-    </td>
-    <td align="center">
-      <img src="/public/readme/hangil.png" width="300" style="border-radius: 10px;" />
-    </td>
-    <td align="center">
-      <img src="/public/readme/hangil.png" width="300" style="border-radius: 10px;" />
-    </td>
-    <td align="center">
-      <img src="/public/readme/hangil.png" width="300" style="border-radius: 10px;" />
-    </td>
+    <td align="center"><img src="/public/readme/hangil.png" width="300" style="border-radius: 10px;" /></td>
+    <td align="center"><img src="/public/readme/hangil.png" width="300" style="border-radius: 10px;" /></td>
+    <td align="center"><img src="/public/readme/hangil.png" width="300" style="border-radius: 10px;" /></td>
+    <td align="center"><img src="/public/readme/hangil.png" width="300" style="border-radius: 10px;" /></td>
   </tr>
 
+  <!-- 포지션 (Row 3) -->
   <tr>
-    <!-- 역할 설명 -->
-    <td align="center" valign="top">
-      <div style="font-size: 16px; font-weight: bold; margin: 8px 0;">프론트엔드 개발자 🧑‍💻</div>
-      <ul style="padding-left: 16px; text-align: left; font-size: 13px;">
+    <td align="center"><div style="font-size: 16px; font-weight: bold;">프론트엔드 개발자 🧑‍💻</div></td>
+    <td align="center"><div style="font-size: 16px; font-weight: bold;">디자이너 🎨</div></td>
+    <td align="center"><div style="font-size: 16px; font-weight: bold;">백엔드 개발자 ⚙️</div></td>
+    <td align="center"><div style="font-size: 16px; font-weight: bold;">기획자 📝</div></td>
+  </tr>
+
+  <!-- 특기 설명 (Row 4) -->
+  <tr>
+    <td align="left" style="font-size: 13px; padding-left: 16px;">
+      <ul>
         <li>TypeScript 능숙</li>
         <li>UI/UX 감각 뛰어남</li>
         <li>코드리뷰 왕</li>
       </ul>
-      <a href="https://github.com/ggungdev" target="_blank">GitHub</a>
     </td>
-    <td align="center" valign="top">
-      <div style="font-size: 16px; font-weight: bold; margin: 8px 0;">디자이너 🎨</div>
-      <ul style="padding-left: 16px; text-align: left; font-size: 13px;">
+    <td align="left" style="font-size: 13px; padding-left: 16px;">
+      <ul>
         <li>감각적인 UI 제작</li>
         <li>피그마 마스터</li>
         <li>콘셉트 일관성 유지</li>
       </ul>
-      <a href="https://github.com/charizard" target="_blank">GitHub</a>
     </td>
-    <td align="center" valign="top">
-      <div style="font-size: 16px; font-weight: bold; margin: 8px 0;">백엔드 개발자 ⚙️</div>
-      <ul style="padding-left: 16px; text-align: left; font-size: 13px;">
+    <td align="left" style="font-size: 13px; padding-left: 16px;">
+      <ul>
         <li>API 설계 능숙</li>
         <li>DB 정규화 고수</li>
         <li>에러 핸들링 철저</li>
       </ul>
-      <a href="https://github.com/pikachu" target="_blank">GitHub</a>
     </td>
-    <td align="center" valign="top">
-      <div style="font-size: 16px; font-weight: bold; margin: 8px 0;">기획자 📝</div>
-      <ul style="padding-left: 16px; text-align: left; font-size: 13px;">
+    <td align="left" style="font-size: 13px; padding-left: 16px;">
+      <ul>
         <li>플로우차트 설계</li>
         <li>요구사항 도출 명확</li>
         <li>일정관리 만렙</li>
       </ul>
-      <a href="https://github.com/psyduck" target="_blank">GitHub</a>
     </td>
   </tr>
 </table>
