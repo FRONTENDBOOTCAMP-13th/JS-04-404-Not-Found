@@ -209,6 +209,33 @@ npm run dev
     </td>
   </tr>
 </table>
+<table width = "100%">
+  <tr>
+    <td width="300" align="center" valign="middle">
+      <img src="/public/readme/game9.webp" width="300" /><br />
+    </td>
+    <td width="800" valign="middle">
+      <ul>
+        <li>Poke Api를 활용한 데이트 호출</li>
+        <li>로컬 스토리지와 연동된, 획득/미획득 포켓몬 상태 표현 기능</li>
+        <li>도감번호와 포켓몬 이름 등을 활용한 검색기능</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+<table width = "100%">
+  <tr>
+    <td width="300" align="center" valign="middle">
+      <img src="/public/readme/game9.webp" width="300" /><br />
+    </td>
+    <td width="800" valign="middle">
+      <ul>
+        <li>포켓몬 타입별로 필터링 하여 체크 가능</li>
+        <li>도감번호와 포켓몬 이름 등을 활용한 검색기능</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 # 도감부분 ui완료되면 잊지말고 도감부분 주요 기능 삽입하기.
 
@@ -260,14 +287,51 @@ npm run dev
     <td width="800" valign="middle">
       <ul>
         <li>카드 3d 효과 기능</li>
-        <li>비동기와 프리로드를 활용한 카드 로드</li>
+        <li>포켓몬 카드 API를 비동기,프리로드로 이미지 로드</li>
         <li>레어 포켓몬 확률 조정 및 타입에 따른 배경, 레어도에 따른 배경 변경 기능</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+<table width = "100%">
+  <tr>
+    <td width="300" align="center" valign="middle">
+      <p>박준환</p>
+    </td>
+    <td width="300" align="center" valign="middle">
+      <img src="/public/readme/game8.webp" width="300" /><br />
+    </td>
+    <td width="800" valign="middle">
+      <ul>
+        <li>poke api 호출 및 데이터 로드</li>
+        <li>api 데이터와 로컬스토리지 데이터를 연결한 필터링 기능</li>
+        <li>로컬스토리지의 상태 구현 기능</li>
       </ul>
     </td>
   </tr>
 </table>
 
 ### 🧪 트러블슈팅 사례
+
+#### 한길님 이슈
+
+- 원인 :
+- 해결 :
+
+#### 인환님 이슈
+
+- 원인 :
+- 해결 :
+
+#### 카드이미지가 늦게 뜨는 이슈
+
+- 원인 : Api 응답 지연 및 늦은 호출타이밍
+- 해결 : 이미지를 프리로드하는 함수를 사용하여, 미리 이미지를 로드 받고, 호출 타이밍을 앞당김
+
+#### 도감 필터링시, api 기존 데이터가 남는 이슈
+
+- 원인 : 로컬스토리지의 소지한 포켓몬 번호 필터링 누락
+- 해결 : 이미지를 프리로드하는 함수를 사용하여, 미리 이미지를 로드 받고, 호출 타이밍을 앞당김
 
 ## 👪 제작 Team 소개
 
@@ -392,3 +456,14 @@ npm run dev
 - 학습을 지원해주신 모든 멋쟁이사자 관련 임직원분들..♥️
 - js부터 TypeScript 까지 꼼꼼히 가르쳐주신 용쌤♥️
 - HTML과 CSS를 쉽게 알려주신 슬비쌤♥️
+
+## 🦭 작성자의 프로젝트 후기...
+
+게임 할 때는 그렇게 팀 운이 없더니, 현실에서는 팀운이 너무 좋습니다. <br>
+이렇게 좋은 사람들을 만나 재밌는 프로젝트에 참여하게되어 영광입니다. <br>
+지금처럼 좋은 기회가 찾아왔을때 당당하게 제몫을 하려면, 평소 공부를 꾸준히 해야함을 깨닳았습니다. <br>
+공동 프로젝트임에도 다양한 개발 기능과 발표, 문서 작성등 <br>
+저를 믿고 많은 기회를 주신 팀원분들께 진심으로 감사드립니다.(진짜임) <br>
+그리고 이 프로젝트를 무사히 끝마칠 수 있도록 도움주신 멋쟁이 사자 임직원분들과 <br>
+깊은 관심과 애정으로 가르쳐주신 강사진분들께 다시한번 감사인사 드립니다. <br>
+그럼 20000... <br>
