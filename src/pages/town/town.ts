@@ -105,11 +105,11 @@ let currentTop: number = parseInt(getComputedStyle(red).top, 10); // 위에서�
 let currentLeft: number = parseInt(getComputedStyle(red).left, 10); // 왼쪽에서부터의 현재 위치
 
 const moveAmount: number = townH / 98; // 이동시킬 픽셀 단위
-const prevTop: number = currentTop;
-const prevLeft: number = currentLeft;
 
 window.addEventListener('keydown', e => {
-  // 이동 전 위치 저장
+  // 이동 전 위치 저장 (항상 최신값)
+  const prevTop = currentTop;
+  const prevLeft = currentLeft;
   switch (e.key) {
     case 'ArrowUp':
       if (currentDirection !== 'up') {
@@ -177,6 +177,9 @@ const moUp = document.querySelector('.up-arrow') as HTMLElement;
 const moDown = document.querySelector('.down-arrow') as HTMLElement;
 
 function moveRed(direction: 'up' | 'down' | 'left' | 'right') {
+  // 이동 전 위치 저장 (항상 최신값)
+  const prevTop = currentTop;
+  const prevLeft = currentLeft;
   switch (direction) {
     case 'up':
       if (currentDirection !== 'up') {
@@ -187,7 +190,7 @@ function moveRed(direction: 'up' | 'down' | 'left' | 'right') {
       currentTop -= moveAmount;
       red.style.top = `${currentTop}px`;
       if (checkAreaCollision()) {
-        currentTop += moveAmount;
+        currentTop = prevTop;
         red.style.top = `${currentTop}px`;
       }
       break;
@@ -200,7 +203,7 @@ function moveRed(direction: 'up' | 'down' | 'left' | 'right') {
       currentTop += moveAmount;
       red.style.top = `${currentTop}px`;
       if (checkAreaCollision()) {
-        currentTop -= moveAmount;
+        currentTop = prevTop;
         red.style.top = `${currentTop}px`;
       }
       break;
@@ -213,7 +216,7 @@ function moveRed(direction: 'up' | 'down' | 'left' | 'right') {
       currentLeft += moveAmount;
       red.style.left = `${currentLeft}px`;
       if (checkAreaCollision()) {
-        currentLeft -= moveAmount;
+        currentLeft = prevLeft;
         red.style.left = `${currentLeft}px`;
       }
       break;
@@ -226,7 +229,7 @@ function moveRed(direction: 'up' | 'down' | 'left' | 'right') {
       currentLeft -= moveAmount;
       red.style.left = `${currentLeft}px`;
       if (checkAreaCollision()) {
-        currentLeft += moveAmount;
+        currentLeft = prevLeft;
         red.style.left = `${currentLeft}px`;
       }
       break;

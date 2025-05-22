@@ -6,6 +6,8 @@ import { toggleSound } from '../../common/toggle-sound.ts'; // 음악 켜기 / �
 import { allowMusic } from '../../common/music.ts';
 import dictionaryMusicSrc from '/src/assets/music/dictionary-music.mp3';
 import { cardImg } from '../slot/slot';
+import seulImg from '../../../public/images/seulImg.png';
+import yongImg from '../../../public/images/yongImg.png';
 
 // town-music 오디오 객체 생성 및 음악 재생
 const dictionaryMusic = new Audio(dictionaryMusicSrc);
@@ -99,7 +101,7 @@ const fetchPokemon = async (id: number, revealed = true): Promise<Pokemon> => {
   if (id === 777) {
     return {
       name: '슬비쌤',
-      imgUrl: '/public/images/슬비쌤이미지.png',
+      imgUrl: seulImg,
       number: '777',
       types: ['비행'],
       revealed,
@@ -109,7 +111,7 @@ const fetchPokemon = async (id: number, revealed = true): Promise<Pokemon> => {
   if (id === 888) {
     return {
       name: '용쌤',
-      imgUrl: '/public/images/용쌤이미지.png',
+      imgUrl: yongImg,
       number: '888',
       types: ['불꽃'],
       revealed,
@@ -154,7 +156,9 @@ const renderPokemonCard = (pokemon: Pokemon) => {
     if (pokemon.number === '777') card.classList.add('hidden-card-777');
     if (pokemon.number === '888') card.classList.add('hidden-card-888');
     card.innerHTML = `
+    <div class="poke-img">
       <img src="${pokemon.imgUrl}" alt="${pokemon.name}" />
+    </div>
       <div class="poke-num">${pokemon.number}</div>
       <div class="poke-name">
         ${pokemon.name}
@@ -245,10 +249,10 @@ viewFilter?.addEventListener('change', async () => {
   } else if (selected === '획득한 포켓몬') {
     const stored = localStorage.getItem('myPokemon');
     const parsed = stored ? JSON.parse(stored) : [];
-
+    ///////////////////////////////////////////////////////////////////////////////////////////
     if (!stored || parsed.length === 0) {
-      alert('획득한 포켓몬이 없습니다!');
-      return;
+      renderPokemonList([]);
+      showNoticeModal();
     }
 
     const get = allPokemon.filter(p => parsed.includes(Number(p.number)));
@@ -258,12 +262,7 @@ viewFilter?.addEventListener('change', async () => {
     await loadOwnedPokemon(); // 획득한 포켓몬 반영
 
     // 777, 888 제외하면서 미획득 필터링
-    const nogen = allPokemon.filter(
-      p =>
-        !ownedIds.includes(Number(p.number)) &&
-        p.number !== '777' &&
-        p.number !== '888',
-    );
+    const nogen = allPokemon.filter(p => !ownedIds.includes(Number(p.number)));
 
     renderPokemonList(nogen);
   }
@@ -327,8 +326,7 @@ const handleSearch = () => {
     const noResultDiv = document.createElement('div');
     noResultDiv.className = 'no-result';
     noResultDiv.textContent = '검색 결과가 없습니다.';
-    pokedex?.appendChild(noResultDiv);
-    alert(' 가챠랑 슬롯을 통해 다양한 포켓몬을 뽑아 보세요!');
+    showNoticeModal();
   } else {
     renderPokemonList(filtered);
   }
@@ -350,7 +348,31 @@ searchInput?.addEventListener('keydown', event => {
 });
 
 //  버튼 클릭으로 검색
-searchBtn?.addEventListener('click', handleSearch);
+// 모달 요소들 가져오기
+const noticeModal = document.getElementById('notice-modal');
+const closeBtn = document.getElementById('notice-close-btn');
+const slotBtn = document.getElementById('notice-slot-btn');
+const gachaBtn = document.getElementById('notice-gacha-btn');
+
+// 모달 열기 함수
+function showNoticeModal() {
+  noticeModal?.classList.remove('hidden');
+}
+
+// 모달 닫기
+closeBtn?.addEventListener('click', () => {
+  noticeModal?.classList.add('hidden');
+});
+
+// 슬롯 페이지 이동
+slotBtn?.addEventListener('click', () => {
+  window.location.href = '/src/pages/slot/slot.html';
+});
+
+// 가챠 페이지 이동
+gachaBtn?.addEventListener('click', () => {
+  window.location.href = '/src/pages/gacha/gacha.html';
+});
 
 // 초기 실행
 initPokedex();
@@ -371,14 +393,13 @@ const toggleSoundText = document.querySelector(
 ) as HTMLElement;
 
 // 버튼 및 span의 텍스트 초기화
-if (musicPlay() === 'true') {
+if (musicPlay() === 'true' && toggleSoundBtn) {
   toggleSoundBtn.style.backgroundImage = `url(${soundOn})`;
   toggleSoundText.innerHTML = '전체 소리 끄기 버튼';
-} else {
+} else if (toggleSoundBtn) {
   toggleSoundBtn.style.backgroundImage = `url(${soundOff})`;
   toggleSoundText.innerHTML = '전체 소리 켜기 버튼';
 }
-
 // 뒤로가기
 backBtn.addEventListener('click', () => {
   window.location.href = '../town/town.html';
@@ -389,10 +410,10 @@ toggleSoundBtn.addEventListener('click', () => {
   const soundState: string | null = musicPlay();
   toggleSound(dictionaryMusic);
   if (soundState === 'true') {
-    toggleSoundBtn.style.backgroundImage = `url(${soundOff})`;
+    toggleSoundBtn.style.backgroundImage = `url(${soundOn})`;
     toggleSoundText.innerHTML = '전체 소리 켜기 버튼';
   } else {
-    toggleSoundBtn.style.backgroundImage = `url(${soundOn})`;
+    toggleSoundBtn.style.backgroundImage = `url(${soundOff})`;
     toggleSoundText.innerHTML = '전체 소리 끄기 버튼';
   }
 });
