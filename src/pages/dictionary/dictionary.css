@@ -536,6 +536,14 @@ body {
   align-items: center;
   z-index: 9999;
 }
+.loading-img {
+  width: 120px;
+  height: auto;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
 #notice-modal {
   position: absolute;

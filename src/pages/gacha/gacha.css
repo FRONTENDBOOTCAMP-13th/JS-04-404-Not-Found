@@ -42,7 +42,6 @@
 .card-wrapper {
   width: 980px;
   height: 980px;
-  max-height: 100%;
   perspective: 500px;
   position: absolute;
   left: 50%;
@@ -74,23 +73,24 @@
 
 .poke-name {
   color: white;
-  top: 77.5%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 458%);
   z-index: 9999;
-  font-size: min(
-    5vw,
-    5vh
-  ); /* 부모 사이즈 및 화면 사이즈 대비 폰트 사이즈 조절 */
+  font-size: 250%;
+  white-space: nowrap;
+  max-height: 100%;
 }
 .get-btn {
-  font-size: min(
-    3dvw,
-    3dvh
-  ); /* 부모 사이즈 및 화면 사이즈 대비 폰트 사이즈 조절 */
+  bottom: 50%;
+  left: 50%;
+  transform: translate(-50%, 620%);
+  font-size: 180%;
   color: white;
   background: var(--color-button-blue);
-  top: 90%;
   padding: 8px 30px;
   border: 6px double #000;
+  z-index: 9999;
 }
 
 .shine {
@@ -164,6 +164,13 @@
   opacity: 0.8;
   pointer-events: none;
   transition: background-position 0.1s ease; /* 부드럽게 */
+}
+
+/* 640px 이하에서 카드 크기 조정 */
+@media (max-width: 640px) {
+  .card-wrapper {
+    transform: translate(-50%, -50%) scale(0.6);
+  }
 }
 
 .gacha {
