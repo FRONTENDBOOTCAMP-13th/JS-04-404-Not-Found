@@ -206,43 +206,37 @@ npm run dev
 
 <table width="100%" style="table-layout: fixed; border-collapse: collapse;">
   <tr>
-    <td width="50%" valign="top" align="center" style="padding: 10px;">
-      <img src="/public/readme/hangil.png" width="180" style="border-radius: 8px;" /><br />
-      <strong>이름:</strong> 껑껑이<br />
-      <ul style="list-style: none; padding-left: 0; margin-top: 8px; text-align: left;">
-        <li><strong>역할:</strong> 프론트엔드 🧑‍💻</li>
-        <li><strong>특장점:</strong> TypeScript 야무짐</li>
-        <li><strong>GitHub:</strong> <a href="https://github.com/ggungdev" target="_blank">ggungdev</a></li>
-      </ul>
+    <!-- 🧑‍💻 팀원 1 -->
+    <td align="center" valign="top" style="padding: 10px;">
+      <img src="/public/readme/hangil.png" width="150" style="border-radius: 8px;" /><br />
+      <strong>한길</strong><br />
+      <span style="font-size: 14px;">프론트엔드 🧑‍💻<br />
+      TypeScript 야무짐</span><br />
+      <a href="https://github.com/ggungdev" target="_blank">GitHub</a>
     </td>
-    <td width="50%" valign="top" align="center" style="padding: 10px;">
-      <img src="/public/readme/hangil.png" width="180" style="border-radius: 8px;" /><br />
-      <strong>이름:</strong> 리자몽<br />
-      <ul style="list-style: none; padding-left: 0; margin-top: 8px; text-align: left;">
-        <li><strong>역할:</strong> 디자이너 🎨</li>
-        <li><strong>특장점:</strong> 감각적 UI 구성</li>
-        <li><strong>GitHub:</strong> <a href="https://github.com/charizard">charizard</a></li>
-      </ul>
+    <!-- 🎨 팀원 2 -->
+    <td align="center" valign="top" style="padding: 10px;">
+      <img src="/public/readme/hangil.png" width="150" style="border-radius: 8px;" /><br />
+      <strong>리자몽</strong><br />
+      <span style="font-size: 14px;">디자이너 🎨<br />
+      감각적 UI 구성</span><br />
+      <a href="https://github.com/charizard" target="_blank">GitHub</a>
     </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top" align="center" style="padding: 10px;">
-      <img src="/public/readme/hangil.png" width="180" style="border-radius: 8px;" /><br />
-      <strong>이름:</strong> 피카츄<br />
-      <ul style="list-style: none; padding-left: 0; margin-top: 8px; text-align: left;">
-        <li><strong>역할:</strong> 백엔드 ⚙️</li>
-        <li><strong>특장점:</strong> API 마스터</li>
-        <li><strong>GitHub:</strong> <a href="https://github.com/pikachu">pikachu</a></li>
-      </ul>
+    <!-- ⚙️ 팀원 3 -->
+    <td align="center" valign="top" style="padding: 10px;">
+      <img src="/public/readme/hangil.png" width="150" style="border-radius: 8px;" /><br />
+      <strong>피카츄</strong><br />
+      <span style="font-size: 14px;">백엔드 ⚙️<br />
+      API 마스터</span><br />
+      <a href="https://github.com/pikachu" target="_blank">GitHub</a>
     </td>
-    <td width="50%" valign="top" align="center" style="padding: 10px;">
-      <img src="/public/readme/hangil.png" width="180" style="border-radius: 8px;" /><br />
-      <strong>이름:</strong> 고라파덕<br />
-      <ul style="list-style: none; padding-left: 0; margin-top: 8px; text-align: left;">
-        <li><strong>역할:</strong> 기획자 📝</li>
-        <li><strong>특장점:</strong> 흐름정리 능력자</li>
-        <li><strong>GitHub:</strong> <a href="https://github.com/psyduck">psyduck</a></li>
-      </ul>
+    <!-- 📝 팀원 4 -->
+    <td align="center" valign="top" style="padding: 10px;">
+      <img src="/public/readme/hangil.png" width="150" style="border-radius: 8px;" /><br />
+      <strong>고라파덕</strong><br />
+      <span style="font-size: 14px;">기획자 📝<br />
+      흐름정리 능력자</span><br />
+      <a href="https://github.com/psyduck" target="_blank">GitHub</a>
     </td>
   </tr>
 </table>
