@@ -6,7 +6,7 @@
 https://pokemon-cc.netlify.app/
 ```
 
-## 프로젝트 소개
+## 🎮 프로젝트 소개
 
 ![팀로고](/public/readme/gamelogo.png)
 
@@ -197,12 +197,14 @@ npm run dev
 
 # 도감부분 ui완료되면 잊지말고 도감부분 주요 기능 삽입하기.
 
-## 제작 Team 소개
+## 👪 제작 Team 소개
 
 ![팀로고](/public/readme/teamlogo.png)
 
 - 404 Not Found 팀은 404에러 와 같이 빅 이슈에도 즐겁게 작업하자는 가치관을 지녔습니다.
 - 부족한 부분은 서로 도우며, 각자의 장점을 살려 작업 및 역할 분배를 하였습니다.
+
+### Team 구성원 소개
 
 <table width="1200" style="table-layout: fixed; border-collapse: collapse;">
   <!-- 이름 + GitHub 링크 (Row 1) -->
@@ -242,30 +244,73 @@ npm run dev
     <td align="left" style="font-size: 13px; padding-left: 16px;">
       <ul>
         <li>메타몽처럼 다재다능함</li>
-        <li>리더쉽이 뛰어남</li>
-        <li>언변이 화려함</li>
+        <li>사람을 따르게 만드는 능력</li>
+        <li>한길의 말 한마디는 천냥 빚을 갚음</li>
       </ul>
     </td>
     <td align="left" style="font-size: 13px; padding-left: 16px;">
       <ul>
         <li>윈디처럼 카리스마 있음</li>
-        <li>감각적인 UI 제작</li>
-        <li>미적 감각이 뛰어남</li>
+        <li>감각적이고 컨셉츄얼한 UI 제작</li>
+        <li>보는사람이 감동받는 디자인 고수</li>
       </ul>
     </td>
     <td align="left" style="font-size: 13px; padding-left: 16px;">
       <ul>
         <li>모래두지 처럼 신중함</li>
-        <li>API 설계 능숙</li>
-        <li>데이터 필터링 고수</li>
+        <li>API구조 분석 초고수</li>
+        <li>데이터 필터링의 귀재</li>
       </ul>
     </td>
     <td align="left" style="font-size: 13px; padding-left: 16px;">
       <ul>
         <li>야돈처럼 생각이 많음</li>
         <li>놀라운 아이디어 제공</li>
-        <li>문서작성을 좋아함</li>
+        <li>빠른 업무처리! 귀여운 문서정리!</li>
       </ul>
     </td>
   </tr>
 </table>
+
+### [업무 분배](https://github.com/FRONTENDBOOTCAMP-13th/JS-04-404-Not-Found/wiki/Who-Did-What%3F)
+
+- 상단 링크를 통해 위키를 참고하시면 더욱 자세한 내용을 확인 할 수 있습니다.
+
+#### UI 구현
+
+| **담당자** | **페이지** | **상세 설명**                        |
+| ---------- | ---------- | ------------------------------------ |
+| **임한길** | index      | 팀원 소개 및 프로젝트 시작 화면 구성 |
+|            | home       | 게임 인트로 화면 UI                  |
+|            | start      | 유저 이름 입력 화면 UI               |
+| **송채은** | slot       | 포켓몬 슬롯 게임 화면 UI             |
+|            | town       | 마을 및 게임 선택 화면 UI            |
+| **길인환** | gacha      | 포켓몬 가챠 게임 화면 UI             |
+| **박준환** | dictionary | 포켓몬 도감 UI                       |
+
+#### 핵심 기능 구현
+
+| **담당자** | **페이지** | **상세 설명**                                                              |
+| ---------- | ---------- | -------------------------------------------------------------------------- |
+| **임한길** | index      | Swiper를 활용한 팀원 소개 슬라이드 구현                                    |
+|            | home       | 몬스터볼 움직임 애니메이션 구현                                            |
+|            | start      | 유저 이름 입력 및 로컬스토리지 저장 기능                                   |
+|            | town       | 로컬스토리지 기반 모달창 내용 업데이트 및 조건 달성 시 뱃지 상태 변경 기능 |
+|            | 공통       | 음소거 및 뒤로가기 버튼 공통 기능 구현                                     |
+| **송채은** | slot       | 포켓몬 슬롯 게임 구현                                                      |
+|            |            | 카드 3D 회전 애니메이션 구현                                               |
+|            |            | PokeAPI를 활용한 타입별 카드 배경 적용                                     |
+|            |            | Pokémon TCG API를 활용한 카드 이미지 로드                                  |
+|            |            | 포켓몬 도감 번호 랜덤 추출 및 레어 포켓몬 확률 조정 기능                   |
+| **길인환** | gacha      | 포켓몬 가챠 미니게임 로직 구현                                             |
+|            |            | Three.js를 활용한 몬스터볼 3D 모델링 구현                                  |
+|            | home       | 게임 인트로 화면 애니메이션 구현                                           |
+| **박준환** | dictionary | PokeAPI를 활용한 포켓몬 도감 구현                                          |
+|            |            | 포켓몬 타입별 필터링 기능                                                  |
+|            |            | 로컬스토리지 연동으로 소지 여부에 따른 도감 상태 표시 기능                 |
+
+## 📚 출처 및 참고 자료
+
+- Pokémon TCG API: https://pokemontcg.io
+- PokeAPI: https://pokeapi.co
+- 포켓몬 이미지 및 로고: Nintendo / GameFreak 소유
