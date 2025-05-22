@@ -104,6 +104,19 @@ npm run dev
     </td>
   </tr>
 </table>
+<table width = "100%">
+  <tr>
+    <td width="300" align="center" valign="middle">
+      <img src="/public/readme/game10.webp" width="300" /><br />
+    </td>
+    <td width="800" valign="middle">
+      <ul>
+        <li>게임 인트로 애니메이션 구현</li>
+        <li>상단 스킵버튼으로 애니메이션 스킵 기능 구현</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 <table width = "100%">
   <tr>
