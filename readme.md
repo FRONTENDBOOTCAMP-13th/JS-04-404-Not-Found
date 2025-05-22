@@ -1,5 +1,8 @@
 # Pokémon Card Collection
 
+- [프로젝트 개요](#-프로젝트-소개)
+- [팀소개](#-제작-team-소개)
+
 ## ➡️ [배포주소](https://pokemon-cc.netlify.app/)
 
 ## 기타 필요 정보 위키 주소
@@ -310,7 +313,7 @@ npm run dev
       <p>박준환</p>
     </td>
     <td width="300" align="center" valign="middle">
-      <img src="/public/readme/game8.webp" width="300" /><br />
+      <img src="/public/readme/game13.webp" width="300" /><br />
     </td>
     <td width="800" valign="middle">
       <ul>
