@@ -216,16 +216,16 @@ npm run dev
   <!-- 이미지 (Row 2) -->
 <tr>
   <td align="center" valign="top">
-    <img src="/public/readme/hangil.png" width="100" style="border-radius: 10px; display: block;" />
+    <img src="/public/readme/hangil.png" width="600" style="border-radius: 10px; display: block;" />
   </td>
   <td align="center" valign="top">
-    <img src="/public/readme/hangil.png" width="100" style="border-radius: 10px; display: block;" />
+    <img src="/public/readme/hangil.png" width="600" style="border-radius: 10px; display: block;" />
   </td>
   <td align="center" valign="top">
-    <img src="/public/readme/hangil.png" width="100" style="border-radius: 10px; display: block;" />
+    <img src="/public/readme/hangil.png" width="600" style="border-radius: 10px; display: block;" />
   </td>
   <td align="center" valign="top">
-    <img src="/public/readme/hangil.png" width="100" style="border-radius: 10px; display: block;" />
+    <img src="/public/readme/hangil.png" width="600" style="border-radius: 10px; display: block;" />
   </td>
 </tr>
 
