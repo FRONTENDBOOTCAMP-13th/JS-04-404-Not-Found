@@ -2,6 +2,12 @@
 
 ## ➡️ [배포주소](https://pokemon-cc.netlify.app/)
 
+## 기타 필요 정보 위키 주소
+
+- ➡️ [프로젝트 기획](https://github.com/FRONTENDBOOTCAMP-13th/JS-04-404-Not-Found/wiki/Project-Info)
+- ➡️ [개발관련 사항](https://github.com/FRONTENDBOOTCAMP-13th/JS-04-404-Not-Found/wiki/Development-Setup)
+- ➡️ [그 외 관련정보](https://github.com/FRONTENDBOOTCAMP-13th/JS-04-404-Not-Found/wiki)
+
 ```bash
 https://pokemon-cc.netlify.app/
 ```
@@ -51,6 +57,14 @@ npm run dev
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+
+### 프로젝트 전체 구조 흐름도
+
+1. 인트로 → BGM 설정
+2. 이름 입력 및 저장 → 메인화면 진입
+3. 게임(슬롯머신) → 포켓몬 카드 뽑기
+4. 게임(몬스터볼 가챠) → 포켓몬 카드 뽑기
+5. 도감 페이지 → 소지/비소지 및 타입 필터링
 
 ### 주요기능 소개
 
@@ -234,7 +248,7 @@ npm run dev
   <!-- 포지션 (Row 3) -->
   <tr>
     <td align="center"><div>Team Leader / PM</div></td>
-    <td align="center"><div>Designer / Developer</div></td>
+    <td align="center"><div>AD / Developer</div></td>
     <td align="center"><div>Scrum Master / PL</div></td>
     <td align="center"><div>CD / Developer</div></td>
   </tr>
@@ -314,3 +328,9 @@ npm run dev
 - Pokémon TCG API: https://pokemontcg.io
 - PokeAPI: https://pokeapi.co
 - 포켓몬 이미지 및 로고: Nintendo / GameFreak 소유
+
+## 💑 Thanks to...
+
+- 학습을 지원해주신 모든 멋쟁이사자 관련 임직원분들..♥️
+- js부터 TypeScript 까지 꼼꼼히 가르쳐주신 용쌤♥️
+- HTML과 CSS를 쉽게 알려주신 슬비쌤♥️
