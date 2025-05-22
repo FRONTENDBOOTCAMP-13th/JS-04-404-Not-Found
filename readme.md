@@ -232,6 +232,40 @@ npm run dev
     </td>
   </tr>
 </table>
+<table width = "100%">
+  <tr>
+    <td width="300" align="center" valign="middle">
+      <p>길인환</p>
+    </td>
+    <td width="300" align="center" valign="middle">
+      <img src="/public/readme/game7.webp" width="300" /><br />
+    </td>
+    <td width="800" valign="middle">
+      <ul>
+        <li>3js를 활용한 모델링 3d 모델링 기능</li>
+        <li>모델링 이후 몬스터볼이 열리는 모션 기능</li>
+        <li>그 외 클릭이벤트와 사운드 연결</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+<table width = "100%">
+  <tr>
+    <td width="300" align="center" valign="middle">
+      <p>송채은</p>
+    </td>
+    <td width="300" align="center" valign="middle">
+      <img src="/public/readme/game8.webp" width="300" /><br />
+    </td>
+    <td width="800" valign="middle">
+      <ul>
+        <li>카드 3d 효과 기능</li>
+        <li>비동기와 프리로드를 활용한 카드 로드</li>
+        <li>레어 포켓몬 확률 조정 및 타입에 따른 배경, 레어도에 따른 배경 변경 기능</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 ### 🧪 트러블슈팅 사례
 
