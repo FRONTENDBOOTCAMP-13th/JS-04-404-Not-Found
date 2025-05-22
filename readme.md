@@ -1,5 +1,8 @@
 # Pokémon Card Collection
 
+- [프로젝트 개요](#-프로젝트-소개)
+- [팀소개](#-제작-team-소개)
+
 ## ➡️ [배포주소](https://pokemon-cc.netlify.app/)
 
 ## 기타 필요 정보 위키 주소
@@ -112,7 +115,7 @@ npm run dev
     <td width="800" valign="middle">
       <ul>
         <li>게임 인트로 애니메이션 구현</li>
-        <li>상단 스킵버튼으로 애니메이션 스킵 기능 구현</li>
+        <li>상단 스킵버튼으로 애니메이션 스킵 기능</li>
       </ul>
     </td>
   </tr>
@@ -225,11 +228,11 @@ npm run dev
 <table width = "100%">
   <tr>
     <td width="300" align="center" valign="middle">
-      <img src="/public/readme/game9.webp" width="300" /><br />
+      <img src="/public/readme/game12.webp" width="300" /><br />
     </td>
     <td width="800" valign="middle">
       <ul>
-        <li>Poke Api를 활용한 데이트 호출</li>
+        <li>Poke Api를 활용한 데이터 호출</li>
         <li>로컬 스토리지와 연동된, 획득/미획득 포켓몬 상태 표현 기능</li>
         <li>도감번호와 포켓몬 이름 등을 활용한 검색기능</li>
       </ul>
@@ -239,7 +242,7 @@ npm run dev
 <table width = "100%">
   <tr>
     <td width="300" align="center" valign="middle">
-      <img src="/public/readme/game9.webp" width="300" /><br />
+      <img src="/public/readme/game11.webp" width="300" /><br />
     </td>
     <td width="800" valign="middle">
       <ul>
@@ -249,8 +252,6 @@ npm run dev
     </td>
   </tr>
 </table>
-
-# 도감부분 ui완료되면 잊지말고 도감부분 주요 기능 삽입하기.
 
 ## 개발 비하인드
 
@@ -312,7 +313,7 @@ npm run dev
       <p>박준환</p>
     </td>
     <td width="300" align="center" valign="middle">
-      <img src="/public/readme/game8.webp" width="300" /><br />
+      <img src="/public/readme/game13.webp" width="300" /><br />
     </td>
     <td width="800" valign="middle">
       <ul>
@@ -326,15 +327,15 @@ npm run dev
 
 ### 🧪 트러블슈팅 사례
 
-#### 한길님 이슈
+#### Town 캐릭터 충돌로 페이지 전환 에러
 
-- 원인 :
-- 해결 :
+- 원인 : imageMapResize 라이브러리로 이미지맵이 리사이즈될 때 area 좌표가 실제 이미지와 달라져 충돌 판정이 불명확해짐.
+- 해결 : area의 원본 좌표를 이미지의 현재 크기에 맞게 scale 변환하여, 캐릭터와 area의 충돌을 정확하게 계산하도록 수정
 
-#### 인환님 이슈
+#### 3D 모델의 특정 메시 객체 위치 기반 감지
 
-- 원인 :
-- 해결 :
+- 원인 : GLTF 모델에서 몬스터볼의 상단 부분이 어떤 메시 객체인지 자동으로 식별 불가
+- 해결 : 모든 메시 객체의 경계 상자(Bounding Box)를 계산하여 y좌표가 가장 높은 객체를 상단 파트로 식별하는 로직을 구현
 
 #### 카드이미지가 늦게 뜨는 이슈
 
@@ -345,6 +346,11 @@ npm run dev
 
 - 원인 : 로컬스토리지의 소지한 포켓몬 번호 필터링 누락
 - 해결 : 이미지를 프리로드하는 함수를 사용하여, 미리 이미지를 로드 받고, 호출 타이밍을 앞당김
+
+#### 도감 페이지 진입시, Slot 배경음악 재생
+
+- 원인 : 슬롯의 함수를 import 하며, 음악 재생 캐싱이 남아 잔류 배경음악이 재생됨.
+- 해결 : 함수자체를 별개의 TS파일로 분리하여 해결
 
 ## 👪 제작 Team 소개
 
@@ -476,7 +482,7 @@ npm run dev
 이렇게 좋은 사람들을 만나 재밌는 프로젝트에 참여하게되어 영광입니다. <br>
 지금처럼 좋은 기회가 찾아왔을때 당당하게 제몫을 하려면, 평소 공부를 꾸준히 해야함을 깨닳았습니다. <br>
 (제몫을 안했다는건 아닙니다. 은근 이거저거 많이함!!!)<br>
-공동 프로젝트임에도 다양한 개발 기능과 발표, 문서 작성등 <br>
+공동 프로젝트임에도 다양한 개발 기능과 기타 업무와 발표까지 <br>
 저를 믿고 많은 기회를 주신 팀원분들께 진심으로 감사드립니다.(진짜임) <br>
 그리고 이 프로젝트를 무사히 끝마칠 수 있도록 도움주신 멋쟁이 사자 임직원분들과 <br>
 깊은 관심과 애정으로 가르쳐주신 강사진분들께 다시한번 감사인사 드립니다. <br>
