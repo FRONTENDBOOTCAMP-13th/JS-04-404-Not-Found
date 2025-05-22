@@ -156,7 +156,9 @@ const renderPokemonCard = (pokemon: Pokemon) => {
     if (pokemon.number === '777') card.classList.add('hidden-card-777');
     if (pokemon.number === '888') card.classList.add('hidden-card-888');
     card.innerHTML = `
+    <div class="poke-img">
       <img src="${pokemon.imgUrl}" alt="${pokemon.name}" />
+    </div>
       <div class="poke-num">${pokemon.number}</div>
       <div class="poke-name">
         ${pokemon.name}
