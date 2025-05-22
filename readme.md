@@ -206,36 +206,65 @@ npm run dev
 
 <table width="100%" style="table-layout: fixed; border-collapse: collapse;">
   <tr>
-    <!-- 🧑‍💻 팀원 1 -->
-    <td align="center" valign="top" style="padding: 10px;">
-      <img src="/public/readme/hangil.png" width="150" style="border-radius: 8px;" /><br />
-      <strong>한길</strong><br />
-      <span style="font-size: 14px;">프론트엔드 🧑‍💻<br />
-      TypeScript 야무짐</span><br />
+    <!-- 이름 -->
+    <td align="center"><strong style="font-size: 18px;">한길</strong></td>
+    <td align="center"><strong style="font-size: 18px;">리자몽</strong></td>
+    <td align="center"><strong style="font-size: 18px;">피카츄</strong></td>
+    <td align="center"><strong style="font-size: 18px;">고라파덕</strong></td>
+  </tr>
+
+  <tr>
+    <!-- 이미지 -->
+    <td align="center">
+      <img src="/public/readme/hangil.png" width="150" style="border-radius: 10px;" />
+    </td>
+    <td align="center">
+      <img src="/public/readme/hangil.png" width="150" style="border-radius: 10px;" />
+    </td>
+    <td align="center">
+      <img src="/public/readme/hangil.png" width="150" style="border-radius: 10px;" />
+    </td>
+    <td align="center">
+      <img src="/public/readme/hangil.png" width="150" style="border-radius: 10px;" />
+    </td>
+  </tr>
+
+  <tr>
+    <!-- 역할 설명 -->
+    <td align="center" valign="top">
+      <div style="font-size: 16px; font-weight: bold; margin: 8px 0;">프론트엔드 개발자 🧑‍💻</div>
+      <ul style="padding-left: 16px; text-align: left; font-size: 13px;">
+        <li>TypeScript 능숙</li>
+        <li>UI/UX 감각 뛰어남</li>
+        <li>코드리뷰 왕</li>
+      </ul>
       <a href="https://github.com/ggungdev" target="_blank">GitHub</a>
     </td>
-    <!-- 🎨 팀원 2 -->
-    <td align="center" valign="top" style="padding: 10px;">
-      <img src="/public/readme/hangil.png" width="150" style="border-radius: 8px;" /><br />
-      <strong>리자몽</strong><br />
-      <span style="font-size: 14px;">디자이너 🎨<br />
-      감각적 UI 구성</span><br />
+    <td align="center" valign="top">
+      <div style="font-size: 16px; font-weight: bold; margin: 8px 0;">디자이너 🎨</div>
+      <ul style="padding-left: 16px; text-align: left; font-size: 13px;">
+        <li>감각적인 UI 제작</li>
+        <li>피그마 마스터</li>
+        <li>콘셉트 일관성 유지</li>
+      </ul>
       <a href="https://github.com/charizard" target="_blank">GitHub</a>
     </td>
-    <!-- ⚙️ 팀원 3 -->
-    <td align="center" valign="top" style="padding: 10px;">
-      <img src="/public/readme/hangil.png" width="150" style="border-radius: 8px;" /><br />
-      <strong>피카츄</strong><br />
-      <span style="font-size: 14px;">백엔드 ⚙️<br />
-      API 마스터</span><br />
+    <td align="center" valign="top">
+      <div style="font-size: 16px; font-weight: bold; margin: 8px 0;">백엔드 개발자 ⚙️</div>
+      <ul style="padding-left: 16px; text-align: left; font-size: 13px;">
+        <li>API 설계 능숙</li>
+        <li>DB 정규화 고수</li>
+        <li>에러 핸들링 철저</li>
+      </ul>
       <a href="https://github.com/pikachu" target="_blank">GitHub</a>
     </td>
-    <!-- 📝 팀원 4 -->
-    <td align="center" valign="top" style="padding: 10px;">
-      <img src="/public/readme/hangil.png" width="150" style="border-radius: 8px;" /><br />
-      <strong>고라파덕</strong><br />
-      <span style="font-size: 14px;">기획자 📝<br />
-      흐름정리 능력자</span><br />
+    <td align="center" valign="top">
+      <div style="font-size: 16px; font-weight: bold; margin: 8px 0;">기획자 📝</div>
+      <ul style="padding-left: 16px; text-align: left; font-size: 13px;">
+        <li>플로우차트 설계</li>
+        <li>요구사항 도출 명확</li>
+        <li>일정관리 만렙</li>
+      </ul>
       <a href="https://github.com/psyduck" target="_blank">GitHub</a>
     </td>
   </tr>
