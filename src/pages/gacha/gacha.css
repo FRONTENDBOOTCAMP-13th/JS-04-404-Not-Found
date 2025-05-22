@@ -42,7 +42,6 @@
 .card-wrapper {
   width: 980px;
   height: 980px;
-  max-height: 100%;
   perspective: 500px;
   position: absolute;
   left: 50%;
@@ -74,23 +73,21 @@
 
 .poke-name {
   color: white;
-  top: 77.5%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 458%);
   z-index: 9999;
-  font-size: min(
-    5vw,
-    5vh
-  ); /* 부모 사이즈 및 화면 사이즈 대비 폰트 사이즈 조절 */
+  font-size: 250%;
   white-space: nowrap;
   max-height: 100%;
 }
 .get-btn {
-  font-size: min(
-    3dvw,
-    3dvh
-  ); /* 부모 사이즈 및 화면 사이즈 대비 폰트 사이즈 조절 */
+  bottom: 50%;
+  left: 50%;
+  transform: translate(-50%, 620%);
+  font-size: 180%;
   color: white;
   background: var(--color-button-blue);
-  bottom: 1%;
   padding: 8px 30px;
   border: 6px double #000;
   z-index: 9999;
@@ -173,9 +170,6 @@
 @media (max-width: 640px) {
   .card-wrapper {
     transform: translate(-50%, -50%) scale(0.6);
-  }
-  .get-btn{
-    transform: translate(-50%, -50%) scale(2);
   }
 }
 
