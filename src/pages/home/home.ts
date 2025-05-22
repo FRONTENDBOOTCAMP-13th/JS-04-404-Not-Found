@@ -2,7 +2,7 @@ import '../../common/total-time.ts'; // 누적 플레이 타임
 
 import { allowMusic } from '../../common/music.ts';
 // import homeMusicSrc from '/src/assets/music/home-music.mp3'; // 주석 처리 - 이제 home-animation.ts에서 관리
-import selectMusicSrc from '/src/assets/music/intro-music.mp3';
+import selectMusicSrc from '/src/assets/music/select-music.mp3';
 import { userName } from '../../common/local-storage.ts';
 import pokeBall from '../../assets/home/ball.png';
 
