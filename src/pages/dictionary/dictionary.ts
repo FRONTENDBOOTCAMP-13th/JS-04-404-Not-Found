@@ -6,6 +6,8 @@ import { toggleSound } from '../../common/toggle-sound.ts'; // 음악 켜기 / �
 import { allowMusic } from '../../common/music.ts';
 import dictionaryMusicSrc from '/src/assets/music/dictionary-music.mp3';
 import { cardImg } from '../slot/slot';
+import seulImg from '../../../public/images/seulImg.png';
+import yongImg from '../../../public/images/yongImg.png';
 
 // town-music 오디오 객체 생성 및 음악 재생
 const dictionaryMusic = new Audio(dictionaryMusicSrc);
@@ -99,7 +101,7 @@ const fetchPokemon = async (id: number, revealed = true): Promise<Pokemon> => {
   if (id === 777) {
     return {
       name: '슬비쌤',
-      imgUrl: '/public/images/슬비쌤이미지.png',
+      imgUrl: seulImg,
       number: '777',
       types: ['비행'],
       revealed,
@@ -109,7 +111,7 @@ const fetchPokemon = async (id: number, revealed = true): Promise<Pokemon> => {
   if (id === 888) {
     return {
       name: '용쌤',
-      imgUrl: '/public/images/용쌤이미지.png',
+      imgUrl: yongImg,
       number: '888',
       types: ['불꽃'],
       revealed,
