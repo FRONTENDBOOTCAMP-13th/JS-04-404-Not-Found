@@ -25,7 +25,7 @@ help.addEventListener('mouseenter', () => {
 });
 
 // 클릭 이벤트 - 로컬 스토리지에서 userName 있는지 확인 후 각자 페이지로 이동
-pressStart?.addEventListener('click', () => {
+pressStart.addEventListener('click', () => {
   if (userName() !== null && userName() !== '') {
     window.location.href = '/src/pages/town/town.html';
   } else {
