@@ -1,7 +1,5 @@
 # Pokémon Card Collection
 
-//
-
 - [프로젝트 개요](#-프로젝트-소개)
 - [팀소개](#-제작-team-소개)
 
@@ -67,6 +65,7 @@ npm run dev
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Three.js](https://img.shields.io/badge/Three.js-black?style=for-the-badge&logo=three.js&logoColor=white)
 
 ## 🔀 프로젝트 전체 구조 흐름도
 
@@ -77,7 +76,7 @@ npm run dev
 - 사용자의 정보(이름) 및 플레이 정보(수집한 포켓몬) 을 로컬스토리지에 저장하여 관리합니다.
 - Poke Api, Pokemon Card Api를 활용하여, 포켓몬 카드 및 도감번호, 이름 등 의 데이터를 불러옵니다.
 - 자바스크립트 이벤트와 CSS를 활용하여 캐릭터 이동 및 3d형태를 구현합니다.
-- 3js 를 활용하여 3d모델링을 구현합니다.
+- Three.js 를 활용하여 3d모델링을 구현합니다.
 - 데이터 필터기능을 극대화 하여 모든 포켓몬을 타입별로 분류하여 정렬 합니다.
 - 포켓몬 리스트와 로컬스토리지를 연동하여 소지한 포켓몬의 소지 유무 상태를 출력합니다.
 
@@ -188,7 +187,7 @@ npm run dev
     </td>
     <td width="800" valign="middle">
       <ul>
-        <li>3js를 활용한 몬스터볼 모델링 기능</li>
+        <li>Three.js를 활용한 몬스터볼 모델링 기능</li>
         <li>버튼 및 터치 이벤트시, 몬스터 볼이 몰리는 모션 기능</li>
         <li>랜덤으로 포켓몬 도감 번호 추출 및 카드 출력 기능</li>
         <li>모바일 반응형시, 게임보이 버튼과 집게 이동 연결 기능</li>
@@ -298,7 +297,7 @@ npm run dev
     </td>
     <td width="800" valign="middle">
       <ul>
-        <li>3js를 활용한 모델링 3d 모델링 기능</li>
+        <li>Three.js를 활용한 모델링 3d 모델링 기능</li>
         <li>모델링 이후 몬스터볼이 열리는 모션 기능</li>
         <li>그 외 클릭이벤트와 사운드 연결</li>
       </ul>
