@@ -1,83 +1,31 @@
-const apiKey = import.meta.env.VITE_POKEMONTCG_API_KEY; // 카드 api불러오기
 const pokeCard = document.querySelector('#pokeCard');
 
-// 미획득 카드 모음
-import card777 from '/src/assets/slot/777card.png';
-import card888 from '/src/assets/slot/888card.png';
-import card50 from '/src/assets/slot/card50.png';
-import card54 from '/src/assets/slot/card54.png';
-import card104 from '/src/assets/slot/card104.png';
-import card111 from '/src/assets/slot/card111.png';
-import card137 from '/src/assets/slot/card137.png';
-import card147 from '/src/assets/slot/card147.png';
-import card27 from '/src/assets/slot/card27.jpg';
-import card28 from '/src/assets/slot/card28.jpg';
+/* ───────────── 전체 카드 객체 ───────────── */
+const cardImages = import.meta.glob('/src/assets/slot/cards/*.webp', {
+  eager: true,
+  import: 'default',
+});
 
-/* ───────────── 미등록 카드 객체 ───────────── */
-interface specialCard {
-  [key: number]: string;
-}
-const specialCardMap: specialCard = {
-  777: card777,
-  888: card888,
-  50: card50,
-  54: card54,
-  104: card104,
-  111: card111,
-  137: card137,
-  147: card147,
-  27: card27,
-  28: card28,
-};
+const cardMap: Record<number, string> = {};
+
+Object.entries(cardImages).forEach(([path, url]) => {
+  const match = path.match(/card(\d+)/);
+  if (match) {
+    const num = Number(match[1]);
+    cardMap[num] = url as string;
+  }
+});
 
 /* ───────────── 카드이미지 호출 함수 ───────────── */
-export async function cardImg(dogamNum: number): Promise<string> {
-  let cardUrl = '';
-  if (dogamNum in specialCardMap) {
-    // 스페셜 카드에 포함된 경우(미등록카드) 여기서 찾고 아니면 else로 이동
-    cardUrl = specialCardMap[dogamNum];
-  } else {
-    const imgUrl = `https://api.pokemontcg.io/v2/cards?q=nationalPokedexNumbers:${dogamNum}`;
-    const res = await fetch(imgUrl, {
-      headers: {
-        'X-Api-Key': apiKey,
-      },
-    });
+export function cardImg(dogamNum: number): string {
+  const cardUrl = cardMap[dogamNum];
 
-    const data = await res.json();
-    interface TCGCard {
-      rarity?: string;
-      images?: {
-        large?: string;
-      };
-    }
-
-    const cardVersion: TCGCard[] = data.data;
-
-    // 1. EX 카드 우선 찾기
-    const exCard = cardVersion.find(card =>
-      card.rarity?.toLowerCase().includes('ex'),
-    );
-
-    // 2. 없으면 fallback으로 뒤에서 세 번째 카드 사용
-    const lastVersionIndex = Math.max(cardVersion.length - 4, 0);
-    // const lastVersionIndex = 3;
-    const fallbackCard = cardVersion[lastVersionIndex];
-
-    const chosenCard = exCard || fallbackCard;
-
-    if (chosenCard && chosenCard.images?.large) {
-      cardUrl = chosenCard.images.large;
-    } else {
-      console.warn('카드 이미지가 존재하지 않아요 껑!');
-      return '';
-    }
-  }
   if (pokeCard instanceof HTMLImageElement) {
     pokeCard.src = cardUrl;
   }
 
-  await preloadImage(cardUrl);
+  preloadImage(cardUrl);
+
   return cardUrl;
 }
 
