@@ -8,14 +8,6 @@ import dogamgetMusicMp3 from '/src/assets/music/dogamget.mp3';
 import oneStar from '/src/assets/slot/star1.png';
 import twoStar from '/src/assets/slot/star2.png';
 import threeStar from '/src/assets/slot/star3.png';
-import card777 from '/src/assets/slot/777card.png';
-import card888 from '/src/assets/slot/888card.png';
-import card50 from '/src/assets/slot/card50.png';
-import card54 from '/src/assets/slot/card54.png';
-import card104 from '/src/assets/slot/card104.png';
-import card111 from '/src/assets/slot/card111.png';
-import card137 from '/src/assets/slot/card137.png';
-import card147 from '/src/assets/slot/card147.png';
 // pokecard.ts 파일 상단에 타입별 배경이미지 import 추가
 import bugImg from '/src/assets/slot/typeback/bug.png';
 import darkImg from '/src/assets/slot/typeback/dark.png';
@@ -35,10 +27,6 @@ import rockImg from '/src/assets/slot/typeback/rock.png';
 import steelImg from '/src/assets/slot/typeback/steel.png';
 import waterImg from '/src/assets/slot/typeback/water.png';
 import fireImg from '/src/assets/slot/typeback/fire.png';
-
-// 미획득 카드 이미지 추가
-import card27 from '/src/assets/slot/card27.jpg'; // 추가된 카드
-import card28 from '/src/assets/slot/card28.jpg'; // 추가된 카드
 
 // 포켓몬 카드배경 타입 인터페이스 추가
 interface cardBackType {
@@ -67,24 +55,21 @@ const typeBackObj: cardBackType = {
   water: waterImg,
 };
 
-// 미등록 카드 객체 인터페이스 추가
-interface specialCard {
-  [key: number]: string;
-}
+/* ───────────── 전체 카드 객체 ───────────── */
+const cardImages = import.meta.glob('/src/assets/slot/cards/*.webp', {
+  eager: true,
+  import: 'default',
+});
 
-// 미등록 카드 매핑 객체 추가
-const specialCardMap: specialCard = {
-  777: card777,
-  888: card888,
-  50: card50,
-  54: card54,
-  104: card104,
-  111: card111,
-  137: card137,
-  147: card147,
-  27: card27,
-  28: card28,
-};
+const cardMap: Record<number, string> = {};
+
+Object.entries(cardImages).forEach(([path, url]) => {
+  const match = path.match(/card(\d+)/);
+  if (match) {
+    const num = Number(match[1]);
+    cardMap[num] = url as string;
+  }
+});
 
 // DOM 요소 참조 변수에 추가
 let cardBack: HTMLElement | null = null;
@@ -93,9 +78,6 @@ let cardBack: HTMLElement | null = null;
 let shine: HTMLElement | null = null;
 let shine2: HTMLElement | null = null;
 let shadow: HTMLElement | null = null;
-
-// API 키 가져오기
-const apiKey = import.meta.env.VITE_POKEMONTCG_API_KEY;
 
 // 효과음 초기화
 const dogamgetMusic = new Audio(dogamgetMusicMp3);
@@ -508,55 +490,15 @@ async function getPokeKorName(pokeNum: number) {
 }
 
 // 카드 이미지 가져오기
-async function cardImg(dogamNum: number): Promise<string> {
-  let cardUrl = '';
-  
-  // 스페셜 카드 맵에 있는지 확인 (if-else 체인 대신 객체 사용)
-  if (dogamNum in specialCardMap) {
-    cardUrl = specialCardMap[dogamNum];
-  } else {
-    // API 호출 코드는 그대로 유지
-    const imgUrl = `https://api.pokemontcg.io/v2/cards?q=nationalPokedexNumbers:${dogamNum}`;
-    const res = await fetch(imgUrl, {
-      headers: {
-        'X-Api-Key': apiKey,
-      },
-    });
-
-    const data = await res.json();
-    interface TCGCard {
-      rarity?: string;
-      images?: {
-        large?: string;
-      };
-    }
-
-    const cardVersion: TCGCard[] = data.data;
-
-    // 1. EX 카드 우선 찾기
-    const exCard = cardVersion.find(card =>
-      card.rarity?.toLowerCase().includes('ex'),
-    );
-
-    // 2. 없으면 fallback으로 뒤에서 세 번째 카드 사용
-    const lastVersionIndex = Math.max(cardVersion.length - 4, 0);
-    const fallbackCard = cardVersion[lastVersionIndex];
-
-    const chosenCard = exCard || fallbackCard;
-
-    if (chosenCard && chosenCard.images?.large) {
-      cardUrl = chosenCard.images.large;
-    } else {
-      console.warn('카드 이미지가 존재하지 않아요 껑!');
-      return '';
-    }
-  }
+export function cardImg(dogamNum: number): string {
+  const cardUrl = cardMap[dogamNum];
 
   if (pokeCard instanceof HTMLImageElement) {
     pokeCard.src = cardUrl;
   }
 
-  await preloadImage(cardUrl);
+  preloadImage(cardUrl);
+
   return cardUrl;
 }
 
